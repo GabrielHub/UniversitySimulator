@@ -67,21 +67,6 @@ public class GameManagerScript : MonoBehaviour
     	//calculate difficulty
     	difficulty = ((students + alumni * 2 + faculty + buildings * 10) / wealth);
 
-    	/*
-			Rules for resources:
-			DONE - Every turn 20% of the total students graduate. Flat increase -> Alumni ++
-			If Faculty is over 10% (default percent) of the Students number. Every building can accomodate 350 students. Student is allowed to increase. (Default is one faculty per 10 students, can be changed)
-			Each student grants by default 2 material per turn (can be changed). Every 5 alumni grants permanent 1 material per turn. Material ++
-			Each Faculty takes 1 material per turn. If you set buildings to give bonuses, they also detract material. Material --
-
-			Buy Menu:
-			You can buy buildings with material.
-			You can hire faculty with material.
-
-			Lose:
-			If students drops down to 0, game over.
-    	*/
-
 		//material changes
 		material += Mathf.FloorToInt(alumni / 5) + students + buildingBonus;
 
@@ -119,6 +104,7 @@ public class GameManagerScript : MonoBehaviour
 		//DoEvent();
     }
 
+    //Not currently working, view design doc
     void DoEvent() {
     	float rand = Random.Range(0.0f, difficulty);
 
