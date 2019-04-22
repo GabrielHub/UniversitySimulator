@@ -41,6 +41,8 @@ public class GameManagerScript : MonoBehaviour
 		popInitial = students;
 
 		eventLog.text += "\n BREAKING: SADU's only alum has taken over for the school!";
+
+        InvokeRepeating("Turns", 0.5f, 1.0f);
     }
 
     // Update is called once per frame
@@ -55,8 +57,6 @@ public class GameManagerScript : MonoBehaviour
     	}
 
         resources.text = "Students: " + students + "     Faculty: " + faculty + "     Alumni: " + alumni + "     Buildings: " + buildings + "     Materials: " + material;
-
-        InvokeRepeating("Turns", 1.0f, 1.0f);
     }
 
     //take into account all policy changes and changes in resources, then update said resources
@@ -101,7 +101,7 @@ public class GameManagerScript : MonoBehaviour
 		}
 
 		//events
-		//DoEvent();
+		DoEvent();
     }
 
     //Not currently working, view design doc

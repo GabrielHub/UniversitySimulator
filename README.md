@@ -2,26 +2,26 @@
 
 ## Design Document
 
-Lose State: When you have 0 students and cannot keep growing.
-Win State: (Currently) When hitting 100k Students or something
+- Lose State: When you have 0 students and cannot keep growing.
+- Win State: (Currently) When hitting 100k Students or something
 
-Early Game: *(To be completed)*
-Mid Game: *(To be completed)*
-End Game: *We're in it now.*
+- Early Game: *(To be completed)*
+- Mid Game: *(To be completed)*
+- End Game: *We're in it now.*
 
 
 ### NOTE: ALL THESE DESIGN DECISIONS DESCRIBE HOW THE GAME WORKS NOW (TO BE CHANGED IN THE FUTURE)
-	Currently all under a single script, and game manager.
+Currently all under a single script, and game manager.
 
-			Rules for resources:
-			DONE - Every turn 20% of the total students graduate. Flat increase -> Alumni ++
-			If Faculty is over 10% (default percent) of the Students number. Every building can accomodate 350 students. Student is allowed to increase. (Default is one faculty per 10 students, can be changed)
-			Each student grants by default 2 material per turn (can be changed). Every 5 alumni grants permanent 1 material per turn. Material ++
-			Each Faculty takes 1 material per turn. If you set buildings to give bonuses, they also detract material. Material --
+	Rules for resources:
+	DONE - Every turn 20% of the total students graduate. Flat increase -> Alumni ++
+	If Faculty is over 10% (default percent) of the Students number. Every building can accomodate 350 students. Student is allowed to increase. (Default is one faculty per 10 students, can be changed)
+	Each student grants by default 2 material per turn (can be changed). Every 5 alumni grants permanent 1 material per turn. Material ++
+	Each Faculty takes 1 material per turn. If you set buildings to give bonuses, they also detract material. Material --
 
-			Buy Menu:
-			You can buy buildings with material.
-			You can hire faculty with material.
+	Buy Menu:
+	You can buy buildings with material.
+	You can hire faculty with material.
 
 Difficulty determines how outcomes are done through percentages. A higher difficulty means when an event happens, the percentage something bad happens increases.
     `difficulty = ((students * sliderTuitionVal + alumni * 2 + faculty + buildings * 10) / wealth) + (sliderTuitionVal / 5) + (sliderFacultyToVal / 25)`
@@ -61,8 +61,9 @@ Difficulty determines how outcomes are done through percentages. A higher diffic
 
 - [ ] **Redesign Core**
 	- [ ] Resources and Balance
-		- [ ] What resources to add
-		- [ ] Redesign how each resources affects the other
+		- [ ] Define Resources
+		- [ ] Redesign how each resources affects the other (algorithm, relations)
+		- [ ] Win / Lose States
 	- [ ] Gameplay Loop
 		- [x] Change from Turn based click to Real Time
 		- [ ] Add option to pause, either on events or something else
@@ -72,3 +73,4 @@ Difficulty determines how outcomes are done through percentages. A higher diffic
 - [ ] **Code Refactor**
 	- [x] Implement the basics so it's working on a clean slate
 	- [ ] Events aren't working because of the change from Turn Based to Real Time, needs to be rewritten
+- [ ] **Additional Features**
