@@ -59,9 +59,12 @@ Difficulty determines how outcomes are done through percentages. A higher diffic
 
 **A list of tasks to do / code to update:**
 
-	1. Redesign Resources
-	2. Redesign UX/UI
-	3. Redesign Events
-	4. Code Refactor
-		- ~~Implement the basics so it's working on a clean slate~~ **DONE**
-		- Events aren't working because of the change from Turn Based to Real Time, needs to be rewritten
+	1. [ ] Redesign Resources
+		- [ ] Which resources are objects?
+		- [ ] Redesign how each resources affects the other
+	2. [ ] Redesign UX/UI
+		- [ ] How the resources are displayed
+	3. [ ] Redesign Events
+	4. [ ] Code Refactor
+		- [x] Implement the basics so it's working on a clean slate
+		- [ ] Events aren't working because of the change from Turn Based to Real Time, needs to be rewritten
