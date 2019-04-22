@@ -7,13 +7,12 @@ Win State: (Currently) When hitting 100k Students or something
 
 Early Game: *(To be completed)*
 Mid Game: *(To be completed)*
-End Game: We're in it now.
+End Game: *We're in it now.*
 
 
 ### NOTE: ALL THESE DESIGN DECISIONS DESCRIBE HOW THE GAME WORKS NOW (TO BE CHANGED IN THE FUTURE)
 	Currently all under a single script, and game manager.
 
-	/*
 			Rules for resources:
 			DONE - Every turn 20% of the total students graduate. Flat increase -> Alumni ++
 			If Faculty is over 10% (default percent) of the Students number. Every building can accomodate 350 students. Student is allowed to increase. (Default is one faculty per 10 students, can be changed)
@@ -23,10 +22,6 @@ End Game: We're in it now.
 			Buy Menu:
 			You can buy buildings with material.
 			You can hire faculty with material.
-
-			Lose:
-			If students drops down to 0, game over.
-    	*/
 
 Difficulty determines how outcomes are done through percentages. A higher difficulty means when an event happens, the percentage something bad happens increases.
     `difficulty = ((students * sliderTuitionVal + alumni * 2 + faculty + buildings * 10) / wealth) + (sliderTuitionVal / 5) + (sliderFacultyToVal / 25)`
@@ -53,7 +48,7 @@ Difficulty determines how outcomes are done through percentages. A higher diffic
 	Materials - Resource used to spend used for actions
 		material += (alumni / 5 (rounded down to an int))  + ((tuition of students) * students) + (buildings bonus)
 
-Ideas:
+**Ideas:**
 
 	- Maybe we can choose to set the tuition rates to 0 and receive government accomodation when close to losing
 	- Some of the resources can be objects rather than just numbers, like buildings that have research labs or something
@@ -67,7 +62,7 @@ Ideas:
 	1. Design how resources work, which resources are used, and how wealth is calculated
 		Comments and Ideas: 
 			Enrollment of teachers, students, and buildings?
-	2. ~~ Code refactor has been done, base game works ~~
+	2. ~~Code refactor has been done, base game works~~
 	3. Redesign management and game loop
 	4. Design UX/UI, how do we display information?
 	5. Implement running game, with placeholder UI
