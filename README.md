@@ -67,7 +67,7 @@ Ideas:
 	1. Design how resources work, which resources are used, and how wealth is calculated
 		Comments and Ideas: 
 			Enrollment of teachers, students, and buildings?
-	~~2. Code refactor has been done, base game works~~
+	2. ~~ Code refactor has been done, base game works ~~
 	3. Redesign management and game loop
 	4. Design UX/UI, how do we display information?
 	5. Implement running game, with placeholder UI
