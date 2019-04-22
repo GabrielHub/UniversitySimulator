@@ -50,25 +50,25 @@ Difficulty determines how outcomes are done through percentages. A higher diffic
 
 **Ideas:**
 
-	- Maybe we can choose to set the tuition rates to 0 and receive government accomodation when close to losing
-	- Some of the resources can be objects rather than just numbers, like buildings that have research labs or something
-	- Start with a different university. So rather than difficulty determined entirely by wealth, difficulty can be determined by your start. (start with a differnet number of students and buildings and so on)# UniversitySimulator
+- Maybe we can choose to set the tuition rates to 0 and receive government accomodation when close to losing
+- Some of the resources can be objects rather than just numbers, like buildings that have research labs or something
+- Start with a different university. So rather than difficulty determined entirely by wealth, difficulty can be determined by your start. (start with a differnet number of students and buildings and so on)# UniversitySimulator
 
 
 ## TASKS TO DO and TASKS FINISHED
 
 **A list of tasks to do / code to update:**
 
-- [ ] Redesign Core
+- [ ] **Redesign Core**
 	- [ ] Resources and Balance
 		- [ ] What resources to add
 		- [ ] Redesign how each resources affects the other
 	- [ ] Gameplay Loop
 		- [x] Change from Turn based click to Real Time
 		- [ ] Add option to pause, either on events or something else
-- [ ] Redesign UX/UI
+- [ ] **Redesign UX/UI**
 	- [ ] How the resources are displayed
-- [ ] Redesign Events
-- [ ] Code Refactor
+- [ ] **Redesign Events**
+- [ ] **Code Refactor**
 	- [x] Implement the basics so it's working on a clean slate
 	- [ ] Events aren't working because of the change from Turn Based to Real Time, needs to be rewritten
