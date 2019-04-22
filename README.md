@@ -1,4 +1,6 @@
-University Simulator: Build and grow a University to take over the world!
+#University Simulator: Build and grow a University to take over the world!
+
+##Design Document
 
 Lose State: When you have 0 students and cannot keep growing.
 Win State: (Currently) When hitting 100k Students or something
@@ -8,7 +10,7 @@ Mid Game:
 End Game: We're in it now.
 
 
-NOTE: ALL THESE DESIGN DECISIONS DESCRIBE HOW THE GAME WORKS NOW (TO BE CHANGED IN THE FUTURE)
+###NOTE: ALL THESE DESIGN DECISIONS DESCRIBE HOW THE GAME WORKS NOW (TO BE CHANGED IN THE FUTURE)
 
 Design:
 	Currently all under a single script, and game manager.
@@ -28,10 +30,11 @@ Design:
 			If students drops down to 0, game over.
     	*/
 
-    Difficulty determines how outcomes are done through percentages. A higher difficulty means when an event happens, the percentage something bad happens increases.
-    difficulty = ((students * sliderTuitionVal + alumni * 2 + faculty + buildings * 10) / wealth) + (sliderTuitionVal / 5) + (sliderFacultyToVal / 25)
+Difficulty determines how outcomes are done through percentages. A higher difficulty means when an event happens, the percentage something bad happens increases.
+    `difficulty = ((students * sliderTuitionVal + alumni * 2 + faculty + buildings * 10) / wealth) + (sliderTuitionVal / 5) + (sliderFacultyToVal / 25)`
 
 Resources:
+
 	Wealth - Hidden resource defined by the accumulation of all other resources. Used to determine difficulty
 		Wealth = students + faculty + alumni + buildings * 200
 
@@ -53,13 +56,13 @@ Resources:
 		material += (alumni / 5 (rounded down to an int))  + ((tuition of students) * students) + (buildings bonus)
 
 Ideas:
+
 	- Maybe we can choose to set the tuition rates to 0 and receive government accomodation when close to losing
 	- Some of the resources can be objects rather than just numbers, like buildings that have research labs or something
 	- Start with a different university. So rather than difficulty determined entirely by wealth, difficulty can be determined by your start. (start with a differnet number of students and buildings and so on)# UniversitySimulator
-Unity Game for the Game Design Class
 
 
-TASKS TO DO LIST
+##TASKS TO DO LIST
 
 A list of tasks to do / code to update:
 
