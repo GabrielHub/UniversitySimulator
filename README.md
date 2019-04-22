@@ -1,18 +1,16 @@
-#University Simulator: Build and grow a University to take over the world!
+# University Simulator: Build and grow a University to take over the world!
 
-##Design Document
+## Design Document
 
 Lose State: When you have 0 students and cannot keep growing.
 Win State: (Currently) When hitting 100k Students or something
 
-Early Game:
-Mid Game:
+Early Game: *(To be completed)*
+Mid Game: *(To be completed)*
 End Game: We're in it now.
 
 
-###NOTE: ALL THESE DESIGN DECISIONS DESCRIBE HOW THE GAME WORKS NOW (TO BE CHANGED IN THE FUTURE)
-
-Design:
+### NOTE: ALL THESE DESIGN DECISIONS DESCRIBE HOW THE GAME WORKS NOW (TO BE CHANGED IN THE FUTURE)
 	Currently all under a single script, and game manager.
 
 	/*
@@ -33,7 +31,7 @@ Design:
 Difficulty determines how outcomes are done through percentages. A higher difficulty means when an event happens, the percentage something bad happens increases.
     `difficulty = ((students * sliderTuitionVal + alumni * 2 + faculty + buildings * 10) / wealth) + (sliderTuitionVal / 5) + (sliderFacultyToVal / 25)`
 
-Resources:
+**Resources:**
 
 	Wealth - Hidden resource defined by the accumulation of all other resources. Used to determine difficulty
 		Wealth = students + faculty + alumni + buildings * 200
@@ -62,20 +60,16 @@ Ideas:
 	- Start with a different university. So rather than difficulty determined entirely by wealth, difficulty can be determined by your start. (start with a differnet number of students and buildings and so on)# UniversitySimulator
 
 
-##TASKS TO DO LIST
+## TASKS TO DO and TASKS FINISHED
 
-A list of tasks to do / code to update:
+**A list of tasks to do / code to update:**
 
 	1. Design how resources work, which resources are used, and how wealth is calculated
 		Comments and Ideas: 
 			Enrollment of teachers, students, and buildings?
-			
+	~~2. Code refactor has been done, base game works~~
 	3. Redesign management and game loop
 	4. Design UX/UI, how do we display information?
 	5. Implement running game, with placeholder UI
 	6. Design Events
 	7. Design interaction
-
-Finished tasks:
-
-	2. Code refactor has been done, base game works
