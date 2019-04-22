@@ -59,9 +59,13 @@ Difficulty determines how outcomes are done through percentages. A higher diffic
 
 **A list of tasks to do / code to update:**
 
-	1. [ ] Redesign Resources
-		- [ ] Which resources are objects?
-		- [ ] Redesign how each resources affects the other
+	1. [ ] Redesign Core
+		- [ ] Resources and Balance
+			- [ ] What resources to add
+			- [ ] Redesign how each resources affects the other
+		- [ ] Gameplay Loop
+			- [x] Change from Turn based click to Real Time
+			- [ ] Add option to pause, either on events or something else
 	2. [ ] Redesign UX/UI
 		- [ ] How the resources are displayed
 	3. [ ] Redesign Events
