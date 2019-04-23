@@ -24,8 +24,9 @@ Happens every turn (second) and can be negative or positive.
 
 ### UI/UX
 
-- Tabs on the bottom of the screen for **Event Log**, **Buy Menu**, **Administration**, etc.
-- The **Event Log**, will open or close a transparent overlay in the top middle of the screen.
+- Tabs on the bottom of the screen for **Event Log** and one for each resource to manage them.
+- The **Event Log** tab, will open or close a transparent Event Log Object in the top middle of the screen.
+- **Event Log** will be a "simple messaging system which will allow items in our projects to subscribe to events, and have events trigger actions in our games. This will reduce dependencies and allow easier maintenance of our projects." (There's a Unity tutorial on how to do this on the unity website)
 - **Play / Pause** button will be on the bottom right above the tabs
 - **Resources** will be in the top left
 
@@ -73,17 +74,20 @@ Types of Resources:
 		- [ ] Define Resources (are there different types of buildings?)
 		- [ ] Redesign how each resources affects the other (algorithm, relations)
 		- [ ] Win / Lose States
+		- [ ] Change Buildings from numeric resource to an object and a seperate tab to manage it
 	- [ ] Gameplay Loop
 		- [x] Change from Turn based click to Real Time
 		- [ ] Add option to pause, either on events or something else
 		- [ ] New Event System
 		- [ ] Change difficulty algorithm
 - [ ] **Redesign UX/UI**
-	- [ ] How the resources are displayed
+	- [x] How the resources are displayed
+	- [ ] Convert Event Log system to a simple messaging system.
 - [ ] **Redesign Events**
 - [ ] **Code Refactor**
 	- [x] Implement the basics so it's working on a clean slate
 	- [ ] Events aren't working because of the change from Turn Based to Real Time, needs to be rewritten
 - [ ] **Add Graphics**
-	- [ ]  
+	- [ ] Create background
 - [ ] **Additional Features**
+	- [ ] Game scales with resolution

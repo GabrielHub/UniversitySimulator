@@ -6,8 +6,15 @@ using UnityEngine;
 public class GameManagerScript : MonoBehaviour
 {
     //UI text
-	public Text resources;
 	public Text eventLog;
+    public Text studentsText;
+    public Text facultyText;
+    public Text alumniText;
+    public Text buildingsText;
+    public Text materialsText;
+
+    //Other UI Elements
+    public Button playButton;
 
 	//resources
 	private int students;
@@ -28,8 +35,11 @@ public class GameManagerScript : MonoBehaviour
     void Start()
     {
     	//Resource list
-    	string resc = "Students: " + students + "     Faculty: " + faculty + "     Alumni: " + alumni + "     Buildings: " + buildings + "     Materials: " + material;
-        resources.text = resc;
+        studentsText.text = "Students: " + students;
+        facultyText.text = "Faculty: " + faculty;
+        alumniText.text = "Alumni: " + alumni;
+        buildingsText.text = "Buildings: " + buildings;
+        materialsText.text = "Materials: " + material;
 
         //set up random ranges (possibly based on difficulty later)
         students = Mathf.FloorToInt(Random.Range(2.0f, 15.0f));
@@ -42,6 +52,7 @@ public class GameManagerScript : MonoBehaviour
 
 		eventLog.text += "\n BREAKING: SADU's only alum has taken over for the school!";
 
+        //A turn is done every second, with a 0.5 second delay upon resuming
         InvokeRepeating("Turns", 0.5f, 1.0f);
     }
 
@@ -56,11 +67,18 @@ public class GameManagerScript : MonoBehaviour
     		eventLog.text = "\n Congrats! You have as much alumni as NYU! \n \n what else do you want. a cookie?";
     	}
 
-        resources.text = "Students: " + students + "     Faculty: " + faculty + "     Alumni: " + alumni + "     Buildings: " + buildings + "     Materials: " + material;
+        //Resource List to be updated
+        studentsText.text = "Students: " + students;
+        facultyText.text = "Faculty: " + faculty;
+        alumniText.text = "Alumni: " + alumni;
+        buildingsText.text = "Buildings: " + buildings;
+        materialsText.text = "Materials: " + material;
     }
 
     //take into account all policy changes and changes in resources, then update said resources
     void Turns() {
+        //Check whether game is paused or not
+
         //calculate wealth and apply wealth difficulty
         wealth = students + faculty + alumni + buildings * 200;
 
