@@ -13,6 +13,7 @@ public class GameManagerScript : MonoBehaviour
     [SerializeField] TextMeshProUGUI alumniText;
     [SerializeField] TextMeshProUGUI buildingsText;
     [SerializeField] TextMeshProUGUI materialsText;
+	[SerializeField] TextMeshProUGUI wealthText;
 
     //Other UI Elements
     public Button playButton;
@@ -24,11 +25,11 @@ public class GameManagerScript : MonoBehaviour
 	private int alumni;
 	private int buildings;
 	private int material;
+	private float wealth;
 
 	//other hidden resources
 	private int buildingBonus = 0;
 	private float growthBonus = 1.0f;
-	private float wealth = 0;
 	private float difficulty = 1.0f;
 	private int studentGrowth;
 	private int popInitial; //initial student population
@@ -45,6 +46,7 @@ public class GameManagerScript : MonoBehaviour
         alumniText.text = "Alumni: " + alumni.ToString();
         buildingsText.text = "Buildings: " + buildings.ToString();
         materialsText.text = "Materials: " + material.ToString();
+		wealthText.text = "Wealth: "+ wealth.ToString();
 
         //Button Setup //Calls the TaskOnClick/TaskWithParameters/ButtonClicked method when you click the Button
         playButton.onClick.AddListener(PauseOnClick);
@@ -55,7 +57,7 @@ public class GameManagerScript : MonoBehaviour
 		alumni = 1;
 		buildings = 1;
 		material = Mathf.FloorToInt(Random.Range(100.0f, 1000.0f));
-
+		wealth = 0;
 		popInitial = students;
 
 		eventLog.text += "\n BREAKING: SADU's only alum has taken over for the school!";
@@ -82,6 +84,7 @@ public class GameManagerScript : MonoBehaviour
         alumniText.text = "Alumni: " + alumni.ToString();
         buildingsText.text = "Buildings: " + buildings.ToString();
         materialsText.text = "Materials: " + material.ToString();
+		wealthText.text = "Wealth: "+wealth.ToString();
     }
 
     //take into account all policy changes and changes in resources, then update said resources
