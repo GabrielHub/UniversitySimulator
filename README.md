@@ -58,6 +58,9 @@ Types of Resources:
 5. Materials - Resource used to spend used for actions
 	- Relation: material += (alumni / 5 (rounded down to an int))  + ((tuition of students) * students) + (buildings bonus)
 
+### Modifiers / Algorithms?:
+
+
 ### Ideas:
 - The option to expand with satellite campuses that are somewhat run on their own?
 - Maybe we can choose to set the tuition rates to 0 and receive government accomodation when close to losing
@@ -91,3 +94,4 @@ Types of Resources:
 	- [ ] Create background
 - [ ] **Additional Features**
 	- [ ] Game scales with resolution
+		- [x] Text scales with resolution
