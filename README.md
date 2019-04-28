@@ -3,14 +3,12 @@
 ## Design Document
 *Italicized things are to be changed or designed*
 
-### Win / Lose State
-- Lose State: *When you have 0 students*
-- Win State:  *When hitting 500k Students*
-
 ### Game Phases
-- Early Game: *(To be completed)*
-- Mid Game: *(To be completed)*
-- End Game: *We're in it now.*
+- Early Game: 100k students
+- Mid Game: Top Ranked College
+- End Game: Only University in the world
+
+- Lost State: 0 students
 
 ### Difficulty
 Difficulty determines how outcomes are decided through percentages. A higher difficulty means when an event happens, the percentage something bad happens increases.
@@ -33,14 +31,7 @@ Happens every turn (second) and can be negative or positive.
 ### Resources:
 
 Rules for resources (every turn):
-	
-- Students is decreased and Alumni is increased (based on NYU graduation ratio)
-- Students increase determined by *student growth rate* and *carrying capacity*. (based on logistic population growth model)
-	- *student growth rate* should be small and determined by Wealth and Renown.
-	- *carrying capacity* is determined by Faculty and Buildings.
-- Wealth is increased by Alumni and Students.
-- Renown is determined by Faculty and Buildings.
-- Faculty can be bought with Wealth
+	Look at Google Slides Chart
 
 Types of Resources:
 
@@ -55,11 +46,12 @@ Types of Resources:
 5. Wealth - Resource used to spend used for actions
 
 ### Ideas:
-- The option to expand with satellite campuses that are somewhat run on their own?
-- Maybe we can choose to set the tuition rates to 0 and receive government accomodation when close to losing
-- Some of the resources can be objects rather than just numbers, like buildings that have research labs or something
-- Start with a different university. So rather than difficulty determined entirely by wealth, difficulty can be determined by your start. (start with a differnet number of students and buildings and so on)
-
+- Add some factors that will change rate of graduation
+- Adjustable tuition rates
+- Amount of donations from alumni
+- How many students per faculty member
+- Maximum class capacity
+- Notable Alumni which have special effects on the university
 
 ## TASKS TO DO and TASKS FINISHED
 
@@ -67,10 +59,10 @@ Types of Resources:
 
 - [ ] **Redesign Core**
 	- [ ] Resources and Balance
-		- [ ] Define Resources (are there different types of buildings?)
-		- [ ] Redesign how each resources affects the other (algorithm, relations)
-		- [ ] Win / Lose States
-		- [ ] Change Buildings from numeric resource to an object and a seperate tab to manage it
+		- [x] Define Resources (are there different types of buildings?)
+		- [x] Redesign how each resources affects the other (algorithm, relations)
+		- [x] Win / Lose States
+		- [ ] Change Buildings from numeric resource to a dictionary and a seperate tab to manage it
 	- [ ] Gameplay Loop
 		- [x] Change from Turn based click to Real Time
 		- [ ] Add option to pause, either on events or something else
@@ -85,6 +77,7 @@ Types of Resources:
 	- [ ] Events aren't working because of the change from Turn Based to Real Time, needs to be rewritten
 - [ ] **Add Graphics**
 	- [ ] Create background
+	- [ ] Create Basic Tile Map
 - [ ] **Additional Features**
 	- [ ] Game scales with resolution
 		- [x] Text scales with resolution
