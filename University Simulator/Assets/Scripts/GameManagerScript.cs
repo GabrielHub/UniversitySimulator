@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
+using TMPro;
 
 public class GameManagerScript : MonoBehaviour
 {
     //UI text
-	public Text eventLog;
-    public Text studentsText;
-    public Text facultyText;
-    public Text alumniText;
-    public Text buildingsText;
-    public Text materialsText;
+    [SerializeField] TextMeshProUGUI eventLog;
+    [SerializeField] TextMeshProUGUI studentsText;
+    [SerializeField] TextMeshProUGUI facultyText;
+    [SerializeField] TextMeshProUGUI alumniText;
+    [SerializeField] TextMeshProUGUI buildingsText;
+    [SerializeField] TextMeshProUGUI materialsText;
 
     //Other UI Elements
     public Button playButton;
@@ -35,11 +36,11 @@ public class GameManagerScript : MonoBehaviour
     void Start()
     {
     	//Resource list
-        studentsText.text = "Students: " + students;
-        facultyText.text = "Faculty: " + faculty;
-        alumniText.text = "Alumni: " + alumni;
-        buildingsText.text = "Buildings: " + buildings;
-        materialsText.text = "Materials: " + material;
+        studentsText.text = "Students: " + students.ToString();
+        facultyText.text = "Faculty: " + faculty.ToString();
+        alumniText.text = "Alumni: " + alumni.ToString();
+        buildingsText.text = "Buildings: " + buildings.ToString();
+        materialsText.text = "Materials: " + material.ToString();
 
         //set up random ranges (possibly based on difficulty later)
         students = Mathf.FloorToInt(Random.Range(2.0f, 15.0f));
@@ -60,19 +61,21 @@ public class GameManagerScript : MonoBehaviour
     void Update()
     {
     	//check for game over
+        /*
     	if (students <= 0) {
     		eventLog.text = "\n You've run out of students and this University has failed.";
     	}
     	else if (alumni >= 500000) {
     		eventLog.text = "\n Congrats! You have as much alumni as NYU! \n \n what else do you want. a cookie?";
     	}
+        */
 
         //Resource List to be updated
-        studentsText.text = "Students: " + students;
-        facultyText.text = "Faculty: " + faculty;
-        alumniText.text = "Alumni: " + alumni;
-        buildingsText.text = "Buildings: " + buildings;
-        materialsText.text = "Materials: " + material;
+        studentsText.text = "Students: " + students.ToString();
+        facultyText.text = "Faculty: " + faculty.ToString();
+        alumniText.text = "Alumni: " + alumni.ToString();
+        buildingsText.text = "Buildings: " + buildings.ToString();
+        materialsText.text = "Materials: " + material.ToString();
     }
 
     //take into account all policy changes and changes in resources, then update said resources
