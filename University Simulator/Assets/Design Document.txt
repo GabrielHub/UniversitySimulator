@@ -1,0 +1,17 @@
+University Simulator: Build and grow a University to take over the world!
+
+Phases:
+	
+	Early Game: ""
+
+Resources:
+	Wealth - Hidden resource defined by the accumulation of all other resources. Used to determine difficulty and used for actions.
+
+	Students - Determining growth counter. Grows depending on certain resources (algorithm below)
+
+	Alumni - A counter for how many students have graduated. Each alumni grants wealth and (influence?)
+
+
+
+
+How resources work / equations and algorithms for how they grow
