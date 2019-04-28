@@ -749,6 +749,7 @@ MonoBehaviour:
   alumniText: {fileID: 180545227}
   buildingsText: {fileID: 1428377976}
   materialsText: {fileID: 97078530}
+  wealthText: {fileID: 97078530}
   playButton: {fileID: 182611295}
   playText: {fileID: 956252021}
 --- !u!4 &263783754

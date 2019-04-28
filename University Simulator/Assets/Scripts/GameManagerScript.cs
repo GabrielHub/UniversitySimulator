@@ -12,7 +12,6 @@ public class GameManagerScript : MonoBehaviour
     [SerializeField] TextMeshProUGUI facultyText;
     [SerializeField] TextMeshProUGUI alumniText;
     [SerializeField] TextMeshProUGUI buildingsText;
-    [SerializeField] TextMeshProUGUI materialsText;
 	[SerializeField] TextMeshProUGUI wealthText;
 
     //Other UI Elements
@@ -45,7 +44,6 @@ public class GameManagerScript : MonoBehaviour
         facultyText.text = "Faculty: " + faculty.ToString();
         alumniText.text = "Alumni: " + alumni.ToString();
         buildingsText.text = "Buildings: " + buildings.ToString();
-        materialsText.text = "Materials: " + material.ToString();
 		wealthText.text = "Wealth: "+ wealth.ToString();
 
         //Button Setup //Calls the TaskOnClick/TaskWithParameters/ButtonClicked method when you click the Button
@@ -83,7 +81,6 @@ public class GameManagerScript : MonoBehaviour
         facultyText.text = "Faculty: " + faculty.ToString();
         alumniText.text = "Alumni: " + alumni.ToString();
         buildingsText.text = "Buildings: " + buildings.ToString();
-        materialsText.text = "Materials: " + material.ToString();
 		wealthText.text = "Wealth: "+wealth.ToString();
     }
 
@@ -210,181 +207,4 @@ public class GameManagerScript : MonoBehaviour
             playing = !playing;
         }
     }
-
-    //Different Buy Button Functions. Each thing you buy is coded below
-    /*void ShackClick() {
-    	if (material >= 350) {
-    		material -= 350;
-
-    		float rand = Random.Range(0.0f, difficulty);
-
-    		if (rand <= 0.25f) {
-    			eventLog.text += "\n BREAKING: Survival in new dorms is building comradery and school spirit! \n Student growth has increased!";
-    			growthBonus += 0.5f;
-    			buildings++;
-    		}
-    		else {
-    			eventLog.text += "\n TRAGEDY: New small dorms lack hot water and ceilings. Not cool! \n Student growth has decreased! \n Materials have been lost due to repairs!";
-    			growthBonus -= 0.3f;
-    			material -= Mathf.FloorToInt(material / 2);
-    		}
-    	}
-
-    	//autoscroll
-		scrollRect.velocity = new Vector2(0.0f, 1000f);
-    }
-
-    void BuildingClick() {
-    	if (material >= 500) {
-    		material -= 500;
-
-    		float rand = Random.Range(0.0f, difficulty);
-
-    		if (rand <= 0.6f) {
-    			eventLog.text += "\n BREAKING: Investors are happy, students are happy, SADU remains sad. \n Student growth has increased! \n Building bonus increased!";
-    			growthBonus += 1.0f;
-    			buildings++;
-    			buildingBonus += 50;
-    			faculty++;
-    		}
-    		else {
-    			eventLog.text += "\n TRAGEDY: New buildings at SADU have introduced a new breed of rat. \n Student growth has decreased!";
-    			growthBonus -= 0.8f;
-    		}
-    	}
-
-    	//autoscroll
-		scrollRect.velocity = new Vector2(0.0f, 1000f);
-    }
-
-    void BigBuildingClick() {
-    	if (material >= 1300) {
-    		material -= 1300;
-
-    		float rand = Random.Range(0.0f, difficulty);
-
-    		if (rand <= 0.88) {
-    			eventLog.text += "\n BREAKING: Big Building Big Money Big Booty Big Lambo \n Student growth has increased! \n Building bonus increased!";
-    			growthBonus += 2.0f;
-    			buildings++;
-    			buildingBonus += 150;
-    			faculty += 2;
-    		}
-    		else {
-    			eventLog.text += "\n TRAGEDY: Yeah you messed up bud. \n Student growth has decreased! \n Building bonus has decreased!";
-    			growthBonus -= 1.5f;
-    			buildingBonus -= 50;
-    		}
-    	}
-
-    	//autoscroll
-		scrollRect.velocity = new Vector2(0.0f, 1000f);
-    }
-
-    void HireClick() {
-    	if (material >= 100) {
-    		material -= 100;
-    		float rand = Random.Range(0.0f, difficulty);
-
-    		if (rand >= 0.1f && rand <= 0.9) {
-    			eventLog.text += "\n SADU has hired a new professor! \n New faculty member!";
-    			faculty++;
-    		}
-    		else if (rand < 1.0f) {
-    			eventLog.text += "\n BREAKING: SADU new professor has somehow multiplied! \n Faculty amount has increased! \n Materials lost!";
-    			faculty += 3;
-    			material -= 30;
-    		}
-    		else {
-    			eventLog.text += "\n SADU made an attempt to hire a new professor. Somehow they've hired a squirrel. \n Building bonus has decreased!";
-    			buildingBonus -= 78;
-    		}
-    	}
-
-    	//autoscroll
-		scrollRect.velocity = new Vector2(0.0f, 1000f);
-    }
-
-    void RiskyBoostClick() {
-    	if (material >= 650) {
-    		material -= 650;
-    		float rand = Random.Range(0.0f, difficulty);
-
-    		if (rand <= 0.45f) {
-    			eventLog.text += "\n Ads for SADU are a hit! We freaking got em lads \n Student growth increased!";
-    			growthBonus += 0.1f;
-    		}
-    		else if (rand <= 0.6f) {
-    			eventLog.text += "\n In a sad attempt to increase student numbers, SADU tripped on a power cord.";
-    		}
-    		else if (rand <= 0.8) {
-    			eventLog.text += "\n BREAKING: A bump in name recognition has given building bonuses, but also an increase in aggresive Yelp reviews \n Building bonus has increased! \n Student growth decreased!";
-    			growthBonus -= 0.1f;
-    			buildingBonus += 50;
-    		}
-    		else {
-    			eventLog.text += "\n TRAGEDY: 10 RIDICULOUS Facebook Ads YOU NEED TO SEE! \n Student growth has decreased!";
-    			growthBonus -= 0.2f;
-    		}
-    	}
-
-    	//autoscroll
-		scrollRect.velocity = new Vector2(0.0f, 1000f);
-    }
-
-    void MedBoostClick() {
-    	if (material >= 650) {
-    		material -= 650;
-    		float rand = Random.Range(0.0f, difficulty);
-
-    		if (rand <= 0.35f) {
-    			eventLog.text += "\n SADU has opened it's borders! (Higher transfer rate we mean) \n More students registered!";
-    			students += Mathf.FloorToInt(popInitial / 2);
-    		}
-    		else if (rand <= 0.55f) {
-    			eventLog.text += "\n BREAKING: Rumor swirling that SADU has faked some international student applications for diversity! \n More students registered! \n Student growth rate decreased!";
-    			students += popInitial;
-    			growthBonus -= 0.1f;
-    		}
-    		else if (rand <= 0.7f) {
-    			eventLog.text += "\n SADU administration attempted to do something but failed!";
-    		}
-    		else {
-    			eventLog.text += "\n Students feel new incoming students are just wealthier, meaner versions of themselves. \n Yearly materials increased! \n Student growth decreased! \n Student numbers increaased!";
-    			buildingBonus += 50;
-    			growthBonus -= 0.1f;
-    			students += popInitial;
-    		}
-    	}
-
-    	//autoscroll
-		scrollRect.velocity = new Vector2(0.0f, 1000f);
-    }
-
-    void BigBoostClick() {
-    	if (material >= 1000) {
-    		material -= 1000;
-    		float rand = Random.Range(0.0f, difficulty);
-
-    		eventLog.text += "\n SADU releases Alumni support email! Will our ancestors pay for another StarBucks?";
-    		if (rand <= 0.55f) {
-    			eventLog.text += "\n SADU receives enough donations for new therapy dogs! Hopefully we don't lose any this time! \n Materials increased! \n Buildings bonus has increased!";
-    			material += 200;
-    			buildingBonus += 200;
-    		}
-    		else if (rand <= 0.88f) {
-    			eventLog.text += "\n Alumni have removed SADU from their LinkedIns. Will daddy let me stay for Jenny's 21st? \n Alumni decreased \n Students lost!";
-    			alumni -= Mathf.FloorToInt(alumni / 5);
-    			students -= popInitial;
-    		}
-    		else {
-    			eventLog.text += "\n TRAGEDY: Alumni have demolished he SADU distillery and requested refunds! SADDERU students seen rejoicing! \n Alumni decreased \n Students lost!";
-    			alumni -= Mathf.FloorToInt(alumni / 3);
-    			students -= popInitial;
-    		}
-    	}
-
-    	//autoscroll
-		scrollRect.velocity = new Vector2(0.0f, 1000f);
-    }*/
 }
