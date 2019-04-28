@@ -23,7 +23,6 @@ public class GameManagerScript : MonoBehaviour
 	private int faculty;
 	private int alumni;
 	private int buildings;
-	private int material;
 	private float wealth;
 
 	//other hidden resources
@@ -54,7 +53,6 @@ public class GameManagerScript : MonoBehaviour
 		faculty = Mathf.FloorToInt(Random.Range(1.0f, 5.0f));
 		alumni = 1;
 		buildings = 1;
-		material = Mathf.FloorToInt(Random.Range(100.0f, 1000.0f));
 		wealth = 0;
 		popInitial = students;
 
@@ -94,8 +92,7 @@ public class GameManagerScript : MonoBehaviour
             //calculate difficulty
             difficulty = ((students + alumni * 2 + faculty + buildings * 10) / wealth);
 
-            //material changes
-            material += Mathf.FloorToInt(alumni / 5) + students + buildingBonus;
+            wealth += Mathf.FloorToInt(alumni / 5) + students + buildingBonus;
 
             //student changes
             if ((students / 3 < faculty) && (students < 350 * buildings)) {
@@ -105,15 +102,15 @@ public class GameManagerScript : MonoBehaviour
             }
 
             //faculty changes
-            if (material <= faculty) {
-                faculty -= Mathf.FloorToInt(((faculty - material) / 2));
-                material = 0;
+            if (wealth <= faculty) {
+                faculty -= Mathf.FloorToInt(((faculty - wealth) / 2));
+                wealth = 0;
             }
-            else if (material <= 0) {
+            else if (wealth <= 0) {
                 students -= 2;
             }
             else {
-                material -= faculty;
+                wealth -= faculty;
             }
 
             //alumni resource changes
@@ -161,7 +158,7 @@ public class GameManagerScript : MonoBehaviour
     	}
     	else if (rand <= 0.69) {
     		eventLog.text += "\n EVENT: Students have used materials to buy equipment \n Materials lost!";
-    		material -= Mathf.FloorToInt(material / 2.7f);
+    		wealth -= Mathf.FloorToInt(wealth / 2.7f);
     	}
     	else if (rand <= 0.75) {
     		eventLog.text += "\n EVENT: Due to your great works, more students are joining! \n Student growth has increased!";
@@ -174,7 +171,7 @@ public class GameManagerScript : MonoBehaviour
     	}
     	else if (rand <= 1.0) {
     		eventLog.text += "\n EVENT: Ya just got taxed boi \n Materials lost!";
-    		material -= Mathf.FloorToInt(material / 2.0f);
+    		wealth -= Mathf.FloorToInt(wealth / 2.0f);
     	}
     	else if (rand <= 1.2) {
     		eventLog.text += "\n EVENT: Due to a bad Mathlete loss students grow disinterested \n Student growth decreased!";
@@ -182,7 +179,7 @@ public class GameManagerScript : MonoBehaviour
     	}
     	else if (rand <= 1.4) {
     		eventLog.text += "\n EVENT: Increasing wealth of the school makes people mad \n Materials lost! \n Students lost!";
-    		material -= 200;
+    		wealth -= 200;
     		students -= 10;
     	}
     	else if (rand <= 1.5) {
@@ -191,7 +188,7 @@ public class GameManagerScript : MonoBehaviour
     	}
     	else {
     		eventLog.text += "\n BIG EVENT: 'Damn this school wealthy bruh lemme cop some of that' - President \n Materials halved!";
-    		material = Mathf.FloorToInt(material / 2);
+    		wealth = Mathf.FloorToInt(wealth / 2);
     	}
     }
 
