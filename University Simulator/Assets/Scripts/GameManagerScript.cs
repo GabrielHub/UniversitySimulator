@@ -68,14 +68,13 @@ public class GameManagerScript : MonoBehaviour
     void Update()
     {
     	//check for game over
-        /*
     	if (students <= 0) {
     		eventLog.text = "\n You've run out of students and this University has failed.";
     	}
     	else if (alumni >= 500000) {
     		eventLog.text = "\n Congrats! You have as much alumni as NYU! \n \n what else do you want. a cookie?";
     	}
-        */
+        
 
         //Resource List to be updated
         studentsText.text = "Students: " + students.ToString();
