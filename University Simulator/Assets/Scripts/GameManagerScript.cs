@@ -16,6 +16,7 @@ public class GameManagerScript : MonoBehaviour
 
     //Other UI Elements
     public Button playButton;
+    public Text playText;
 
 	//resources
 	private int students;
@@ -33,7 +34,7 @@ public class GameManagerScript : MonoBehaviour
 	private int popInitial; //initial student population
 
     //other variables
-    private bool running = true; //check if paused or not
+    private bool playing = true; //check if paused or not
 
     // Start is called before the first frame update
     void Start()
@@ -44,6 +45,9 @@ public class GameManagerScript : MonoBehaviour
         alumniText.text = "Alumni: " + alumni.ToString();
         buildingsText.text = "Buildings: " + buildings.ToString();
         materialsText.text = "Materials: " + material.ToString();
+
+        //Button Setup //Calls the TaskOnClick/TaskWithParameters/ButtonClicked method when you click the Button
+        playButton.onClick.AddListener(PauseOnClick);
 
         //set up random ranges (possibly based on difficulty later)
         students = Mathf.FloorToInt(Random.Range(2.0f, 15.0f));
@@ -84,7 +88,7 @@ public class GameManagerScript : MonoBehaviour
     //take into account all policy changes and changes in resources, then update said resources
     void Turns() {
         //Check whether game is paused or not
-        if (running) {
+        if (playing) {
             //calculate wealth and apply wealth difficulty
             wealth = students + faculty + alumni + buildings * 200;
 
@@ -190,29 +194,19 @@ public class GameManagerScript : MonoBehaviour
     		eventLog.text += "\n BIG EVENT: 'Damn this school wealthy bruh lemme cop some of that' - President \n Materials halved!";
     		material = Mathf.FloorToInt(material / 2);
     	}
+    }
 
-    	//Tuition events
-    	/*if (sliderTuitionVal > 2) {
-    		rand = Random.Range(0.0f, 1.0f);
-    		float max;
-    		if (sliderTuitionVal == 3) {
-    			max = 0.8f;
-    		}
-    		else if (sliderTuitionVal == 4) {
-    			max = 0.7f;
-    		}
-    		else if (sliderTuitionVal == 5) {
-    			max = 0.5f;
-    		}
-    		else {
-    			max = 0.85f;
-    		}
-
-    		if (rand >= max) {
-    			eventLog.text += "\n BREAKING: Students are upset at higher tuition! \n Students decreased";
-    			students -= popInitial;
-    		}
-    	}*/
+    //Pause and Play button click function
+    void PauseOnClick() {
+        //change text when paused or playing
+        if (playing) {
+            playText.text = "Play";
+            playing = !playing;
+        }
+        else {
+            playText.text = "Pause";
+            playing = !playing;
+        }
     }
 
     //Different Buy Button Functions. Each thing you buy is coded below
