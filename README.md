@@ -32,34 +32,27 @@ Happens every turn (second) and can be negative or positive.
 
 ### Resources:
 
-Rules for resources:
+Rules for resources (every turn):
 	
-- Every turn 20% of the total students graduate: Alumni Increases by 20% of Students, Students decrease by 20%.
-- If Faculty is over 10% (default percent) of the Students number. Every building can accomodate 350 students. Student is allowed to increase. (Default is one faculty per 10 students, can be changed)
-- Each student grants by default 2 material per turn (can be changed). Every 5 alumni grants permanent 1 material per turn. Material ++
-- Each Faculty takes 1 material per turn. If you set buildings to give bonuses, they also detract material. Material --
+- Students is decreased and Alumni is increased (based on NYU graduation ratio)
+- Students increase determined by *student growth rate* and *carrying capacity*. (based on logistic population growth model)
+	- *student growth rate* should be small and determined by Wealth and Renown.
+	- *carrying capacity* is determined by Faculty and Buildings.
+- Wealth is increased by Alumni and Students.
+- Renown is determined by Faculty and Buildings.
+- Faculty can be bought with Wealth
 
 Types of Resources:
 
 1. Students - Determining growth counter. Grows depending on certain resources (algorithm below). Provides materials in terms of yearly tuition.
-	- if students are smaller than the max allowed by faculty, and students are less than the max allowed by buildings, then:
-		- Relation: students += the growth bonus * students * (1 - (students / (350 * # of buildings)))
 
 2. Alumni - A counter for how many students have graduated. Each alumni grants a small amount materials as donations
-	- Relation: students -= Mathf.FloorToInt(students / 5) and alumni += that same amount
 
 3. Buildings - Determines how much Faculty you can accumulate. Costs donations to purchase more. Buildings can provide a building bonus, whether positive or negative
-		must be bought
 
 4. Faculty - Determines how many Students you can have at one time. Can be purchased.
-	- Can only increase through material purchases or random events
-		- otherwise is decreased when your materials aren't enough to pay for faculty, faculty -= Mathf.FloorToInt(((faculty - material) / 2))
 
-5. Materials - Resource used to spend used for actions
-	- Relation: material += (alumni / 5 (rounded down to an int))  + ((tuition of students) * students) + (buildings bonus)
-
-### Modifiers / Algorithms?:
-
+5. Wealth - Resource used to spend used for actions
 
 ### Ideas:
 - The option to expand with satellite campuses that are somewhat run on their own?
