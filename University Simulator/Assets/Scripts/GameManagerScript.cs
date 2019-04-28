@@ -32,6 +32,9 @@ public class GameManagerScript : MonoBehaviour
 	private int studentGrowth;
 	private int popInitial; //initial student population
 
+    //other variables
+    private bool running = true; //check if paused or not
+
     // Start is called before the first frame update
     void Start()
     {
@@ -81,48 +84,49 @@ public class GameManagerScript : MonoBehaviour
     //take into account all policy changes and changes in resources, then update said resources
     void Turns() {
         //Check whether game is paused or not
+        if (running) {
+            //calculate wealth and apply wealth difficulty
+            wealth = students + faculty + alumni + buildings * 200;
 
-        //calculate wealth and apply wealth difficulty
-        wealth = students + faculty + alumni + buildings * 200;
+            //calculate difficulty
+            difficulty = ((students + alumni * 2 + faculty + buildings * 10) / wealth);
 
-    	//calculate difficulty
-    	difficulty = ((students + alumni * 2 + faculty + buildings * 10) / wealth);
+            //material changes
+            material += Mathf.FloorToInt(alumni / 5) + students + buildingBonus;
 
-		//material changes
-		material += Mathf.FloorToInt(alumni / 5) + students + buildingBonus;
+            //student changes
+            if ((students / 3 < faculty) && (students < 350 * buildings)) {
+                //increase by growth rate
+                int K = 350 * buildings;
+                students += Mathf.FloorToInt(growthBonus * students * (1 - (students / K)));
+            }
 
-		//student changes
-		if ((students / 3 < faculty) && (students < 350 * buildings)) {
-			//increase by growth rate
-			int K = 350 * buildings;
-			students += Mathf.FloorToInt(growthBonus * students * (1 - (students / K)));
-		}
+            //faculty changes
+            if (material <= faculty) {
+                faculty -= Mathf.FloorToInt(((faculty - material) / 2));
+                material = 0;
+            }
+            else if (material <= 0) {
+                students -= 2;
+            }
+            else {
+                material -= faculty;
+            }
 
-		//faculty changes
-		if (material <= faculty) {
-			faculty -= Mathf.FloorToInt(((faculty - material) / 2));
-			material = 0;
-		}
-		else if (material <= 0) {
-			students -= 2;
-		}
-		else {
-			material -= faculty;
-		}
+            //alumni resource changes
+            if (students <= 5) {
+                alumni += students;
+                students = 0;
+            }
+            else {
+                int mod = Mathf.FloorToInt(students / 5);
+                students -= mod;
+                alumni += mod;
+            }
 
-		//alumni resource changes
-		if (students <= 5) {
-			alumni += students;
-			students = 0;
-		}
-		else {
-			int mod = Mathf.FloorToInt(students / 5);
-			students -= mod;
-			alumni += mod;
-		}
-
-		//events
-		DoEvent();
+            //events
+            DoEvent();
+        }
     }
 
     //Not currently working, view design doc
