@@ -14,7 +14,10 @@
 *TO BE REDESIGNED*
 
 ### Events
-*TO BE REDESIGNED*
+
+	Done using the EventController script. Uses an event ticker that counts down the time since the last event.
+	Picks a random value in a range. When the ticker hits that number an event happens.
+	Events can be helpful or damaging. Currently based on a random value
 
 ### UI/UX
 (Based on rimworld UI?)
@@ -61,10 +64,11 @@ Types of Resources:
 		- [x] Win / Lose States
 	- [ ] Resources and Balance v2
 		- [ ] Redesign how difficulty works
-	- [ ] Redesign Events
-- [ ] **Redesign UX/UI**
+	- [x] Redesign Events
+		- [x] v1 of the event controller
+- [x] **Redesign UX/UI**
 	- [x] How the resources are displayed
-	- [ ] How to buy buildings
+	- [x] How to buy buildings
 - [x] **Graphics**
 	- [x] Graphics decisions for v1
 	- [ ] Drag and Drop features
@@ -74,15 +78,17 @@ Types of Resources:
 	- [x] Implement the basics so it's working on a clean slate
 - [ ] **Core**
 	- [x] Resources and Balance
-		- [ ] Implement Changes for V1 redesign
+		- [x] Implement Changes for V1 redesign
 	- [ ] Gameplay Loop
 		- [x] Change from Turn based click to Real Time
 		- [x] Add option to pause, either on events or something else
 		- [ ] New Event System
-		- [ ] Change Buildings from numeric resource to a dictionary and a seperate tab to manage it
+		- [x] Change Buildings from numeric resource to a dictionary
 - [ ] **UX/UI**
 	- [x] Convert Event Log system to a simple messaging system.
 	- [ ] Change resource display to images instead of text
+	- [ ] Add tab for managing buildings
+	- [ ] Add tab for hiding or expanding event log
 - [ ] **Graphics**
 	- [ ] Create background
 	- [ ] Create Basic Tile Map
