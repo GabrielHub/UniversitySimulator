@@ -68,7 +68,7 @@ public class GameManagerScript : MonoBehaviour
 		buildingCount = 1;
 		wealth = 50;
         //for first event
-        eventThreshold = Random.Range(5, 10);
+        eventThreshold = Random.Range(3, 7);
 
 		eventLog.AddEvent("BREAKING: SADU's only alum has taken over for the school!");
 
@@ -129,7 +129,7 @@ public class GameManagerScript : MonoBehaviour
         //Events
         if (eventTicker == eventThreshold) {
             //regenerate event threshold
-            eventThreshold = Random.Range(5, 10);
+            eventThreshold = Random.Range(3, 7);
             eventTicker = 0;
             eventController.DoEvent();
         }
