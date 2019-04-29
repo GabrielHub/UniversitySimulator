@@ -19,12 +19,12 @@ public class GameManagerScript : MonoBehaviour
     public Text playText;
 
 	//resources
-	private int students;
-	private int faculty;
-	private int alumni;
-	private int buildingCount;
-    private Dictionary<string, int> buildings = new Dictionary<string, int> ();
-	private float wealth;
+	public static int students;
+	public static int faculty;
+	public static int alumni;
+	public static int buildingCount;
+    public static Dictionary<string, int> buildings = new Dictionary<string, int> ();
+	public static float wealth;
 
 	//other hidden resources
 	private float r; //student growth rate r
@@ -68,7 +68,7 @@ public class GameManagerScript : MonoBehaviour
 		buildingCount = 1;
 		wealth = 50;
         //for first event
-        eventThreshold = Random.Range(20, 150);
+        eventThreshold = Random.Range(3, 7);
 
 		eventLog.AddEvent("BREAKING: SADU's only alum has taken over for the school!");
 
@@ -92,6 +92,7 @@ public class GameManagerScript : MonoBehaviour
         //Check whether game is paused or not
         if (playing) {
             //ticker values
+            //eventController.DoEvent();
             ticker++;
             eventTicker++;
 
@@ -128,9 +129,8 @@ public class GameManagerScript : MonoBehaviour
         //Events
         if (eventTicker == eventThreshold) {
             //regenerate event threshold
-            eventThreshold = Random.Range(20, 150);
+            eventThreshold = Random.Range(3, 7);
             eventTicker = 0;
-
             eventController.DoEvent();
         }
 
