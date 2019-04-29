@@ -7,7 +7,6 @@ using TMPro;
 public class GameManagerScript : MonoBehaviour
 {
     //UI text
-    //[SerializeField] TextMeshProUGUI eventLog;
     [SerializeField] TextMeshProUGUI studentsText;
     [SerializeField] TextMeshProUGUI facultyText;
     [SerializeField] TextMeshProUGUI alumniText;
@@ -23,15 +22,13 @@ public class GameManagerScript : MonoBehaviour
 	private int students;
 	private int faculty;
 	private int alumni;
-	private int buildings;
+	private int buildingCount;
+    private Dictionary<string, int> dictionary = new Dictionary<string, int> ();
 	private float wealth;
 
 	//other hidden resources
-	private int buildingBonus = 0;
-	private float growthBonus = 1.0f;
-	private float difficulty = 1.0f;
-	private int studentGrowth;
-	private int popInitial; //initial student population
+	private int r; //student growth rate r
+    private int K; //carrying capacity (size limit) for student growth K
 
     //other variables
     private bool playing = true; //check if paused or not
@@ -43,7 +40,7 @@ public class GameManagerScript : MonoBehaviour
         studentsText.text = "Students: " + students.ToString();
         facultyText.text = "Faculty: " + faculty.ToString();
         alumniText.text = "Alumni: " + alumni.ToString();
-        buildingsText.text = "Buildings: " + buildings.ToString();
+        buildingsText.text = "Buildings: " + buildingCount.ToString();
 		wealthText.text = "Wealth: "+ wealth.ToString();
 
         //Get event log script component
@@ -60,11 +57,10 @@ public class GameManagerScript : MonoBehaviour
         students = Mathf.FloorToInt(Random.Range(2.0f, 15.0f));
 		faculty = Mathf.FloorToInt(Random.Range(1.0f, 5.0f));
 		alumni = 1;
-		buildings = 1;
+		buildingCount = 1;
 		wealth = 0;
-		popInitial = students;
 
-		eventLog.AddEvent("\n BREAKING: SADU's only alum has taken over for the school!");
+		eventLog.AddEvent("BREAKING: SADU's only alum has taken over for the school!");
 
         //A turn is done every second, with a 0.5 second delay upon resuming
         InvokeRepeating("Turns", 0.5f, 1.0f);
@@ -75,10 +71,10 @@ public class GameManagerScript : MonoBehaviour
     {
     	//check for game over
     	if (students <= 0) {
-    		eventLog.AddEvent("\n You've run out of students and this University has failed.");
+    		eventLog.AddEvent("You've run out of students and this University has failed.");
     	}
     	else if (alumni >= 500000) {
-    		eventLog.AddEvent("\n Congrats! You have as much alumni as NYU! \n \n what else do you want. a cookie?");
+    		eventLog.AddEvent("Congrats! You have as much alumni as NYU! What else do you want, a cookie?");
     	}
         
 
@@ -86,7 +82,7 @@ public class GameManagerScript : MonoBehaviour
         studentsText.text = "Students: " + students.ToString();
         facultyText.text = "Faculty: " + faculty.ToString();
         alumniText.text = "Alumni: " + alumni.ToString();
-        buildingsText.text = "Buildings: " + buildings.ToString();
+        buildingsText.text = "Buildings: " + buildingCount.ToString();
 		wealthText.text = "Wealth: "+wealth.ToString();
     }
 
@@ -94,15 +90,11 @@ public class GameManagerScript : MonoBehaviour
     void Turns() {
         //Check whether game is paused or not
         if (playing) {
-            //calculate wealth and apply wealth difficulty
-            wealth = students + faculty + alumni + buildings * 200;
+            //Calculate wealth
+            wealth += alumni + (students * 2);
 
-            //calculate difficulty
-            difficulty = ((students + alumni * 2 + faculty + buildings * 10) / wealth);
-
-            wealth += Mathf.FloorToInt(alumni / 5) + students + buildingBonus;
-
-            //student changes
+            //Calculate Students
+            students += Mathf.FloorToInt();
             if ((students / 3 < faculty) && (students < 350 * buildings)) {
                 //increase by growth rate
                 int K = 350 * buildings;
