@@ -1,0 +1,341 @@
+fileFormatVersion: 2
+guid: 1b10917f141be804c9e65898342efb5e
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -2748351607681370733
+    second: roadTiles_expansion_0
+  - first:
+      213: -976903269731086491
+    second: roadTiles_expansion_1
+  - first:
+      213: 6083238572851476297
+    second: roadTiles_expansion_2
+  - first:
+      213: -2222527520678081237
+    second: roadTiles_expansion_3
+  - first:
+      213: -1098457297010510138
+    second: roadTiles_expansion_4
+  - first:
+      213: 4915957874185043631
+    second: roadTiles_expansion_5
+  - first:
+      213: -8895289193718454972
+    second: roadTiles_expansion_6
+  - first:
+      213: 8208659610627886702
+    second: roadTiles_expansion_7
+  - first:
+      213: -8943845350263631141
+    second: roadTiles_expansion_8
+  - first:
+      213: -2843298544265463398
+    second: roadTiles_expansion_9
+  externalObjects: {}
+  serializedVersion: 10
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 2
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: roadTiles_expansion_0
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 294
+        width: 102
+        height: 227
+      alignment: 9
+      pivot: {x: 0.5, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f1d33c2e41dc22046883dad6675969ec
+      internalID: -2748351607681370733
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: roadTiles_expansion_1
+      rect:
+        serializedVersion: 2
+        x: 411
+        y: 292
+        width: 101
+        height: 120
+      alignment: 9
+      pivot: {x: 0.5, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 97c1c4ddfe92ca74a9d0658af342e099
+      internalID: -976903269731086491
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: roadTiles_expansion_2
+      rect:
+        serializedVersion: 2
+        x: 566
+        y: 297
+        width: 102
+        height: 273
+      alignment: 9
+      pivot: {x: 0.5, y: 0.13}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f49beac4575a4b24087fd97af59dba8b
+      internalID: 6083238572851476297
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: roadTiles_expansion_3
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 47
+        width: 101
+        height: 63
+      alignment: 9
+      pivot: {x: 0.5, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 96c3c9777ba3f824d97d024eed309687
+      internalID: -2222527520678081237
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: roadTiles_expansion_4
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 47
+        width: 101
+        height: 89
+      alignment: 9
+      pivot: {x: 0.5, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 28bb2b5ef38d47648a692a97db77fb53
+      internalID: -1098457297010510138
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: roadTiles_expansion_5
+      rect:
+        serializedVersion: 2
+        x: 357
+        y: 49
+        width: 100
+        height: 62
+      alignment: 9
+      pivot: {x: 0.5, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f525e492a98e80c4cbb69805cc19e744
+      internalID: 4915957874185043631
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: roadTiles_expansion_6
+      rect:
+        serializedVersion: 2
+        x: 464
+        y: 49
+        width: 101
+        height: 88
+      alignment: 9
+      pivot: {x: 0.5, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 41b2fafefd79bbf40b0ea446ef95d470
+      internalID: -8895289193718454972
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: roadTiles_expansion_7
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 50
+        width: 100
+        height: 120
+      alignment: 9
+      pivot: {x: 0.5, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f9c1affbc61372f48ba3b68ca742433c
+      internalID: 8208659610627886702
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: roadTiles_expansion_8
+      rect:
+        serializedVersion: 2
+        x: 688
+        y: 49
+        width: 101
+        height: 120
+      alignment: 9
+      pivot: {x: 0.5, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4ca31f9b8c1b1174fa26601576e0ff55
+      internalID: -8943845350263631141
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: roadTiles_expansion_9
+      rect:
+        serializedVersion: 2
+        x: 802
+        y: 51
+        width: 101
+        height: 120
+      alignment: 9
+      pivot: {x: 0.5, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3ed306ff309b1f447b1c2eee5d181f4a
+      internalID: -2843298544265463398
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 61db9617e2f996549859bc0e511fdb5e
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
