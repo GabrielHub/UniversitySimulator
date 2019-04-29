@@ -19,12 +19,12 @@ public class GameManagerScript : MonoBehaviour
     public Text playText;
 
 	//resources
-	private int students;
-	private int faculty;
-	private int alumni;
-	private int buildingCount;
-    private Dictionary<string, int> buildings = new Dictionary<string, int> ();
-	private float wealth;
+	public static int students;
+	public static int faculty;
+	public static int alumni;
+	public static int buildingCount;
+    public static Dictionary<string, int> buildings = new Dictionary<string, int> ();
+	public static float wealth;
 
 	//other hidden resources
 	private float r; //student growth rate r
@@ -129,7 +129,7 @@ public class GameManagerScript : MonoBehaviour
         //Events
         if (eventTicker == eventThreshold) {
             //regenerate event threshold
-            eventThreshold = Random.Range(20, 150);
+            eventThreshold = Random.Range(5, 10);
             eventTicker = 0;
             eventController.DoEvent();
         }

@@ -23,7 +23,7 @@ public class EventLogScript : MonoBehaviour
          foreach (string log in eventLog)
          {
              text += log;
-             text += "\n";
+             text += "\n\n";
          }
 
          eventLogText.text = text;
