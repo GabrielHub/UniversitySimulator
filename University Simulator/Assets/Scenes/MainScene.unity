@@ -724,6 +724,7 @@ GameObject:
   m_Component:
   - component: {fileID: 263783754}
   - component: {fileID: 263783753}
+  - component: {fileID: 263783755}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -743,12 +744,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 151cca059219daf4faf55d647f18dcaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eventLog: {fileID: 206343510}
   studentsText: {fileID: 845951485}
   facultyText: {fileID: 1285552988}
   alumniText: {fileID: 180545227}
   buildingsText: {fileID: 1428377976}
-  materialsText: {fileID: 97078530}
   wealthText: {fileID: 97078530}
   playButton: {fileID: 182611295}
   playText: {fileID: 956252021}
@@ -766,6 +765,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &263783755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 263783752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdde2bf92a795cc4f95d4e626d0f55cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventLogText: {fileID: 206343510}
+  maxLines: 10
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

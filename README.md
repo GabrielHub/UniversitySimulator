@@ -81,7 +81,7 @@ Types of Resources:
 		- [ ] New Event System
 		- [ ] Change Buildings from numeric resource to a dictionary and a seperate tab to manage it
 - [ ] **UX/UI**
-	- [ ] Convert Event Log system to a simple messaging system.
+	- [x] Convert Event Log system to a simple messaging system.
 	- [ ] Change resource display to images instead of text
 - [ ] **Graphics**
 	- [ ] Create background
