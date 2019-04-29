@@ -92,6 +92,7 @@ public class GameManagerScript : MonoBehaviour
         //Check whether game is paused or not
         if (playing) {
             //ticker values
+            //eventController.DoEvent();
             ticker++;
             eventTicker++;
 
@@ -130,7 +131,7 @@ public class GameManagerScript : MonoBehaviour
             //regenerate event threshold
             eventThreshold = Random.Range(20, 150);
             eventTicker = 0;
-
+            Debug.Log(1);
             eventController.DoEvent();
         }
 
