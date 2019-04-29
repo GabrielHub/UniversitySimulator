@@ -9,13 +9,13 @@ public class EventController : MonoBehaviour
     public float[] probs = new float[9]{ .05f, .05f, .05f, .1f, .2f, .05f, .1f, .20f, .20f };
 
     
-    public const string lost_faculty = "Lost Hope: Faculty thinks SADU needs to provide more than a backyard shed to do their 'HiGh tEch' research. Lost 1 Faculty member.";
-    public const string lost_buildings = "Earthquake: Unfortunately, an earthquake destroys and damages all of your buildings even if SADU isn't located in San Francisco. Lose Wealth and Buildings from damages and repairs. Lost 1 Building.";
-    public const string lost_student = "Dangerous Knowledge: Students in some very advanced chemistry class was accidentally exposed to organic mercury compound dimethylmercury. 10 Students died in the ER.";
+    public const string lost_faculty = "Lost Hope: Faculty thinks SADU needs to provide more than a backyard shed to do their 'HiGh tEch' research.";
+    public const string lost_buildings = "Earthquake: Unfortunately, an earthquake destroys and damages all of your buildings.";
+    public const string lost_student = "Dangerous Knowledge: Students in some very advanced chemistry class was accidentally exposed to organic mercury.";
 
-    public const string renown_increase = "Renown and Students: Your math A-team aces the MATH national challenge competition and was broadcasted across all news channels. Increased Renown. ";
-    public const string increase_wealth = "Bill Gates: One of your accomplished alumni donates a lump sum of MOLAH into the SADU. Wealth Increases by 2000.";
-    public const string increase_student_and_wealth = "College Admission Scandal: Very rich people decides to bribe their kids into SADU through the athletics department. SADU allows it but forget about winning any sports competition. Increase 500 Wealth and 5 Student Body. Decreased Renown.";
+    public const string renown_increase = "Renown and Students: Your math A-team aces the MATH national challenge competition and was broadcasted across all news channels.";
+    public const string increase_wealth = "Bill Gates: One of your accomplished alumni donates a lump sum of MOLAH into the SADU.";
+    public const string increase_student_and_wealth = "College Admission Scandal: Very rich people decides to bribe their kids into SADU. Increase Wealth and Students.";
     public const string increase_building = "Clumsy Builders: Due to SADU's nonexistent renown, builders by accidently built a next-gen classroom in SADU's property that was originally for NYU. Increase 1 Building.";
     public const string increase_faculty = "Networking: Some of your miserable faculty convinced their miserable friends to work at SADU. Increase 3 Faculty Members.";
 
@@ -48,7 +48,7 @@ public class EventController : MonoBehaviour
         switch (events[event_index]) {
             case lost_faculty:
                 eventLog.AddEvent(lost_faculty);
-                gameManager.faculty += 3;
+                GameManagerScript.faculty += 3;
                 break;
             case lost_buildings:
                 eventLog.AddEvent(lost_buildings);
@@ -56,7 +56,7 @@ public class EventController : MonoBehaviour
                 break;
             case lost_student:
                 eventLog.AddEvent(lost_student);
-                gameManager.students -= 10;
+                GameManagerScript.students -= 10;
                 break;
             case renown_increase:
                 eventLog.AddEvent(renown_increase);
@@ -64,12 +64,12 @@ public class EventController : MonoBehaviour
                 break;
             case increase_wealth:
                 eventLog.AddEvent(increase_wealth);
-                gameManager.wealth += 2000;
+                GameManagerScript.wealth += 2000;
                 break;
             case increase_student_and_wealth:
                 eventLog.AddEvent(increase_student_and_wealth);
-                gameManager.wealth += 500;
-                gameManager.students += 5;
+                GameManagerScript.wealth += 500;
+                GameManagerScript.students += 5;
                 // Reduce Renown?
                 break;
             case increase_building:
@@ -78,7 +78,7 @@ public class EventController : MonoBehaviour
                 break;
             case increase_faculty:
                 eventLog.AddEvent(increase_faculty);
-                gameManager.faculty += 3;
+                GameManagerScript.faculty += 3;
                 break;
             case null:
                 eventLog.AddEvent(neutral);
