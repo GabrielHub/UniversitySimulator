@@ -8,7 +8,7 @@ public class EventLogScript : MonoBehaviour
 {
 	private List<string> eventLog = new List<string> ();
 	private string text = "";
-	[SerializeField] TextMeshProUGUI eventLogText;
+	public TextMeshProUGUI eventLogText;
 
 	public int maxLines;
 

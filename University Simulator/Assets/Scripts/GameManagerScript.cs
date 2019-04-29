@@ -7,11 +7,11 @@ using TMPro;
 public class GameManagerScript : MonoBehaviour
 {
     //UI text
-    [SerializeField] TextMeshProUGUI studentsText;
-    [SerializeField] TextMeshProUGUI facultyText;
-    [SerializeField] TextMeshProUGUI alumniText;
-    [SerializeField] TextMeshProUGUI buildingsText;
-	[SerializeField] TextMeshProUGUI wealthText;
+    public TextMeshProUGUI studentsText;
+    public TextMeshProUGUI facultyText;
+    public TextMeshProUGUI alumniText;
+    public TextMeshProUGUI buildingsText;
+	public TextMeshProUGUI wealthText;
     private EventLogScript eventLog; //used to call a function to add lines to the event log
 
     //Other UI Elements
@@ -23,12 +23,13 @@ public class GameManagerScript : MonoBehaviour
 	private int faculty;
 	private int alumni;
 	private int buildingCount;
-    private Dictionary<string, int> dictionary = new Dictionary<string, int> ();
+    private Dictionary<string, int> buildings = new Dictionary<string, int> ();
 	private float wealth;
 
 	//other hidden resources
-	private int r; //student growth rate r
-    private int K; //carrying capacity (size limit) for student growth K
+	private float r; //student growth rate r
+    private float K; //carrying capacity (size limit) for student growth K
+    private float renown = 0.1f; //temporary starting value
 
     //other variables
     private bool playing = true; //check if paused or not
@@ -54,11 +55,11 @@ public class GameManagerScript : MonoBehaviour
         playButton.onClick.AddListener(PauseOnClick);
 
         //set up random ranges (possibly based on difficulty later)
-        students = Mathf.FloorToInt(Random.Range(2.0f, 15.0f));
-		faculty = Mathf.FloorToInt(Random.Range(1.0f, 5.0f));
+        students = 55;
+		faculty = 10;
 		alumni = 1;
 		buildingCount = 1;
-		wealth = 0;
+		wealth = 50;
 
 		eventLog.AddEvent("BREAKING: SADU's only alum has taken over for the school!");
 
@@ -69,59 +70,57 @@ public class GameManagerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-    	//check for game over
-    	if (students <= 0) {
-    		eventLog.AddEvent("You've run out of students and this University has failed.");
-    	}
-    	else if (alumni >= 500000) {
-    		eventLog.AddEvent("Congrats! You have as much alumni as NYU! What else do you want, a cookie?");
-    	}
-        
-
         //Resource List to be updated
         studentsText.text = "Students: " + students.ToString();
         facultyText.text = "Faculty: " + faculty.ToString();
         alumniText.text = "Alumni: " + alumni.ToString();
         buildingsText.text = "Buildings: " + buildingCount.ToString();
-		wealthText.text = "Wealth: "+wealth.ToString();
+		wealthText.text = "Wealth: "+ wealth.ToString();
     }
 
     //take into account all policy changes and changes in resources, then update said resources
     void Turns() {
+        //check for game over
+        if (students <= 0) {
+            eventLog.AddEvent("You've run out of students and this University has failed.");
+            CancelInvoke();
+        }
+        else if (alumni >= 500000) {
+            eventLog.AddEvent("Congrats! You have as much alumni as NYU! What else do you want, a cookie?");
+        }
+
         //Check whether game is paused or not
         if (playing) {
+            //calculate hidden values
+            K = 350 * buildingCount + 10 * faculty;
+            //renown is only increased when buying buildings (atm)
+            if ((wealth / (students + faculty)) > 0) {
+                r = ((students + faculty) / wealth) + renown;
+            }
+            
             //Calculate wealth
             wealth += alumni + (students * 2);
 
+            //Calculate Faculty
+            if (faculty < wealth) {
+                faculty += buildingCount;
+            }
+
             //Calculate Students
-            students += Mathf.FloorToInt();
-            if ((students / 3 < faculty) && (students < 350 * buildings)) {
-                //increase by growth rate
-                int K = 350 * buildings;
-                students += Mathf.FloorToInt(growthBonus * students * (1 - (students / K)));
-            }
+            students += (int) (r * students * ((K - students) / K));
 
-            //faculty changes
-            if (wealth <= faculty) {
-                faculty -= Mathf.FloorToInt(((faculty - wealth) / 2));
-                wealth = 0;
-            }
-            else if (wealth <= 0) {
-                students -= 2;
-            }
-            else {
-                wealth -= faculty;
-            }
-
-            //alumni resource changes
+            //Calculate Alumni
             if (students <= 5) {
                 alumni += students;
                 students = 0;
             }
+            else if (students <= 0) {
+
+            }
             else {
-                int mod = Mathf.FloorToInt(students / 5);
-                students -= mod;
-                alumni += mod;
+                int i = (int)(students / 5);
+                students -= i;
+                alumni += i;
             }
 
             //events
