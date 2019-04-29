@@ -136,7 +136,7 @@ public class GameManagerScript : MonoBehaviour
 
         //check for game over
         if (students <= 0) {
-            eventLog.AddEvent("You've run out of students and this University has failed.");
+            eventLog.AddEvent("You've run out of students and this University has failed. \n Don't be sad it happened be happy it's over");
             CancelInvoke();
         }
         else if (alumni >= 500000) {
