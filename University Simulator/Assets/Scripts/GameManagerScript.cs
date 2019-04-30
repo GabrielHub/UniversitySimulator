@@ -35,6 +35,7 @@ public class GameManagerScript : MonoBehaviour
     private float K; //carrying capacity (size limit) for student growth K
     private float renown = 0.1f; //temporary starting value
     private float happiness = 1.0f;
+    private float acceptanceRate;
 
     //Ticker/Time variables
     int ticker = 0; //unused atm
@@ -107,7 +108,9 @@ public class GameManagerScript : MonoBehaviour
             if ((wealth / (students + faculty)) > 0) {
                 r = ((students + faculty) / wealth) + renown;
             }
-            
+            //happiness. Optimal value is currently set to half the max value
+            happiness = (int)((tuitionSlider.maxValue / 2 - tuitionSlider.value) + (donationSlider.maxValue / 2 - donationSlider.value));
+
             //Calculate wealth
             wealth += (int)((alumni * donationSlider.value) + (students * tuitionSlider.value));
 
