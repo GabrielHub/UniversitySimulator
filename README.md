@@ -1,43 +1,41 @@
-# University Simulator: Build and grow a University to take over the world!
+# University Simulator: Build and grow a University!
 
 ## Design Document
 *Italicized things are to be changed or designed*
 
 ### Game Phases
-- Early Game: 100k students and 1 million wealth
+Early Game: 1k students required, 5k wealth recommended to proceed
 
-	Premise: SADU is still too poor and don't have enough students to be recognized as a university yet! The school 
-	relies on local highschools to funnel students into SADU. Starting with a few crappy highschools, differentiated by
-	letter grade, SADU picks new agreements every few turns to replace the initial ones. Agreements with higher rank
-	highschools will lower dropout rate, increase graduation rate, and increase alumni/faculty rate.
-	
+**Premise:**
 
-	Changeable Markers:
-	
-	* Tuition Rate Slider - Affects Happiness and Wealth
-	* Acceptance Rate Slider - Affects Wealth, Graduation Rate, Alumni/Faculty Rate, Dropout Rate
-	* Highschool agreements - Need to spend wealth to buy highschool agreements. Price of agreement depends on
-				  school rank and student count.
-	
-	Nonchangeable Markers:
-	
-	* Wealth: Main Goal
-	* Student Body: Main Goal
-	* Happiness: Affects admission rate from highschool
-	* Graduation Rate: Affects Number of alumni and faculty
-	* Dropout Rate: Affect Wealth
-	* Faculty Rate: Affect number of faculty
-	* Alumni Rate: Affect number of alumni
-	
-	Lose Condition:
-	
-	* If goal wasn't reached before a certain number of turns
-	* No wealth or students or faculty or alumni
+	The university is brand new and doesn't have enough students to be recognized as a university yet! The school relies on local highschools to funnel students into SADU. Starting with generated high schools every couple of turns, SADU picks new agreements that can be upgrades or downgrades.
 
-- Mid Game: Top Ranked College
-- End Game: Only University in the world
+**Focus:**
+	
+	* Tuition Rate Slider - Affects Happiness and Wealth. Higher Tuition rate decreases happiness and increases wealth per turn.
+	* Acceptance Rate Slider - Determines how many of the applied students will enter the University. Higher acceptance rate increases students but decreases faculty per turn.
+	* Highschool Agreements - New agreements appear each turn and must be purchased. Agreements affect the max pool of students who can apply, as well as renown.
+	* Alumni Donation Rate: Affect wealth gained by Alumni. Setting it too high when happiness is low will cause Alumni to denounce the university and alumni number decreases
+	
+**Details:**
 
-- Lost State: 0 students
+- Student Body: Main Goal
+- Wealth: Soft Goal
+- Happiness: Affects number of students who apply to the university
+- Graduation Rate: Static in this phase, set very low
+- Buildings: Given 3 at the start, you cannot buy new buildings in this stage
+- Renown: Affects growth rate of faculty
+- Students to Faculty Ratio: The number of students each faculty can take care of. Static in this stage, set to 10.
+	
+**Lose Condition:**
+- No wealth or students
+
+**Win Condition:**
+- 1k Students unlocks two required purchases.
+- To move on, you need to purchase **Official Campus** costing 3K wealth and **Official University Certificate** costing 2K wealth
+
+- Mid Game: *TO BE DESIGNED*
+- End Game: *TO BE DESIGNED*
 
 ### Difficulty
 *TO BE REDESIGNED*
