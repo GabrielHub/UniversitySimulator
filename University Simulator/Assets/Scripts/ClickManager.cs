@@ -49,7 +49,7 @@ public class ClickManager : MonoBehaviour {
 	void Update () 
 	{
 		// If the left mouse button is clicked anywhere...
-		if (Input.GetMouseButtonDown(0))
+		if (Input.GetKeyDown(KeyCode.Mouse0))
 		{
 			// frontmostRaycastHit stores information about the RaycastHit2D that is returned by GetFrontmostRaycastHit()
 			frontmostRaycastHit = GetFrontmostRaycastHit();
@@ -65,7 +65,7 @@ public class ClickManager : MonoBehaviour {
 			}
 		}
 		// If the right mouse button is clicked anywhere...
-		else if (Input.GetMouseButtonDown(1))
+		else if (Input.GetKeyDown(KeyCode.Mouse1))
 		{
 			// frontmostRaycastHit stores information about the RaycastHit2D that is returned by GetFrontmostRaycastHit()
 			frontmostRaycastHit = GetFrontmostRaycastHit();

@@ -10,6 +10,7 @@ public class PopupMenu: MonoBehaviour, ClickableTileListener
     // Update is called once per frame
     
     public void DidClickTile(Vector3 worldPosition, Tilemap tilemap, bool isValid) {
+        Debug.Log("DidClickTile");
         if (isValid) {
             this.showMenu(worldPosition);
         } else {
@@ -27,6 +28,8 @@ public class PopupMenu: MonoBehaviour, ClickableTileListener
     }
 
     public void OnClickMenuItem(MenuItem menuItem) {
+        Vector3Int cellPosition = this.map.WorldToCell(this.transform.position);
+        this.map.SetTile(cellPosition, menuItem.item);
         this.hideMenu();
     }
 }
