@@ -26,19 +26,24 @@ public class GameManagerScript : MonoBehaviour
     public static Dictionary<string, int> buildings = new Dictionary<string, int> ();
 	public static float wealth;
 
+    //sliders
+    public Slider tuitionSlider;
+    public Slider donationSlider;
+
 	//other hidden resources
 	private float r; //student growth rate r
     private float K; //carrying capacity (size limit) for student growth K
     private float renown = 0.1f; //temporary starting value
+    private float happiness = 1.0f;
 
     //Ticker/Time variables
-    int ticker = 0;
-    int eventTicker = 0;
+    int ticker = 0; //unused atm
+    int eventTicker = 0; //time between events, resets after every event
 
     //other variables
     private bool playing = true; //check if paused or not
-    private int eventThreshold;
-    private EventController eventController;
+    private int eventThreshold; //time until events, changes after every event
+    private EventController eventController; //script for events
 
     // Start is called before the first frame update
     void Start()
@@ -62,15 +67,15 @@ public class GameManagerScript : MonoBehaviour
         playButton.onClick.AddListener(PauseOnClick);
 
         //set up random ranges (possibly based on difficulty later)
-        students = 55;
+        students = 45;
 		faculty = 10;
 		alumni = 1;
-		buildingCount = 1;
+		buildingCount = 3;
 		wealth = 50;
         //for first event
         eventThreshold = Random.Range(3, 7);
 
-		eventLog.AddEvent("BREAKING: SADU's only alum has taken over for the school!");
+		eventLog.AddEvent("BREAKING: Crazy person declares themselves alumni for non-existent University!");
 
         //A turn is done every second, with a 0.5 second delay upon resuming
         InvokeRepeating("Turns", 0.5f, 1.0f);
@@ -104,7 +109,7 @@ public class GameManagerScript : MonoBehaviour
             }
             
             //Calculate wealth
-            wealth += alumni + (students * 2);
+            wealth += (int)((alumni * donationSlider.value) + (students * tuitionSlider.value));
 
             //Calculate Faculty
             if (faculty < wealth) {
@@ -120,7 +125,7 @@ public class GameManagerScript : MonoBehaviour
                 students = 0;
             }
             else {
-                int i = (int)(students / 5);
+                int i = (int)(students / 8);
                 students -= i;
                 alumni += i;
             }
@@ -140,7 +145,7 @@ public class GameManagerScript : MonoBehaviour
             CancelInvoke();
         }
         else if (alumni >= 500000) {
-            eventLog.AddEvent("Congrats! You have as much alumni as NYU! What else do you want, a cookie?");
+            eventLog.AddEvent("Congrats! You have as much alumni as NYU!");
         }
     }
 

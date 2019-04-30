@@ -8,18 +8,18 @@ public class EventController : MonoBehaviour
     // Array of floats indicating the chances of the events below. The first element of array matches with next line of code and so on.
     public float[] probs = new float[9]{ .05f, .05f, .05f, .1f, .2f, .05f, .1f, .20f, .20f };
 
-    
-    public const string lost_faculty = "Lost Hope: Faculty thinks SADU needs to provide more than a backyard shed to do their 'HiGh tEch' research.";
-    public const string lost_buildings = "Earthquake: Unfortunately, an earthquake destroys and damages all of your buildings.";
-    public const string lost_student = "Dangerous Knowledge: Students in some very advanced chemistry class was accidentally exposed to organic mercury.";
+    //Format for event: "NAME: Description (Actual Effect)"    
+    public const string lost_faculty = "Lost Hope: Faculty dislike working out of a shack (- Faculty)";
+    public const string lost_buildings = "Earthquake: Yeah this seems a little harsh (Nothing Happens)";
+    public const string lost_student = "Dangerous Knowledge: Some Chemistry students have been eating their lab materials (- Students)";
 
-    public const string renown_increase = "Renown and Students: Your math A-team aces the MATH national challenge competition and was broadcasted across all news channels.";
-    public const string increase_wealth = "Bill Gates: One of your accomplished alumni donates a lump sum of MOLAH into the SADU.";
-    public const string increase_student_and_wealth = "College Admission Scandal: Very rich people decides to bribe their kids into SADU. Increase Wealth and Students.";
-    public const string increase_building = "Clumsy Builders: Due to SADU's nonexistent renown, builders by accidently built a next-gen classroom in SADU's property that was originally for NYU. Increase 1 Building.";
-    public const string increase_faculty = "Networking: Some of your miserable faculty convinced their miserable friends to work at SADU. Increase 3 Faculty Members.";
-
-    public const string neutral = "Nothing amazing: Nothing really happens. Students fail and students graduate. What more do you want?";
+    //public const string renown_increase = "Renown and Students: Your math A-team aces the MATH national challenge competition and was broadcasted across all news channels.";
+    public const string increase_wealth = "Tax Break 101: One of your accomplished alumni donates a lump sum of MOOLAH (+ Wealth)";
+    public const string increase_student_and_wealth = "College Admission Scandal: A couple donations never hurt anybody (+ Wealth, + Students)";
+    public const string increase_building = "Clumsy Builders: We're not doing building stuff yet (Nothing Happens)";
+    public const string increase_faculty = "Networking: Sadness should be enjoyed in groups (++ Faculty)";
+    public const string renown_increase = "";
+    public const string neutral = "SAD!: Nothing really happens. Students fail and students graduate. Life finds a way? (Nothing Happens)";
 
     private EventLogScript eventLog;
     private GameManagerScript gameManager;  
@@ -48,7 +48,7 @@ public class EventController : MonoBehaviour
         switch (events[event_index]) {
             case lost_faculty:
                 eventLog.AddEvent(lost_faculty);
-                GameManagerScript.faculty += 3;
+                GameManagerScript.faculty -= 3;
                 break;
             case lost_buildings:
                 eventLog.AddEvent(lost_buildings);

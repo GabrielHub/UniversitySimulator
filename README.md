@@ -1,10 +1,7 @@
 # University Simulator: Build and grow a University!
 
-## Design Document
-*Italicized things are to be changed or designed*
-
 ### Game Phases
-Early Game: 1k students required, 5k wealth recommended to proceed
+## Early Game: 1k students required, 5k wealth recommended to proceed
 
 **Premise:**
 
@@ -34,11 +31,16 @@ Early Game: 1k students required, 5k wealth recommended to proceed
 - 1k Students unlocks two required purchases.
 - To move on, you need to purchase **Official Campus** costing 3K wealth and **Official University Certificate** costing 2K wealth
 
-- Mid Game: *TO BE DESIGNED*
-- End Game: *TO BE DESIGNED*
+## Mid Game: *TO BE DESIGNED*
+
+## End Game: *TO BE DESIGNED*
 
 ### Difficulty
-*TO BE REDESIGNED*
+
+**Early Game:**
+
+	Set fairly easy, you can only lose if you get 0 students or 0 wealth. 
+	Growth isn't based on any dynamic difficulty but by basic actions that only push you forward.
 
 ### Events
 
