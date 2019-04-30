@@ -16,7 +16,8 @@
 	
 	* Tuition Rate Slider - Affects Happiness and Wealth
 	* Acceptance Rate Slider - Affects Wealth, Graduation Rate, Alumni/Faculty Rate, Dropout Rate
-	* Highschool agreements
+	* Highschool agreements - Need to spend wealth to buy highschool agreements. Price of agreement depends on
+				  school rank and student count.
 	
 	Nonchangeable Markers:
 	
