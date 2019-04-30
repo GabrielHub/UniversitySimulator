@@ -4,7 +4,35 @@
 *Italicized things are to be changed or designed*
 
 ### Game Phases
-- Early Game: 100k students
+- Early Game: 100k students and 1 million wealth
+
+	Premise: SADU is still too poor and don't have enough students to be recognized as a university yet! The school 
+	relies on local highschools to funnel students into SADU. Starting with a few crappy highschools, differentiated by
+	letter grade, SADU picks new agreements every few turns to replace the initial ones. Agreements with higher rank
+	highschools will lower dropout rate, increase graduation rate, and increase alumni/faculty rate.
+	
+
+	Changeable Markers:
+	
+	* Tuition Rate Slider - Affects Happiness and Wealth
+	* Acceptance Rate Slider - Affects Wealth, Graduation Rate, Alumni/Faculty Rate, Dropout Rate
+	* Highschool agreements
+	
+	Nonchangeable Markers:
+	
+	* Wealth: Main Goal
+	* Student Body: Main Goal
+	* Happiness: Affects admission rate from highschool
+	* Graduation Rate: Affects Number of alumni and faculty
+	* Dropout Rate: Affect Wealth
+	* Faculty Rate: Affect number of faculty
+	* Alumni Rate: Affect number of alumni
+	
+	Lose Condition:
+	
+	* If goal wasn't reached before a certain number of turns
+	* No wealth or students or faculty or alumni
+
 - Mid Game: Top Ranked College
 - End Game: Only University in the world
 
