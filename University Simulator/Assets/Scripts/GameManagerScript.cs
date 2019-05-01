@@ -19,26 +19,35 @@ public class GameManagerScript : MonoBehaviour
     public Text playText;
 
 	//resources
-	private int students;
-	private int faculty;
-	private int alumni;
-	private int buildingCount;
-    private Dictionary<string, int> buildings = new Dictionary<string, int> ();
-	private float wealth;
+	public static int students;
+	public static int faculty;
+	public static int alumni;
+	public static int buildingCount;
+    public static Dictionary<string, int> buildings = new Dictionary<string, int> ();
+	public static float wealth;
+
+    //sliders
+    public Slider tuitionSlider;
+    public Slider donationSlider;
 
 	//other hidden resources
 	private float r; //student growth rate r
     private float K; //carrying capacity (size limit) for student growth K
     private float renown = 0.1f; //temporary starting value
+    private float happiness = 1.0f;
+    private float acceptanceRate;
+    //EarlyGame Resources
+    public static int studentPool;
+    public static float hsRenown;
 
     //Ticker/Time variables
-    int ticker = 0;
-    int eventTicker = 0;
+    int ticker = 0; //unused atm
+    int eventTicker = 0; //time between events, resets after every event
 
     //other variables
     private bool playing = true; //check if paused or not
-    private int eventThreshold;
-    private EventController eventController;
+    private int eventThreshold; //time until events, changes after every event
+    private EventController eventController; //script for events
 
     // Start is called before the first frame update
     void Start()
@@ -61,16 +70,19 @@ public class GameManagerScript : MonoBehaviour
         //Button Setup //Calls the TaskOnClick/TaskWithParameters/ButtonClicked method when you click the Button
         playButton.onClick.AddListener(PauseOnClick);
 
-        //set up random ranges (possibly based on difficulty later)
-        students = 55;
+        //set up  ranges (possibly based on difficulty later)
+        students = 45;
 		faculty = 10;
 		alumni = 1;
-		buildingCount = 1;
+		buildingCount = 3;
 		wealth = 50;
-        //for first event
-        eventThreshold = Random.Range(20, 150);
 
-		eventLog.AddEvent("BREAKING: SADU's only alum has taken over for the school!");
+        studentPool = 100; //start the game off with a limit of 100 students
+
+        //for first event
+        eventThreshold = Random.Range(3, 7);
+
+		eventLog.AddEvent("BREAKING: Crazy person declares themselves alumni for non-existent University!");
 
         //A turn is done every second, with a 0.5 second delay upon resuming
         InvokeRepeating("Turns", 0.5f, 1.0f);
@@ -92,18 +104,20 @@ public class GameManagerScript : MonoBehaviour
         //Check whether game is paused or not
         if (playing) {
             //ticker values
+            //eventController.DoEvent();
             ticker++;
             eventTicker++;
 
             //calculate hidden values
-            K = 350 * buildingCount + 10 * faculty;
+            //K = 350 * buildingCount + 10 * faculty; This algorithm will be used when buildings can be bought
+            K = studentPool;
             //renown is only increased when buying buildings (atm)
-            if ((wealth / (students + faculty)) > 0) {
-                r = ((students + faculty) / wealth) + renown;
-            }
-            
+            r = ((students + faculty) / wealth) + renown;
+            //happiness. Optimal value is currently set to half the max value
+            happiness = (int)((tuitionSlider.maxValue / 2 - tuitionSlider.value) + (donationSlider.maxValue / 2 - donationSlider.value));
+
             //Calculate wealth
-            wealth += alumni + (students * 2);
+            wealth += (int)((alumni * donationSlider.value) + (students * tuitionSlider.value));
 
             //Calculate Faculty
             if (faculty < wealth) {
@@ -119,7 +133,7 @@ public class GameManagerScript : MonoBehaviour
                 students = 0;
             }
             else {
-                int i = (int)(students / 5);
+                int i = (int)(students / 8);
                 students -= i;
                 alumni += i;
             }
@@ -128,19 +142,18 @@ public class GameManagerScript : MonoBehaviour
         //Events
         if (eventTicker == eventThreshold) {
             //regenerate event threshold
-            eventThreshold = Random.Range(20, 150);
+            eventThreshold = Random.Range(3, 7);
             eventTicker = 0;
-
             eventController.DoEvent();
         }
 
         //check for game over
         if (students <= 0) {
-            eventLog.AddEvent("You've run out of students and this University has failed.");
+            eventLog.AddEvent("You've run out of students and this University has failed. \n Don't be sad it happened be happy it's over");
             CancelInvoke();
         }
         else if (alumni >= 500000) {
-            eventLog.AddEvent("Congrats! You have as much alumni as NYU! What else do you want, a cookie?");
+            eventLog.AddEvent("Congrats! You have as much alumni as NYU!");
         }
     }
 

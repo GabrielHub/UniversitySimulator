@@ -1,17 +1,46 @@
-# University Simulator: Build and grow a University to take over the world!
-
-## Design Document
-*Italicized things are to be changed or designed*
+# University Simulator: Build and grow a University!
 
 ### Game Phases
-- Early Game: 100k students
-- Mid Game: Top Ranked College
-- End Game: Only University in the world
+## Early Game: 1k students required, 5k wealth recommended to proceed
 
-- Lost State: 0 students
+**Premise:**
+
+	The university is brand new and doesn't have enough students to be recognized as a university yet! The school relies on local highschools to funnel students into SADU. Starting with generated high schools every couple of turns, SADU picks new agreements that can be upgrades or downgrades.
+
+**Focus:**
+	
+	* Tuition Rate Slider - Affects Happiness and Wealth. Higher Tuition rate decreases happiness and increases wealth per turn.
+	* Acceptance Rate Slider - Determines how many of the applied students will enter the University. Higher acceptance rate increases students but decreases faculty per turn.
+	* Highschool Agreements - New agreements appear each turn and must be purchased. Agreements affect the max pool of students who can apply, as well as renown.
+	* Alumni Donation Rate: Affect wealth gained by Alumni. Setting it too high when happiness is low will cause Alumni to denounce the university and alumni number decreases
+	
+**Details:**
+
+- Student Body: Main Goal
+- Wealth: Soft Goal
+- Happiness: Affects number of students who apply to the university
+- Graduation Rate: Static in this phase, set very low
+- Buildings: Given 3 at the start, you cannot buy new buildings in this stage
+- Renown: Affects growth rate of faculty
+- Students to Faculty Ratio: The number of students each faculty can take care of. Static in this stage, set to 10.
+	
+**Lose Condition:**
+- No wealth or students
+
+**Win Condition:**
+- 1k Students unlocks two required purchases.
+- To move on, you need to purchase **Official Campus** costing 3K wealth and **Official University Certificate** costing 2K wealth
+
+## Mid Game: *TO BE DESIGNED*
+
+## End Game: *TO BE DESIGNED*
 
 ### Difficulty
-*TO BE REDESIGNED*
+
+**Early Game:**
+
+	Set fairly easy, you can only lose if you get 0 students or 0 wealth. 
+	Growth isn't based on any dynamic difficulty but by basic actions that only push you forward.
 
 ### Events
 
@@ -51,48 +80,3 @@ Types of Resources:
 - How many students per faculty member
 - Maximum class capacity
 - Notable Alumni which have special effects on the university
-
-## TASKS TO DO and TASKS FINISHED
-
-**A list of tasks to do / code to update:**
-
-### Design Changes
-- [ ] **Redesign Core**
-	- [x] Resources and Balance v1
-		- [x] Define Resources (are there different types of buildings?)
-		- [x] Redesign how each resources affects the other (algorithm, relations)
-		- [x] Win / Lose States
-	- [ ] Resources and Balance v2
-		- [ ] Redesign how difficulty works
-	- [x] Redesign Events
-		- [x] v1 of the event controller
-- [x] **Redesign UX/UI**
-	- [x] How the resources are displayed
-	- [x] How to buy buildings
-- [x] **Graphics**
-	- [x] Graphics decisions for v1
-	- [ ] Drag and Drop features
-
-### Code Changes
-- [x] **Code Refactor**
-	- [x] Implement the basics so it's working on a clean slate
-- [ ] **Core**
-	- [x] Resources and Balance
-		- [x] Implement Changes for V1 redesign
-	- [ ] Gameplay Loop
-		- [x] Change from Turn based click to Real Time
-		- [x] Add option to pause, either on events or something else
-		- [ ] New Event System
-		- [x] Change Buildings from numeric resource to a dictionary
-- [ ] **UX/UI**
-	- [x] Convert Event Log system to a simple messaging system.
-	- [ ] Change resource display to images instead of text
-	- [ ] Add tab for managing buildings
-	- [ ] Add tab for hiding or expanding event log
-- [ ] **Graphics**
-	- [ ] Create background
-	- [ ] Create Basic Tile Map
-	- [ ] Drag and Drop features
-	- [x] Game scales with resolution
-		- [x] Text scales with resolution
-	
