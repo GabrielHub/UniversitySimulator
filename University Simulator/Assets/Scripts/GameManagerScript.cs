@@ -14,7 +14,6 @@ public class GameManagerScript : MonoBehaviour
     public TextMeshProUGUI alumniText;
     public TextMeshProUGUI buildingsText;
 	public TextMeshProUGUI wealthText;
-    private EventLogScript eventLog; //used to call a function to add lines to the event log
 
     //Other UI Elements
     public Button playButton;
@@ -46,7 +45,8 @@ public class GameManagerScript : MonoBehaviour
     //other variables
     private bool playing = true; //check if paused or not
     private int eventThreshold; //time until events, changes after every event
-    private EventController eventController; //script for events
+    [HideInInspector] // prevent this from being selectable in the inspector
+    public EventController eventController; //script for events
 
     private void Awake() {
         if (GameManagerScript.instance == null) {
@@ -59,16 +59,14 @@ public class GameManagerScript : MonoBehaviour
     // Start is called before the first frame update
     void Start() {
     	//Resource list
-        studentsText.text = "Students: " + this.resources.students.ToString();
-        facultyText.text = "Faculty: " + this.resources.faculty.ToString();
-        alumniText.text = "Alumni: " + this.resources.alumni.ToString();
-        buildingsText.text = "Buildings: " + this.resources.buildingCount.ToString();
-		wealthText.text = "Wealth: "+ this.resources.wealth.ToString();
+        // studentsText.text = "Students: " + this.resources.students.ToString();
+        // facultyText.text = "Faculty: " + this.resources.faculty.ToString();
+        // alumniText.text = "Alumni: " + this.resources.alumni.ToString();
+        // buildingsText.text = "Buildings: " + this.resources.buildingCount.ToString();
+		// wealthText.text = "Wealth: "+ this.resources.wealth.ToString();
 
-        //Get event log script component
-        eventLog = GetComponent<EventLogScript> ();
         /*
-            To add events, use eventLog.AddEvent("Sample String");
+            To add events, use eventController.DoEvent(new Event("Sample String"));
             Max lines can be changed in the editor
         */
         eventController = GetComponent<EventController> ();
@@ -88,8 +86,7 @@ public class GameManagerScript : MonoBehaviour
         //for first event
         eventThreshold = Random.Range(3, 7);
 
-
-		eventLog.AddEvent(new Event("BREAKING: Crazy person declares themselves alumni for non-existent University!"));
+        this.eventController.DoEvent(new Event("BREAKING: Crazy person declares themselves alumnus for non-existent University!"));
 
         //A turn is done every second, with a 0.5 second delay upon resuming
         InvokeRepeating("Turns", 0.5f, 1.0f);
@@ -156,11 +153,11 @@ public class GameManagerScript : MonoBehaviour
 
         //check for game over
         if (resources.students <= 0) {
-            eventLog.AddEvent(new Event("You've run out of students and this University has failed. \n Don't be sad it happened be happy it's over"));
+            this.eventController.DoEvent(new Event("You've run out of students and this University has failed. \n Don't be sad it happened be happy it's over"));
             CancelInvoke();
         }
         else if (resources.alumni >= 500000) {
-            eventLog.AddEvent(new Event("Congrats! You have as many alumni as NYU!"));
+            this.eventController.DoEvent(new Event("Congrats! You have as many alumni as NYU!"));
         }
     }
 

@@ -40,9 +40,9 @@ public struct Event {
 
 public class EventController : MonoBehaviour {
     public interface Listener {
-        void EventDidOccur(string eventString);
+        void EventDidOccur(Event e);
     }
-    private List<Listener> eventListeners;
+    private List<Listener> eventListeners = new List<Listener>();
 
     // Array of floats indicating the chances of the events below. The first element of array matches with next line of code and so on.
     public float[] probs = new float[9]{ .05f, .05f, .05f, .1f, .2f, .05f, .1f, .20f, .20f };
@@ -104,6 +104,15 @@ public class EventController : MonoBehaviour {
         
     }
 
+    /// Does a specific event.
+    public void DoEvent(Event e) {
+        GameManagerScript.instance.resources += e.modifiers;
+        foreach (Listener l in eventListeners) {
+            l.EventDidOccur(e);
+        }
+    }
+
+    /// Does a random event from the list
     public void DoEvent() {
         Event[] events = new Event[9]{ 
             lost_faculty, 
@@ -116,12 +125,10 @@ public class EventController : MonoBehaviour {
             increase_faculty, 
             neutral
         };
-        // Calculates which event should happen and returns the index of the event that is supposed to happen.
-        Event e = events[ChooseEvent(probs)];
-        GameManagerScript.instance.resources += e.modifiers;
-        eventLog.AddEvent(e);
-    }
 
+        // Calculates which event should happen and executes the appropriate event.
+        this.DoEvent(events[ChooseEvent(probs)]);
+    }
 
     public int ChooseEvent(float[] probs) {
 
