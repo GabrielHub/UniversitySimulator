@@ -4,28 +4,38 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class EventLogScript : MonoBehaviour
-{
+public class EventLogScript : MonoBehaviour, EventController.Listener {
 	private List<string> eventLog = new List<string> ();
 	private string text = "";
 	public TextMeshProUGUI eventLogText;
 
 	public int maxLines;
 
-    public void AddEvent(string eventString) {
-    	eventLog.Add(eventString);
- 
-         if (eventLog.Count >= maxLines)
-             eventLog.RemoveAt(0);
- 
-         text = "";
- 
-         foreach (string log in eventLog)
-         {
-             text += log;
-             text += "\n\n";
-         }
+    /// This function is called when the object becomes enabled and active.
+    void OnEnable() {
+        GameManagerScript.instance.eventController.RegisterListener(this);
+    }
 
-         eventLogText.text = text;
+    /// This function is called when the behaviour becomes disabled or inactive.
+    void OnDisable() {
+        GameManagerScript.instance.eventController.DeregisterListener(this);
+    }
+
+    /// This function is called when an event is emitted from EventController.
+    public void EventDidOccur(Event e) {
+    	eventLog.Add(e.text);
+ 
+        if (eventLog.Count >= maxLines)
+            eventLog.RemoveAt(0);
+
+        text = "";
+
+        foreach (string log in eventLog)
+        {
+            text += log;
+            text += "\n\n";
+        }
+
+        eventLogText.text = text;
     }
 }

@@ -1434,6 +1434,7 @@ MonoBehaviour:
   playText: {fileID: 956252021}
   tuitionSlider: {fileID: 41607077}
   donationSlider: {fileID: 184900029}
+  eventController: {fileID: 263783756}
 --- !u!4 &263783754
 Transform:
   m_ObjectHideFlags: 0
