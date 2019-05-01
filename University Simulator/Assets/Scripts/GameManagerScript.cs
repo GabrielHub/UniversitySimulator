@@ -21,22 +21,11 @@ public class GameManagerScript : MonoBehaviour
 
 	//resources
     public Resources resources;
-    
-    public static Dictionary<string, int> buildings = new Dictionary<string, int> ();
+    //public static Dictionary<string, int> buildings = new Dictionary<string, int> ();
 
     //sliders
     public Slider tuitionSlider;
     public Slider donationSlider;
-
-	//other hidden resources
-	private float r; //student growth rate r
-    private float K; //carrying capacity (size limit) for student growth K
-    private float renown = 0.1f; //temporary starting value
-    private float happiness = 1.0f;
-    private float acceptanceRate;
-    //EarlyGame Resources
-    public static int studentPool;
-    public static float hsRenown;
 
     //Ticker/Time variables
     int ticker = 0; //unused atm
