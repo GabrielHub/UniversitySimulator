@@ -6,6 +6,8 @@ using TMPro;
 
 public class GameManagerScript : MonoBehaviour
 {
+    public static GameManagerScript instance;
+
     //UI text
     public TextMeshProUGUI studentsText;
     public TextMeshProUGUI facultyText;
@@ -19,12 +21,9 @@ public class GameManagerScript : MonoBehaviour
     public Text playText;
 
 	//resources
-	public static int students;
-	public static int faculty;
-	public static int alumni;
-	public static int buildingCount;
+    public Resources resources;
+    
     public static Dictionary<string, int> buildings = new Dictionary<string, int> ();
-	public static float wealth;
 
     //sliders
     public Slider tuitionSlider;
@@ -49,15 +48,22 @@ public class GameManagerScript : MonoBehaviour
     private int eventThreshold; //time until events, changes after every event
     private EventController eventController; //script for events
 
+    private void Awake() {
+        if (GameManagerScript.instance == null) {
+            GameManagerScript.instance = this;
+        } else {
+            Destroy(this);
+        }
+    }
+
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
     	//Resource list
-        studentsText.text = "Students: " + students.ToString();
-        facultyText.text = "Faculty: " + faculty.ToString();
-        alumniText.text = "Alumni: " + alumni.ToString();
-        buildingsText.text = "Buildings: " + buildingCount.ToString();
-		wealthText.text = "Wealth: "+ wealth.ToString();
+        studentsText.text = "Students: " + this.resources.students.ToString();
+        facultyText.text = "Faculty: " + this.resources.faculty.ToString();
+        alumniText.text = "Alumni: " + this.resources.alumni.ToString();
+        buildingsText.text = "Buildings: " + this.resources.buildingCount.ToString();
+		wealthText.text = "Wealth: "+ this.resources.wealth.ToString();
 
         //Get event log script component
         eventLog = GetComponent<EventLogScript> ();
@@ -71,18 +77,19 @@ public class GameManagerScript : MonoBehaviour
         playButton.onClick.AddListener(PauseOnClick);
 
         //set up  ranges (possibly based on difficulty later)
-        students = 45;
-		faculty = 10;
-		alumni = 1;
-		buildingCount = 3;
-		wealth = 50;
+        this.resources.students = 45;
+		this.resources.faculty = 10;
+		this.resources.alumni = 1;
+		this.resources.buildingCount = 3;
+		this.resources.wealth = 50;
 
         studentPool = 100; //start the game off with a limit of 100 students
 
         //for first event
         eventThreshold = Random.Range(3, 7);
 
-		eventLog.AddEvent("BREAKING: Crazy person declares themselves alumni for non-existent University!");
+
+		eventLog.AddEvent(new Event("BREAKING: Crazy person declares themselves alumni for non-existent University!"));
 
         //A turn is done every second, with a 0.5 second delay upon resuming
         InvokeRepeating("Turns", 0.5f, 1.0f);
@@ -92,11 +99,11 @@ public class GameManagerScript : MonoBehaviour
     void Update()
     {
         //Resource List to be updated
-        studentsText.text = "Students: " + students.ToString();
-        facultyText.text = "Faculty: " + faculty.ToString();
-        alumniText.text = "Alumni: " + alumni.ToString();
-        buildingsText.text = "Buildings: " + buildingCount.ToString();
-		wealthText.text = "Wealth: "+ wealth.ToString();
+        studentsText.text = "Students: " + this.resources.students.ToString();
+        facultyText.text = "Faculty: " + this.resources.faculty.ToString();
+        alumniText.text = "Alumni: " + this.resources.alumni.ToString();
+        buildingsText.text = "Buildings: " + this.resources.buildingCount.ToString();
+		wealthText.text = "Wealth: "+ this.resources.wealth.ToString();
     }
 
     //take into account all policy changes and changes in resources, then update said resources
@@ -112,30 +119,30 @@ public class GameManagerScript : MonoBehaviour
             //K = 350 * buildingCount + 10 * faculty; This algorithm will be used when buildings can be bought
             K = studentPool;
             //renown is only increased when buying buildings (atm)
-            r = ((students + faculty) / wealth) + renown;
+            r = ((resources.students + resources.faculty) / resources.wealth) + renown;
             //happiness. Optimal value is currently set to half the max value
             happiness = (int)((tuitionSlider.maxValue / 2 - tuitionSlider.value) + (donationSlider.maxValue / 2 - donationSlider.value));
 
             //Calculate wealth
-            wealth += (int)((alumni * donationSlider.value) + (students * tuitionSlider.value));
+            this.resources.wealth += (int)((this.resources.alumni * donationSlider.value) + (resources.students * tuitionSlider.value));
 
             //Calculate Faculty
-            if (faculty < wealth) {
-                faculty += buildingCount;
+            if (resources.faculty < resources.wealth) {
+                resources.faculty += resources.buildingCount;
             }
 
             //Calculate Students
-            students += (int) (r * students * ((K - students) / K));
+            resources.students += (int) (r * resources.students * ((K - resources.students) / K));
 
             //Calculate Alumni
-            if (students <= 5) {
-                alumni += students;
-                students = 0;
+            if (resources.students <= 5) {
+                resources.alumni += resources.students;
+                resources.students = 0;
             }
             else {
-                int i = (int)(students / 8);
-                students -= i;
-                alumni += i;
+                int i = (int)(resources.students / 8);
+                resources.students -= i;
+                resources.alumni += i;
             }
         }
 
@@ -148,12 +155,12 @@ public class GameManagerScript : MonoBehaviour
         }
 
         //check for game over
-        if (students <= 0) {
-            eventLog.AddEvent("You've run out of students and this University has failed. \n Don't be sad it happened be happy it's over");
+        if (resources.students <= 0) {
+            eventLog.AddEvent(new Event("You've run out of students and this University has failed. \n Don't be sad it happened be happy it's over"));
             CancelInvoke();
         }
-        else if (alumni >= 500000) {
-            eventLog.AddEvent("Congrats! You have as much alumni as NYU!");
+        else if (resources.alumni >= 500000) {
+            eventLog.AddEvent(new Event("Congrats! You have as many alumni as NYU!"));
         }
     }
 
