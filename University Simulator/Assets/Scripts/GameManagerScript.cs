@@ -36,6 +36,9 @@ public class GameManagerScript : MonoBehaviour
     private float renown = 0.1f; //temporary starting value
     private float happiness = 1.0f;
     private float acceptanceRate;
+    //EarlyGame Resources
+    public static int studentPool;
+    public static float hsRenown;
 
     //Ticker/Time variables
     int ticker = 0; //unused atm
@@ -67,12 +70,15 @@ public class GameManagerScript : MonoBehaviour
         //Button Setup //Calls the TaskOnClick/TaskWithParameters/ButtonClicked method when you click the Button
         playButton.onClick.AddListener(PauseOnClick);
 
-        //set up random ranges (possibly based on difficulty later)
+        //set up  ranges (possibly based on difficulty later)
         students = 45;
 		faculty = 10;
 		alumni = 1;
 		buildingCount = 3;
 		wealth = 50;
+
+        studentPool = 100; //start the game off with a limit of 100 students
+
         //for first event
         eventThreshold = Random.Range(3, 7);
 
@@ -103,11 +109,10 @@ public class GameManagerScript : MonoBehaviour
             eventTicker++;
 
             //calculate hidden values
-            K = 350 * buildingCount + 10 * faculty;
+            //K = 350 * buildingCount + 10 * faculty; This algorithm will be used when buildings can be bought
+            K = studentPool;
             //renown is only increased when buying buildings (atm)
-            if ((wealth / (students + faculty)) > 0) {
-                r = ((students + faculty) / wealth) + renown;
-            }
+            r = ((students + faculty) / wealth) + renown;
             //happiness. Optimal value is currently set to half the max value
             happiness = (int)((tuitionSlider.maxValue / 2 - tuitionSlider.value) + (donationSlider.maxValue / 2 - donationSlider.value));
 
