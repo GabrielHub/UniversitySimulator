@@ -7,5 +7,3 @@ public struct Event {
         this.modifiers = modifiers;
     }
 }
-
-

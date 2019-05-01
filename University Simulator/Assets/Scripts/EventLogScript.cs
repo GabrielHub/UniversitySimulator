@@ -12,13 +12,8 @@ public class EventLogScript : MonoBehaviour, EventController.Listener {
 	public int maxLines;
 
     /// This function is called when the object becomes enabled and active.
-    void OnEnable() {
+    void Start() {
         GameManagerScript.instance.eventController.RegisterListener(this);
-    }
-
-    /// This function is called when the behaviour becomes disabled or inactive.
-    void OnDisable() {
-        GameManagerScript.instance.eventController.DeregisterListener(this);
     }
 
     /// This function is called when an event is emitted from EventController.

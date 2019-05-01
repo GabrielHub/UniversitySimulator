@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EventController : MonoBehaviour {
+public class EventController: MonoBehaviour {
     public interface Listener {
         void EventDidOccur(Event e);
     }

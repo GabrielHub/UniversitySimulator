@@ -73,7 +73,7 @@ public class GameManagerScript : MonoBehaviour
         */
 
         //Button Setup //Calls the TaskOnClick/TaskWithParameters/ButtonClicked method when you click the Button
-        playButton.onClick.AddListener(PauseOnClick);
+        // playButton.onClick.AddListener(PauseOnClick);
 
         //set up  ranges (possibly based on difficulty later)
         this.resources.students = 45;
