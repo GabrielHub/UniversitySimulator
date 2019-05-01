@@ -54,6 +54,8 @@ public class GameManagerScript : MonoBehaviour
         } else {
             Destroy(this);
         }
+
+        eventController = GetComponent<EventController> ();
     }
 
     // Start is called before the first frame update
@@ -69,7 +71,6 @@ public class GameManagerScript : MonoBehaviour
             To add events, use eventController.DoEvent(new Event("Sample String"));
             Max lines can be changed in the editor
         */
-        eventController = GetComponent<EventController> ();
 
         //Button Setup //Calls the TaskOnClick/TaskWithParameters/ButtonClicked method when you click the Button
         playButton.onClick.AddListener(PauseOnClick);
