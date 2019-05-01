@@ -2,10 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public struct HiddenResources {
-
-}
-
 public struct Resources {
     public int faculty;
     public int alumni;
