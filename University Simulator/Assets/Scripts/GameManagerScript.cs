@@ -71,7 +71,7 @@ public class GameManagerScript : MonoBehaviour
 		this.resources.buildingCount = 3;
 		this.resources.wealth = 50;
 
-        studentPool = 100; //start the game off with a limit of 100 students
+        this.resources.studentPool = 100; //start the game off with a limit of 100 students
 
         //for first event
         eventThreshold = Random.Range(3, 7);
@@ -104,11 +104,12 @@ public class GameManagerScript : MonoBehaviour
 
             //calculate hidden values
             //K = 350 * buildingCount + 10 * faculty; This algorithm will be used when buildings can be bought
-            K = studentPool;
+            //K = studentPool;
             //renown is only increased when buying buildings (atm)
-            r = ((resources.students + resources.faculty) / resources.wealth) + renown;
+            //r = ((resources.students + resources.faculty) / resources.wealth) + renown;
+            
             //happiness. Optimal value is currently set to half the max value
-            happiness = (int)((tuitionSlider.maxValue / 2 - tuitionSlider.value) + (donationSlider.maxValue / 2 - donationSlider.value));
+            this.resources.calcHappiness(tuitionSlider.value, tuitionSlider.maxValue, donationSlider.value, donationSlider.maxValue);
 
             //Calculate wealth
             this.resources.wealth += (int)((this.resources.alumni * donationSlider.value) + (resources.students * tuitionSlider.value));
