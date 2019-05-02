@@ -8,8 +8,6 @@ public class BuyMenuScript : MonoBehaviour
 {
 	public TMPro.TMP_Dropdown dropdown;
 
-	private List<HighSchoolAgreement> agreements;
-
 	//For each drop down, there is a content gameobject. By default they are disabled, but enabled when update sees the value of dropdown is changed
 	public GameObject content1;
 
@@ -18,10 +16,6 @@ public class BuyMenuScript : MonoBehaviour
     {
         content1.SetActive(false);
 
-        //Initial highschool you start out with
-        agreements = new List<HighSchoolAgreement> ();
-        HighSchoolAgreement temp = new HighSchoolAgreement("A Bad High School", 100, 1);
-        agreements.Add(temp);
     }
 
     // Update is called once per frame
@@ -34,15 +28,5 @@ public class BuyMenuScript : MonoBehaviour
         else if (dropdown.value == 1) {
         	content1.SetActive(false);
         }
-
-        int totStudent = 0;
-        float totRenown = 0;
-        //HighSchool Agreement Code
-        foreach(HighSchoolAgreement hs in agreements) {
-        	totStudent += hs.students;
-        	totRenown += hs.ranking / 10;
-        }
-        GameManagerScript.studentPool = totStudent;
-        GameManagerScript.hsRenown = totRenown;
     }
 }

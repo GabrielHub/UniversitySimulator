@@ -26,6 +26,7 @@ public class GameManagerScript : MonoBehaviour
     //sliders
     public Slider tuitionSlider;
     public Slider donationSlider;
+    public Slider acceptanceRateSlider;
 
     //Ticker/Time variables
     int ticker = 0; //unused atm
@@ -49,13 +50,6 @@ public class GameManagerScript : MonoBehaviour
 
     // Start is called before the first frame update
     void Start() {
-    	//Resource list
-        // studentsText.text = "Students: " + this.resources.students.ToString();
-        // facultyText.text = "Faculty: " + this.resources.faculty.ToString();
-        // alumniText.text = "Alumni: " + this.resources.alumni.ToString();
-        // buildingsText.text = "Buildings: " + this.resources.buildingCount.ToString();
-		// wealthText.text = "Wealth: "+ this.resources.wealth.ToString();
-
         /*
             To add events, use eventController.DoEvent(new Event("Sample String"));
             Max lines can be changed in the editor
@@ -107,37 +101,28 @@ public class GameManagerScript : MonoBehaviour
             //K = studentPool;
             //renown is only increased when buying buildings (atm)
             //r = ((resources.students + resources.faculty) / resources.wealth) + renown;
-            
+            //acceptance rate
+            this.resources.calcAcceptanceRate(acceptanceRateSlider.value);
             //happiness. Optimal value is currently set to half the max value
             this.resources.calcHappiness(tuitionSlider.value, tuitionSlider.maxValue, donationSlider.value, donationSlider.maxValue);
 
             //Calculate wealth
-            this.resources.wealth += (int)((this.resources.alumni * donationSlider.value) + (resources.students * tuitionSlider.value));
+            this.resources.calcWealth(donationSlider.value, tuitionSlider.value);
 
             //Calculate Faculty
-            if (resources.faculty < resources.wealth) {
-                resources.faculty += resources.buildingCount;
-            }
+            this.resources.calcFaculty();
 
             //Calculate Students
-            resources.students += (int) (r * resources.students * ((K - resources.students) / K));
+            this.resources.calcStudents();
 
             //Calculate Alumni
-            if (resources.students <= 5) {
-                resources.alumni += resources.students;
-                resources.students = 0;
-            }
-            else {
-                int i = (int)(resources.students / 8);
-                resources.students -= i;
-                resources.alumni += i;
-            }
+            this.resources.calcAlumni();
         }
 
         //Events
         if (eventTicker == eventThreshold) {
-            //regenerate event threshold
-            eventThreshold = Random.Range(3, 7);
+            //regenerate event threshold, reset time ot next event, and then do an event
+            eventThreshold = Random.Range(2, 10); //2 to 10 seconds
             eventTicker = 0;
             eventController.DoEvent();
         }
