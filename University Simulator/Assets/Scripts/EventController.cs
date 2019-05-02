@@ -43,7 +43,7 @@ public class EventController : MonoBehaviour {
         new Resources(faculty: +3)
     );
     public Event renown_increase = new Event("Not Yet Implemented");
-    public Event neutral = new Event("SAD!: Nothing really happens. Students fail and students graduate. Life finds a way? (Nothing Happens)");
+    public Event neutral = new Event("SAD!: Students fail and students graduate. Life finds a way? (Nothing Happens)");
 
     private EventLogScript eventLog;
     private GameManagerScript gameManager;

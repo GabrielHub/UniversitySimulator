@@ -30,7 +30,7 @@ public struct Resources {
 
     //EarlyGame Resources
     public int studentPool;
-    private List<HighSchoolAgreement> agreements;
+    public List<HighSchoolAgreement> agreements;
 
     public Resources(int faculty = 0, int alumni = 0, int students = 0, int wealth = 0, int buildingCount = 0) {
         this.faculty = faculty;
@@ -40,7 +40,7 @@ public struct Resources {
         this.buildingCount = buildingCount;
 
         agreements = new List<HighSchoolAgreement> ();
-        agreements.Add(new HighSchoolAgreement("Starter's HS", 100, 1));
+        agreements.Add(new HighSchoolAgreement("Starter's HS", 100, 3, 0));
 
         //initial values for other variables
         gamePhase = 0;
@@ -67,7 +67,8 @@ public struct Resources {
 
     //renown, earlygame calculations
     public void calcRenown(float val) {
-        renown = val;
+        //with the avg of hs value, renown below 3.0 will reduce the growth of students
+        renown = val - 3.0f;
     }
 
     //acceptance rate slider calculations, should always be a float between 0.0 and 1.0
@@ -110,12 +111,12 @@ public struct Resources {
         int stuTemp = 0;
         float reTemp = 0;
 
-        //For now, each ranking will be divided by 10 and then added to renown
+        //Get the avg of hish school values
         foreach(HighSchoolAgreement hs in agreements) {
             stuTemp += hs.students;
-            reTemp += hs.ranking / 10;
+            reTemp += hs.value;
         }
-        calcRenown(reTemp);
+        calcRenown(reTemp / agreements.Count);
         studentPool = stuTemp;
     }
 }
