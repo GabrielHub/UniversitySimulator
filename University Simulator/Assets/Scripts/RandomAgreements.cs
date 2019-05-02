@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RandomAgreements : MonoBehaviour
 {
-	public static List<string> highSchoolNames;
+	public List<string> highSchoolNames;
 
 	void Start() {
 		//fill out high school names. Feel free to come up with as many as you can think of :) We can reuse a lot of them for purchasing satellite campuses
@@ -130,10 +130,12 @@ public class RandomAgreements : MonoBehaviour
 		highSchoolNames.Add("Optimus Prime High School of Science");
 		highSchoolNames.Add("Chegg School for Altruistic Students");
 		highSchoolNames.Add("St. Antetokounmpo's Episcopal School");
+		highSchoolNames.Add("Lil Pump Mountainview Charter School");
+		highSchoolNames.Add("Malibu Seabreeze High School");
 	}
 
 	//n is the number of strings you want to choose
-    public static string[] ChooseName(int n) {
+    public string[] ChooseName(int n) {
     	string[] result = new string[n];
 
     	int numToChoose = n;
