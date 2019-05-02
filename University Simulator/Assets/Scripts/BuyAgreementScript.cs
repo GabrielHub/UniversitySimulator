@@ -52,15 +52,20 @@ public class BuyAgreementScript : MonoBehaviour
     void BuyOnClick() {
     	if (this.tag == "0") {
     		//I CAN'T FIGURE OUT WHY THIS WONT WORK SOMEONE HELP ME WTF EVERYTHING ELSE IS WORKIGN ONCE YOU GET THIS WORKING JUST DUPLICATE THE AGREEMENT OBJECT IN UNITY TWICE AND MOVE IT OVER
+
     		GameManagerScript.instance.resources.agreements.Add(GameManagerScript.instance.agreements[0]);
     		GameManagerScript.instance.resources.wealth -= GameManagerScript.instance.resources.agreements[0].cost;
     		GameManagerScript.instance.eventController.DoEvent(new Event("Purchased HS Agreement: " + nameText.text));
     	}
         else if (this.tag == "1") {
         	GameManagerScript.instance.resources.agreements.Add(GameManagerScript.instance.agreements[1]);
+
+        	GameManagerScript.instance.eventController.DoEvent(new Event("Purchased HS Agreement: " + nameText.text));
         }
         else {
         	GameManagerScript.instance.resources.agreements.Add(GameManagerScript.instance.agreements[2]);
+
+        	GameManagerScript.instance.eventController.DoEvent(new Event("Purchased HS Agreement: " + nameText.text));
         }
     }
 }
