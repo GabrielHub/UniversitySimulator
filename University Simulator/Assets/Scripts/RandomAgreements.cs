@@ -52,12 +52,12 @@ public class RandomAgreements : MonoBehaviour
 		highSchoolNames.Add("Tax Break Donation School");
 		highSchoolNames.Add("101 Dalmations In This School");
 		highSchoolNames.Add("Some Kind Of Suicide Squad High School");
-		highSchoolNames.Add("Fingers Hurt From Typing Episcopal");
+		highSchoolNames.Add("Fingers Hurt From Typing Episcopal School");
 		highSchoolNames.Add("Jimmy G Stands For Buckets Episcopal School");
 		highSchoolNames.Add("Drinking Helps Me Sleep At Night Prepatory");
 		highSchoolNames.Add("Mommy Needs Her Wine Daycare");
 		highSchoolNames.Add("Make A Wish Foundation");
-		highSchoolNames.Add("Astrology Real Tech");
+		highSchoolNames.Add("Bear Trap High");
 		highSchoolNames.Add("James Corden Not Nice Upper School");
 		highSchoolNames.Add("HanSolo Dies Film School");
 		highSchoolNames.Add("Corbin Bleu Cooking School");
@@ -71,7 +71,7 @@ public class RandomAgreements : MonoBehaviour
 		highSchoolNames.Add("Lower Esteem Upper School");
 		highSchoolNames.Add("Big Shaq In The Paint Art School");
 		highSchoolNames.Add("Garfield's Online School");
-		highSchoolNames.Add("Miniclip.com Prepatory");
+		highSchoolNames.Add("Miniclip.com Instutute of Science");
 		highSchoolNames.Add("Seeing Stars Astronomy School");
 		highSchoolNames.Add("School For Unfortunate Events");
 		highSchoolNames.Add("Brendan Fraser Comeback Theatre School");
@@ -142,10 +142,6 @@ public class RandomAgreements : MonoBehaviour
 		highSchoolNames.Add("Malibu Seabreeze High School");
 		highSchoolNames.Add("Himachi Long Distance Connection HS");
 		highSchoolNames.Add("'If at first you don't succeedle turn to the needle' School");
-	}
-
-	void Start() {
-		
 	}
 
 	//n is the number of strings you want to choose

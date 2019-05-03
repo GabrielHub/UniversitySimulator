@@ -45,7 +45,7 @@ public class Resources {
         this.buildingCount = buildingCount;
 
         this.agreements = new List<HighSchoolAgreement>();
-        this.agreements.Add(new HighSchoolAgreement("Starter's HS", 100, 3, 0));
+        this.agreements.Add(new HighSchoolAgreement("Starter's HS", 100, 3, 0)); //HighSchoolAgreement(name, student pool, ranking (3 is avg), how much it costs)
 
         //initial values for other variables
         gamePhase = 0;

@@ -39,7 +39,12 @@ public class GameManagerScript : MonoBehaviour
     private bool playing = true; //check if paused or not
     [HideInInspector] // prevent this from being selectable in the inspector
     public EventController eventController; //script for events
-    public List<HighSchoolAgreement> agreements; //purchasable agreements
+
+    //EarlyGame Resources
+    public HighSchoolAgreement[] agreements; //purchasable agreements
+    public GameObject BuyHSA1;
+    public GameObject BuyHSA2;
+    public GameObject BuyHSA3;
 
     private void Awake() {
         if (GameManagerScript.instance == null) {
@@ -73,16 +78,16 @@ public class GameManagerScript : MonoBehaviour
         this.resources.studentPool = 100; //start the game off with a limit of 100 students
 
         //initial purchasable agreements
-        agreements = new List<HighSchoolAgreement>();
+        agreements = new HighSchoolAgreement[3];
 
         //Start timer thresholds
         eventThreshold = Random.Range(3, 7);
-        agreementThreshold = Random.Range(15, 30);
+        agreementThreshold = Random.Range(5, 10);
 
         //run generation function for initial agreements
         string[] name = RandomAgreements.instance.ChooseName(3);
         for (int i = 0; i < 3; i++) {
-            agreements.Add(RandomAgreements.instance.generateAgreement(name[i]));
+            agreements[i] = RandomAgreements.instance.generateAgreement(name[i]);
         }
 
         //starting dialogue
@@ -111,6 +116,7 @@ public class GameManagerScript : MonoBehaviour
             //eventController.DoEvent();
             ticker++;
             eventTicker++;
+            agreementTicker++;
 
             //calculate hidden values
             //K = 350 * buildingCount + 10 * faculty; This algorithm will be used when buildings can be bought
@@ -154,11 +160,16 @@ public class GameManagerScript : MonoBehaviour
                 //run generation function
                 string[] name = RandomAgreements.instance.ChooseName(3);
                 for (int i = 0; i < 3; i++) {
-                    agreements.Add(RandomAgreements.instance.generateAgreement(name[i]));
+                    agreements[i] = RandomAgreements.instance.generateAgreement(name[i]);
                 }
 
-                agreementThreshold = Random.Range(15, 30);
-                agreementTicker = 0;   
+                agreementThreshold = Random.Range(10, 15);
+                agreementTicker = 0;
+
+                //enable every window if they were purchased before
+                BuyHSA1.SetActive(true);
+                BuyHSA2.SetActive(true); 
+                BuyHSA3.SetActive(true);    
             }
         }
 

@@ -6,6 +6,9 @@ using TMPro;
 
 public class BuyAgreementScript : MonoBehaviour
 {
+	//Agreement Object holding this script
+	public GameObject container;
+
 	//UI text
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI poolText;
@@ -13,8 +16,6 @@ public class BuyAgreementScript : MonoBehaviour
 
     public Button buyButton;
     private Text buttonText;
-
-    private bool bought = false;
 
     // Start is called before the first frame update
     void Start()
@@ -60,6 +61,8 @@ public class BuyAgreementScript : MonoBehaviour
     			GameManagerScript.instance.resources.agreements.Add(GameManagerScript.instance.agreements[0]);
     			GameManagerScript.instance.resources.wealth -= GameManagerScript.instance.agreements[0].cost;
     			GameManagerScript.instance.eventController.DoEvent(new Event("Purchased HS Agreement: " + nameText.text));
+
+    			container.SetActive(false);
     		}
     		else {
     			GameManagerScript.instance.eventController.DoEvent(new Event("Not Enough $$$ To Make This Purchase!"));
@@ -70,6 +73,8 @@ public class BuyAgreementScript : MonoBehaviour
     			GameManagerScript.instance.resources.agreements.Add(GameManagerScript.instance.agreements[1]);
     			GameManagerScript.instance.resources.wealth -= GameManagerScript.instance.agreements[1].cost;
     			GameManagerScript.instance.eventController.DoEvent(new Event("Purchased HS Agreement: " + nameText.text));
+
+    			container.SetActive(false);
     		}
     		else {
     			GameManagerScript.instance.eventController.DoEvent(new Event("Not Enough $$$ To Make This Purchase!"));
@@ -80,6 +85,8 @@ public class BuyAgreementScript : MonoBehaviour
     			GameManagerScript.instance.resources.agreements.Add(GameManagerScript.instance.agreements[2]);
     			GameManagerScript.instance.resources.wealth -= GameManagerScript.instance.agreements[2].cost;
     			GameManagerScript.instance.eventController.DoEvent(new Event("Purchased HS Agreement: " + nameText.text));
+
+    			container.SetActive(false);
     		}
     		else {
     			GameManagerScript.instance.eventController.DoEvent(new Event("Not Enough $$$ To Make This Purchase!"));
