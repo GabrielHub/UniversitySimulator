@@ -70,7 +70,7 @@ public class EventController : MonoBehaviour {
 
     /// Does a specific event.
     public void DoEvent(Event e) {
-        GameManagerScript.instance.resources += e.modifiers;
+        //GameManagerScript.instance.resources += e.modifiers; This might cause an issue in the future for now uh idk
         foreach (Listener l in eventListeners) {
             l.EventDidOccur(e);
         }

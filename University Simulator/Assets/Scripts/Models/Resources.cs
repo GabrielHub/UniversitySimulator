@@ -1,6 +1,9 @@
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
-public struct Resources {
+[System.Serializable]
+public class Resources {
     //5 Main Resources
     public int faculty;
     public int alumni;
@@ -30,6 +33,8 @@ public struct Resources {
 
     //EarlyGame Resources
     public int studentPool;
+
+    [SerializeField]
     public List<HighSchoolAgreement> agreements;
 
     public Resources(int faculty = 0, int alumni = 0, int students = 0, int wealth = 0, int buildingCount = 0) {
@@ -39,8 +44,8 @@ public struct Resources {
         this.wealth = wealth;
         this.buildingCount = buildingCount;
 
-        agreements = new List<HighSchoolAgreement> ();
-        agreements.Add(new HighSchoolAgreement("Starter's HS", 100, 3, 0));
+        this.agreements = new List<HighSchoolAgreement>();
+        this.agreements.Add(new HighSchoolAgreement("Starter's HS", 100, 3, 0));
 
         //initial values for other variables
         gamePhase = 0;
@@ -118,5 +123,6 @@ public struct Resources {
         }
         calcRenown(reTemp / agreements.Count);
         studentPool = stuTemp;
+        
     }
 }

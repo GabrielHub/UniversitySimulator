@@ -4,9 +4,17 @@ using UnityEngine;
 
 public class RandomAgreements : MonoBehaviour
 {
+	public static RandomAgreements instance;
 	public List<string> highSchoolNames;
 
-	void Start() {
+	void Awake() {
+		if (RandomAgreements.instance == null) {
+			RandomAgreements.instance = this;
+		} else {
+			Destroy(this);
+		}
+
+		//I need to do this at Awake cuz it's not loading before the gamemanager that's calling it
 		//fill out high school names. Feel free to come up with as many as you can think of :) We can reuse a lot of them for purchasing satellite campuses
 		highSchoolNames = new List<string> ();
 
@@ -85,7 +93,7 @@ public class RandomAgreements : MonoBehaviour
 		highSchoolNames.Add("Columbus High School");
 		highSchoolNames.Add("Pitbull's Worldwide School");
 		highSchoolNames.Add("IKEA Frontier College Prepatory");
-		highSchoolNames.Add("Westbrook Southside High");
+		highSchoolNames.Add("Southside BRRRT SKRRT High");
 		highSchoolNames.Add("Asian Export College Prepatory");
 		highSchoolNames.Add("No Line Not Crossed Secondary School");
 		highSchoolNames.Add("McLean High School");
@@ -121,7 +129,7 @@ public class RandomAgreements : MonoBehaviour
 		highSchoolNames.Add("DadPlzNotTheBeltDadImSorryPlzStopDadStop High School");
 		highSchoolNames.Add("One Almond Conservatory");
 		highSchoolNames.Add("Magnetic Induction Magnet School");
-		highSchoolNames.Add("Magneto's Magnet School for The Gifted");
+		highSchoolNames.Add("Mesomorph Institute of Technology");
 		highSchoolNames.Add("Ratatouille School of Culinary Arts for Young Rats");
 		highSchoolNames.Add("Magneto's Magnet School for The Gifted");
 		highSchoolNames.Add("Bread Makes You Fat High School");
@@ -132,20 +140,27 @@ public class RandomAgreements : MonoBehaviour
 		highSchoolNames.Add("St. Antetokounmpo's Episcopal School");
 		highSchoolNames.Add("Lil Pump Mountainview Charter School");
 		highSchoolNames.Add("Malibu Seabreeze High School");
+		highSchoolNames.Add("Himachi Long Distance Connection HS");
+		highSchoolNames.Add("'If at first you don't succeedle turn to the needle' School");
+	}
+
+	void Start() {
+		
 	}
 
 	//n is the number of strings you want to choose
     public string[] ChooseName(int n) {
     	string[] result = new string[n];
-
+    	
     	int numToChoose = n;
-    	for (int numLeft = highSchoolNames.Count; numLeft > 0; numLeft--) {
-    		float prob = (float) numToChoose / (float) numLeft;
 
+    	for (int numLeft = highSchoolNames.Count; numLeft > 0; numLeft--) {
+
+    		float prob = (float) numToChoose / (float) numLeft;
     		if (Random.value <= prob) {
     			numToChoose--;
     			result[numToChoose] = highSchoolNames[numLeft - 1];
-
+    			
     			if (numToChoose == 0) {
     				break;
     			}
@@ -154,4 +169,36 @@ public class RandomAgreements : MonoBehaviour
 
     	return result;
     }
+
+      //randomize HSAgreements after a certain time
+    public HighSchoolAgreement generateAgreement(string name) {
+
+        int val = Random.Range(1, 6);
+        int pool;
+        int cost;
+
+        //val is the 'star' of HS out of 5. Lower rated HS will provide more students tho
+        if (val == 1) {
+            pool = Random.Range(300, 550);
+            cost = 100;
+        }
+        else if (val == 2) {
+            pool = Random.Range(250, 450);
+            cost = Random.Range(200, 300);
+        }
+        else if (val == 3) {
+            pool = Random.Range(100, 250);
+            cost = Random.Range(250, 350);
+        }
+        else if (val == 4) {
+            pool = Random.Range(50, 100);
+            cost = Random.Range(300, 400);
+        }
+        else {
+            pool = Random.Range(35, 75);
+            cost = 500;
+        }
+        return (new HighSchoolAgreement(name, pool, val, cost));
+    }
+
 }

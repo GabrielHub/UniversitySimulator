@@ -14,6 +14,8 @@ public class BuyAgreementScript : MonoBehaviour
     public Button buyButton;
     private Text buttonText;
 
+    private bool bought = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -51,19 +53,37 @@ public class BuyAgreementScript : MonoBehaviour
 
     void BuyOnClick() {
     	if (this.tag == "0") {
-    		GameManagerScript.instance.resources.agreements.Add(GameManagerScript.instance.agreements[0]);
-    		GameManagerScript.instance.resources.wealth -= GameManagerScript.instance.resources.agreements[0].cost;
-    		GameManagerScript.instance.eventController.DoEvent(new Event("Purchased HS Agreement: " + nameText.text));
+    		//Debug.Log("Wealth: " + GameManagerScript.instance.resources.wealth);
+    		//Debug.Log("Cost: " + GameManagerScript.instance.agreements[0].cost);
+
+    		if (GameManagerScript.instance.resources.wealth > GameManagerScript.instance.agreements[0].cost) {
+    			GameManagerScript.instance.resources.agreements.Add(GameManagerScript.instance.agreements[0]);
+    			GameManagerScript.instance.resources.wealth -= GameManagerScript.instance.agreements[0].cost;
+    			GameManagerScript.instance.eventController.DoEvent(new Event("Purchased HS Agreement: " + nameText.text));
+    		}
+    		else {
+    			GameManagerScript.instance.eventController.DoEvent(new Event("Not Enough $$$ To Make This Purchase!"));
+    		}
     	}
         else if (this.tag == "1") {
-        	GameManagerScript.instance.resources.agreements.Add(GameManagerScript.instance.agreements[1]);
-
-        	GameManagerScript.instance.eventController.DoEvent(new Event("Purchased HS Agreement: " + nameText.text));
+        	if (GameManagerScript.instance.resources.wealth > GameManagerScript.instance.agreements[1].cost) {
+    			GameManagerScript.instance.resources.agreements.Add(GameManagerScript.instance.agreements[1]);
+    			GameManagerScript.instance.resources.wealth -= GameManagerScript.instance.agreements[1].cost;
+    			GameManagerScript.instance.eventController.DoEvent(new Event("Purchased HS Agreement: " + nameText.text));
+    		}
+    		else {
+    			GameManagerScript.instance.eventController.DoEvent(new Event("Not Enough $$$ To Make This Purchase!"));
+    		}
         }
         else {
-        	GameManagerScript.instance.resources.agreements.Add(GameManagerScript.instance.agreements[2]);
-
-        	GameManagerScript.instance.eventController.DoEvent(new Event("Purchased HS Agreement: " + nameText.text));
+        	if (GameManagerScript.instance.resources.wealth > GameManagerScript.instance.agreements[2].cost) {
+    			GameManagerScript.instance.resources.agreements.Add(GameManagerScript.instance.agreements[2]);
+    			GameManagerScript.instance.resources.wealth -= GameManagerScript.instance.agreements[2].cost;
+    			GameManagerScript.instance.eventController.DoEvent(new Event("Purchased HS Agreement: " + nameText.text));
+    		}
+    		else {
+    			GameManagerScript.instance.eventController.DoEvent(new Event("Not Enough $$$ To Make This Purchase!"));
+    		}
         }
     }
 }

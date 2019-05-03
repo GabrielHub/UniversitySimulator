@@ -39,7 +39,7 @@ public class GameManagerScript : MonoBehaviour
     private bool playing = true; //check if paused or not
     [HideInInspector] // prevent this from being selectable in the inspector
     public EventController eventController; //script for events
-    public HighSchoolAgreement[] agreements; //purchasable agreements
+    public List<HighSchoolAgreement> agreements; //purchasable agreements
 
     private void Awake() {
         if (GameManagerScript.instance == null) {
@@ -61,6 +61,8 @@ public class GameManagerScript : MonoBehaviour
         //Button Setup //Calls the TaskOnClick/TaskWithParameters/ButtonClicked method when you click the Button
         playButton.onClick.AddListener(PauseOnClick);
 
+        resources = new Resources();
+
         //set up  ranges (possibly based on difficulty later)
         this.resources.students = 45;
 		this.resources.faculty = 10;
@@ -71,16 +73,16 @@ public class GameManagerScript : MonoBehaviour
         this.resources.studentPool = 100; //start the game off with a limit of 100 students
 
         //initial purchasable agreements
-        agreements = new HighSchoolAgreement[3];
+        agreements = new List<HighSchoolAgreement>();
 
         //Start timer thresholds
         eventThreshold = Random.Range(3, 7);
         agreementThreshold = Random.Range(15, 30);
 
         //run generation function for initial agreements
-        string[] name = RandomAgreements.ChooseName(3);
+        string[] name = RandomAgreements.instance.ChooseName(3);
         for (int i = 0; i < 3; i++) {
-            agreements[i] = generateAgreement(name[i]);
+            agreements.Add(RandomAgreements.instance.generateAgreement(name[i]));
         }
 
         //starting dialogue
@@ -141,7 +143,7 @@ public class GameManagerScript : MonoBehaviour
             //regenerate event threshold, reset time ot next event, and then do an event
             eventThreshold = Random.Range(2, 10); //2 to 10 seconds
             eventTicker = 0;
-            eventController.DoEvent();
+            //eventController.DoEvent();
         }
 
         //randomized agreements, made sure it's only for the early game
@@ -150,9 +152,9 @@ public class GameManagerScript : MonoBehaviour
                 this.eventController.DoEvent(new Event("!!!: New HS Agreements are available!"));
 
                 //run generation function
-                string[] name = RandomAgreements.ChooseName(3);
+                string[] name = RandomAgreements.instance.ChooseName(3);
                 for (int i = 0; i < 3; i++) {
-                    agreements[i] = generateAgreement(name[i]);
+                    agreements.Add(RandomAgreements.instance.generateAgreement(name[i]));
                 }
 
                 agreementThreshold = Random.Range(15, 30);
@@ -168,36 +170,6 @@ public class GameManagerScript : MonoBehaviour
         else if (resources.alumni >= 500000) {
             this.eventController.DoEvent(new Event("Congrats! You have as many alumni as NYU!"));
         }
-    }
-
-    //randomize HSAgreements after a certain time
-    HighSchoolAgreement generateAgreement(string name) {
-        int val = Random.Range(1, 6);
-        int pool;
-        int cost;
-
-        //val is the 'star' of HS out of 5. Lower rated HS will provide more students tho
-        if (val == 1) {
-            pool = Random.Range(300, 550);
-            cost = 100;
-        }
-        else if (val == 2) {
-            pool = Random.Range(250, 450);
-            cost = Random.Range(200, 300);
-        }
-        else if (val == 3) {
-            pool = Random.Range(100, 250);
-            cost = Random.Range(250, 350);
-        }
-        else if (val == 4) {
-            pool = Random.Range(50, 100);
-            cost = Random.Range(300, 400);
-        }
-        else {
-            pool = Random.Range(35, 75);
-            cost = 500;
-        }
-        return (new HighSchoolAgreement(name, pool, val, cost));
     }
 
     //Pause and Play button click function
