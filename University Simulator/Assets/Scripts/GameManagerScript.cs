@@ -4,17 +4,9 @@ using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
 
-public class GameManagerScript : MonoBehaviour
-{
+public class GameManagerScript : MonoBehaviour {
     public static GameManagerScript instance;
-
-    //UI text
-    // public TextMeshProUGUI studentsText;
-    // public TextMeshProUGUI facultyText;
-    // public TextMeshProUGUI alumniText;
-    // public TextMeshProUGUI buildingsText;
-	// public TextMeshProUGUI wealthText;
-
+    
     // For testing purposes
     //public TextMeshProUGUI r_rate;
     //public TextMeshProUGUI k_rate;
