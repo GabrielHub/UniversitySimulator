@@ -40,8 +40,9 @@
 
 **Focus:**
 
-	* Building Management: Introduces clickable tilemap mechanic
-	* 
+	* Building Management - Introduces clickable tilemap mechanic, building management tab, and StudentPool and Faculty is now capped by the buildings you have
+		- Buildings have different types, that come with different bonuses
+	* Faculty Pay Slider - Affects 
 
 **Details:**
 
