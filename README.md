@@ -1,6 +1,6 @@
 # University Simulator: Build and grow a University!
 A Simulation game built in Unity 2019.1.0f2
-### Game Phases
+
 ## Early Game:
 
 **Premise:**
@@ -34,7 +34,7 @@ A Simulation game built in Unity 2019.1.0f2
 
 **Premise:**
 	
-	Now that the University is official;y recognized, it can grow by buying buildings, hiring specialists, and no longer needs high school agreements. The university needs to rise in the rankings, so management of the renown and graduation rate of the University becomes vital.
+	Now that the University is officially recognized, it can grow by buying buildings, hiring specialists, and no longer needs high school agreements. The university needs to rise in the rankings, so management of the renown and graduation rate of the University becomes vital.
 
 **Focus:**
 
@@ -53,16 +53,45 @@ A Simulation game built in Unity 2019.1.0f2
 - Renown: Now based on Faculty Pay, Student To Faculty Ratio, and boosted by Building and Special Student bonuses. A static boost based on the avg Stars of High School Agreements from the previous stage carry over.
 - High School Agreements: No longer available or a factor, converted to a static boost or detriment depending on the high schools you aquired.
 - Random Events: Are now active. Random chance of an event happening every turn, that can be helpful or hurtful depending on how well you're doing.
-- Available Upgrades: Marketing Campaign I (increases renown by a small amount), Marketing Campaign II (increasaes HSA static boost by a small amount), Financial Aid Program (Increases odds of special student), *More to be designed*
+- Available Upgrades: Marketing Campaign I (increases renown by a small amount), Marketing Campaign II (increasaes HSA static boost by a small amount), Financial Aid Program (Increases odds of special student), Advanced Analysis (upgrades the statistics page), *Design later when implemented*
 
 **Lose Condition:**
 - No wealth or students
 - Fall out of national ranking (only a lose condition once you make it past 50)
 
 **Win Condition:**
-- Become number 1 ranked national university, certain amount of buildings, endowment (how much alumni)
+- Become number 1 ranked national university, certain amount of buildings
 
-## End Game: *TO BE DESIGNED*
+## End Game:
+
+**Premise:**
+	
+	Who likes Monopoly? The University demands a universal takeover! By this stage of the game, the goal of the University is to become the single University for everyone! Start off by buying other campuses to serve as sattelite campuses until you can take over other full universities!
+
+**Focus:**
+
+	* Building Management - You must manage your buildings by upgrading them to specific types of buildings. (Buildings focused on housing, lecture halls, research, so on) Uses endowment and permanently reduces the amount of endowment you have.
+	* Campus Management - While you no longer worry about student growth, students can now be spent on buying a new University/Campus when they become available.
+	* Endowment - Ranking and Wealth are no longer factors, and instead the amount of wealth you have is converted into endowment. Endowment is a budget that is spent every turn.
+	* Power - New resource that depends on renown and the number of campuses you have. Now used to unlock new Campus/Universities to buy and at higher amounts destroys competing Universities.
+	* Special People - A chance of a special person occurs every 4 turns, chance can be increased using endowment. Special people can give you connections to other other Campuses that allow you to purchase them.
+
+**Details:**
+
+- Power: Main Goal
+- Campuses: Soft Goal
+- Student Growth: Now a static linear function based on building upgrades.
+- Faculty Growth: Now a static linera function based on building upgrades.
+- Alumni: Now a static amount every turn.
+- Renown: Now based on building upgrades.
+- University Count: All the universities left in the world.
+- Available Upgrades: Campus Capacity (Allows you to remove limits on buying campuses), A.I. Administration (Unlocks full statistics tab), *Design others once implemented*
+
+**Lose Condition:**
+- There's a limited amount of endowment. If spread too thin you may not longer be able to progress.
+
+**Win Condition:**
+- Become the only University
 
 ### Events
 
