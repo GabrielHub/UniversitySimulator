@@ -10,20 +10,24 @@ public class Resources {
     public int students;
     public int wealth;
     public int buildingCount;
+    public float r_rate;
+    public float k_rate;
 
     //To check what phase of the game we're in
-    public int gamePhase;
+    public int gamePhase = 0;
 
     //Hidden Resources
     public float r {
         get {
-            return ((students + faculty) / wealth) + renown;
+            r_rate = ((students + faculty)/wealth) + renown;
+            return ((students + faculty)/wealth) + renown;
         }
     } //student growth rate r
 
     public float K {
         get {
-            return studentPool * acceptanceRate;
+            k_rate = (studentPool + alumni);
+            return (studentPool + alumni);
         }
     } //carrying capacity (size limit) for student growth K
 
@@ -45,13 +49,13 @@ public class Resources {
         this.buildingCount = buildingCount;
 
         this.agreements = new List<HighSchoolAgreement>();
-        this.agreements.Add(new HighSchoolAgreement("Starter's HS", 100, 3, 0)); //HighSchoolAgreement(name, student pool, ranking (3 is avg), how much it costs)
+        this.agreements.Add(new HighSchoolAgreement("Starter's HS", 100, 1, 0));
 
         //initial values for other variables
         gamePhase = 0;
         happiness = 1;
-        acceptanceRate = 1.0f;
-        renown = 0.1f;
+        acceptanceRate = .8f;
+        renown = 1f - (acceptanceRate * 2);
         studentPool = 100;
     }
 
@@ -73,7 +77,7 @@ public class Resources {
     //renown, earlygame calculations
     public void calcRenown(float val) {
         //with the avg of hs value, renown below 3.0 will reduce the growth of students
-        renown = val - 3.0f;
+        renown = val - (acceptanceRate * 2);
     }
 
     //acceptance rate slider calculations, should always be a float between 0.0 and 1.0
@@ -83,7 +87,11 @@ public class Resources {
 
     //wealth. donation and tuition are sliders that change variables in gamemanagerscript
     public void calcWealth(float donation, float tuition) {
-        wealth += (int) ((alumni * donation) + (students * tuition));
+        wealth += (int) ((alumni * donation) + (students * tuition)) / 5;
+        int students_penalty = 1 + (int) ((students / 50) * renown);
+        int faculty_penalty = 2 + (faculty / (faculty * buildingCount));
+        wealth -= ((faculty * faculty_penalty) + (students * students_penalty) + (buildingCount * 5)) / 5;
+
     }
 
     //faculty.
@@ -94,8 +102,11 @@ public class Resources {
     }
 
     //students
-    public void calcStudents() {
-        students += (int) (happiness * (r * students * ((K - students) / K)));
+    public void calcStudents(float maxHappiness) {
+        // K - Students accepted out of student pool
+        // R - Growth Rate
+
+        students += (int) ((acceptanceRate) * (happiness / maxHappiness) * (r * students * ((K - students) / K)));
     }
 
     //alumni
@@ -105,7 +116,7 @@ public class Resources {
             students = 0;
         }
         else {
-            int i = (int) (students / 8);
+            int i = (int) (students / 10);
             students -= i;
             alumni += i;
         }
@@ -121,8 +132,8 @@ public class Resources {
             stuTemp += hs.students;
             reTemp += hs.value;
         }
-        calcRenown(reTemp / agreements.Count);
+        calcRenown(reTemp / agreements.Count());
         studentPool = stuTemp;
-        
+
     }
 }

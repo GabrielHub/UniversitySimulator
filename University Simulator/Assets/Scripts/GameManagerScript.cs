@@ -15,6 +15,10 @@ public class GameManagerScript : MonoBehaviour
     public TextMeshProUGUI buildingsText;
 	public TextMeshProUGUI wealthText;
 
+    // For testing purposes
+    public TextMeshProUGUI r_rate;
+    public TextMeshProUGUI k_rate;
+
     //Other UI Elements
     public Button playButton;
     public Text playText;
@@ -94,8 +98,8 @@ public class GameManagerScript : MonoBehaviour
         agreements = new HighSchoolAgreement[3];
 
         //Start timer thresholds
-        eventThreshold = Random.Range(5, 15);
-        agreementThreshold = Random.Range(8, 12);
+        eventThreshold = Random.Range(2, 10);
+        agreementThreshold = Random.Range(15, 30);
 
         //run generation function for initial agreements
         string[] name = RandomAgreements.instance.ChooseName(3);
@@ -119,6 +123,8 @@ public class GameManagerScript : MonoBehaviour
         alumniText.text = "Alumni: " + this.resources.alumni.ToString();
         buildingsText.text = "Buildings: " + this.resources.buildingCount.ToString();
 		wealthText.text = "Wealth: "+ this.resources.wealth.ToString();
+        r_rate.text = "R: " + this.resources.r_rate.ToString();
+        k_rate.text = "K: " + this.resources.k_rate.ToString();
     }
 
     //take into account all policy changes and changes in resources, then update said resources
@@ -149,7 +155,7 @@ public class GameManagerScript : MonoBehaviour
             this.resources.calcFaculty();
 
             //Calculate Students
-            this.resources.calcStudents();
+            this.resources.calcStudents(tuitionSlider.maxValue + donationSlider.maxValue);
 
             //Calculate Alumni
             this.resources.calcAlumni();
@@ -177,7 +183,7 @@ public class GameManagerScript : MonoBehaviour
             //regenerate event threshold, reset time ot next event, and then do an event
             eventThreshold = Random.Range(5, 20); //use this to change time between events
             eventTicker = 0;
-            //eventController.DoEvent(); //CURRENTLY DISABLING EVENTS UNTIL WE CAN FIX THIS SHIT
+            //eventController.DoEvent();
         }
 
         //Future Event Code Here: Checks for bad stats (if happiness is too low do an event letting you know that people are unhappy)
@@ -186,6 +192,7 @@ public class GameManagerScript : MonoBehaviour
         if (resources.gamePhase == 0) {
             if (agreementTicker == agreementThreshold) {
                 this.eventController.DoEvent(new Event("!!!: New HS Agreements are available!"));
+                Debug.Log("New HS Agreements");
 
                 //run generation function
                 string[] name = RandomAgreements.instance.ChooseName(3);
@@ -198,8 +205,8 @@ public class GameManagerScript : MonoBehaviour
 
                 //enable every window if they were purchased before
                 BuyHSA1.SetActive(true);
-                BuyHSA2.SetActive(true); 
-                BuyHSA3.SetActive(true);    
+                BuyHSA2.SetActive(true);
+                BuyHSA3.SetActive(true);
             }
         }
 
@@ -211,7 +218,7 @@ public class GameManagerScript : MonoBehaviour
         else if (earlyGameRequirements == 2) {
             this.resources.gamePhase = 1;
             //Unlock buildings, code required below
-            
+
         }
     }
 
