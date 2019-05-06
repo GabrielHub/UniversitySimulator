@@ -124,6 +124,11 @@ public class GameManagerScript : MonoBehaviour
         buildingsText.text = "Buildings: " + this.resources.buildingCount.ToString();
 		wealthText.text = "Wealth: "+ this.resources.wealth.ToString();
 
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            PauseOnClick();
+        }
+
         //Debugging
         Debug.Log("R Value: " + this.resources.r);
         Debug.Log("K Value: " + this.resources.K);
@@ -131,12 +136,6 @@ public class GameManagerScript : MonoBehaviour
         //k_rate.text = "K: " + this.resources.k_rate.ToString();
     }
 
-    void FixedUpdate()
-    {
-        if (Input.GetKeyDown(KeyCode.DownArrow)) {
-            PauseOnClick();
-        }
-    }
 
     //take into account all policy changes and changes in resources, then update said resources
     void Turns() {
