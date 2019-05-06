@@ -11,7 +11,7 @@ public class Resources {
     public int wealth;
     public int buildingCount;
     //public float r_rate;
-    //public float k_rate;
+    //public float k_rate; UH OH
 
     //To check what phase of the game we're in
     public int gamePhase = 0;
