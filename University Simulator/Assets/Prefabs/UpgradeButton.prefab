@@ -155,10 +155,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d7e4e4657428db4bb61c6f6ee929f10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upgradeName: 
-  upgradeDescription: 
-  upgradeCost: 0
-  name: {fileID: 2685136074091670904}
+  buttonText: {fileID: 2685136074091670904}
+  buttonComponent: {fileID: 2685136072826138171}
 --- !u!1 &2685136074091670906
 GameObject:
   m_ObjectHideFlags: 0

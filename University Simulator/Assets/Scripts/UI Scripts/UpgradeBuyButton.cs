@@ -18,11 +18,22 @@ public class UpgradeBuyButton : MonoBehaviour
 
     //Setup on instantiate
     public void Setup(UpgradeBase item) {
-		buttonText.text = item.name + " | Description: " + item.description + " | Cost: " + item.cost;
+		buttonText.text = item.name + ": " + item.description + " | Cost: " + item.cost;
 		upgradeItem = item;
+		Debug.Log(item.name + " is available to purchase!");
     }
 
     public void HandleClick() {
+    	//make sure you can afford to buy upgrade
+    	if (GameManagerScript.instance.resources.wealth > upgradeItem.cost) {
+    		GameManagerScript.instance.resources.wealth -= upgradeItem.cost;
 
+    		//Apply unique upgrade effect
+    		upgradeItem.ApplyEffect();
+
+    		//destroy button
+    		Destroy(gameObject);
+    		//gameObject.SetActive(false);
+    	}
     }
 }

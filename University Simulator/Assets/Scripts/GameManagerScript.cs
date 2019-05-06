@@ -29,7 +29,7 @@ public class GameManagerScript : MonoBehaviour
     public Slider acceptanceRateSlider;
 
     //Ticker/Time variables
-    private int ticker = 0; //unused atm
+    public int ticker = 0;
     private int eventTicker = 0; //time between events, resets after every event
     private int agreementTicker = 0; //time between new purchasable HS agreements
     private int eventThreshold; //time until events, changes after every event
@@ -41,9 +41,9 @@ public class GameManagerScript : MonoBehaviour
     public EventController eventController; //script for events
 
     //buyables
-    public List<UpgradeBase> upgradeList; //all available upgrades
     public Transform contentPanel; //The content object that we're attaching upgrade buttons to
     public GameObject upgradeButton; //Button prefab for the upgrade object
+    public List<UpgradeBase> upgradeList;
 
     //EarlyGame Resources
     public HighSchoolAgreement[] agreements; //purchasable agreements
@@ -51,6 +51,7 @@ public class GameManagerScript : MonoBehaviour
     public GameObject BuyHSA2;
     public GameObject BuyHSA3;
     public bool enableStatistics = false;
+    public int earlyGameRequirements = 0;
 
     private void Awake() {
         if (GameManagerScript.instance == null) {
@@ -76,7 +77,8 @@ public class GameManagerScript : MonoBehaviour
 
         //Initial upgrades that are available
         upgradeList = new List<UpgradeBase> ();
-        //AddUpgradable(new UpgradeAdministrator()); //Add Hire Administrators upgrade
+        UpgradeAdministrator upgradeAdmin = new UpgradeAdministrator();
+        AddUpgradable(upgradeAdmin); //Add Hire Administrators upgrade
 
 
         //set up  ranges (possibly based on difficulty later)
@@ -92,8 +94,8 @@ public class GameManagerScript : MonoBehaviour
         agreements = new HighSchoolAgreement[3];
 
         //Start timer thresholds
-        eventThreshold = Random.Range(3, 7);
-        agreementThreshold = Random.Range(5, 10);
+        eventThreshold = Random.Range(5, 15);
+        agreementThreshold = Random.Range(8, 12);
 
         //run generation function for initial agreements
         string[] name = RandomAgreements.instance.ChooseName(3);
@@ -136,6 +138,7 @@ public class GameManagerScript : MonoBehaviour
             //r = ((resources.students + resources.faculty) / resources.wealth) + renown;
             //acceptance rate
             this.resources.calcAcceptanceRate(acceptanceRateSlider.value);
+
             //happiness. Optimal value is currently set to half the max value
             this.resources.calcHappiness(tuitionSlider.value, tuitionSlider.maxValue, donationSlider.value, donationSlider.maxValue);
 
@@ -153,15 +156,31 @@ public class GameManagerScript : MonoBehaviour
 
             //calculate HS Agreements
             this.resources.calcHSAgreements();
+
+
+            //CODE FOR UPGRADES
+            //Unlocking Early Game Upgrades, make sure they aren't already added
+            if (this.resources.students > 1000 && upgradeList.Count < 2) {
+                //Add the Buy Campus and Buy License Upgrades
+                UpgradeCampus campusUpgrade = new UpgradeCampus();
+                AddUpgradable(campusUpgrade);
+
+                UpgradeLicense licenseUpgrade = new UpgradeLicense();
+                AddUpgradable(licenseUpgrade);
+            }
+
         }
+        // ALL CODE BELOW IS OUTSIDE OF THE TICKER AND WILL BE RUN EVERY SECOND
 
         //Events
         if (eventTicker == eventThreshold) {
             //regenerate event threshold, reset time ot next event, and then do an event
-            eventThreshold = Random.Range(2, 10); //2 to 10 seconds
+            eventThreshold = Random.Range(5, 20); //use this to change time between events
             eventTicker = 0;
-            //eventController.DoEvent();
+            //eventController.DoEvent(); //CURRENTLY DISABLING EVENTS UNTIL WE CAN FIX THIS SHIT
         }
+
+        //Future Event Code Here: Checks for bad stats (if happiness is too low do an event letting you know that people are unhappy)
 
         //randomized agreements, made sure it's only for the early game
         if (resources.gamePhase == 0) {
@@ -174,7 +193,7 @@ public class GameManagerScript : MonoBehaviour
                     agreements[i] = RandomAgreements.instance.generateAgreement(name[i]);
                 }
 
-                agreementThreshold = Random.Range(10, 15);
+                agreementThreshold = Random.Range(10, 15); //use this to change time between new agreements
                 agreementTicker = 0;
 
                 //enable every window if they were purchased before
@@ -184,10 +203,15 @@ public class GameManagerScript : MonoBehaviour
             }
         }
 
-        //check for game over
+        //check for game over, or game win
         if (resources.students <= 0) {
             this.eventController.DoEvent(new Event("You've run out of students and this University has failed. \n Don't be sad it happened be happy it's over"));
             CancelInvoke();
+        }
+        else if (earlyGameRequirements == 2) {
+            this.resources.gamePhase = 1;
+            //Unlock buildings, code required below
+            
         }
     }
 
@@ -198,7 +222,7 @@ public class GameManagerScript : MonoBehaviour
         UpgradeBuyButton buttonScript = buttonCreation.GetComponent<UpgradeBuyButton> ();
         buttonScript.Setup(item); //pass upgrade object into the button
 
-        upgradeList.Add(item); //Add to the list of buyable objects
+        upgradeList.Add(item);
     }
 
     //Pause and Play button click function
