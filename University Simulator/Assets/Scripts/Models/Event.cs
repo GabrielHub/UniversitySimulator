@@ -2,8 +2,8 @@ public struct Event {
     public string text;
     public Resources modifiers;
 
-    public Event(string text, Resources modifiers = new Resources()) {
+    public Event(string text, Resources modifiers = null) {
         this.text = text;
-        this.modifiers = modifiers;
+        this.modifiers = new Resources();
     }
 }

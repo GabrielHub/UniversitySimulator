@@ -43,7 +43,7 @@ public class EventController: MonoBehaviour {
         new Resources(faculty: +3)
     );
     public Event renown_increase = new Event("Not Yet Implemented");
-    public Event neutral = new Event("SAD!: Nothing really happens. Students fail and students graduate. Life finds a way? (Nothing Happens)");
+    public Event neutral = new Event("SAD!: Students fail and students graduate. Life finds a way? (Nothing Happens)");
 
     private EventLogScript eventLog;
     private GameManagerScript gameManager;
@@ -70,7 +70,7 @@ public class EventController: MonoBehaviour {
 
     /// Does a specific event.
     public void DoEvent(Event e) {
-        GameManagerScript.instance.resources += e.modifiers;
+        //GameManagerScript.instance.resources += e.modifiers; //This might cause an issue in the future for now uh idk
         foreach (Listener l in eventListeners) {
             l.EventDidOccur(e);
         }

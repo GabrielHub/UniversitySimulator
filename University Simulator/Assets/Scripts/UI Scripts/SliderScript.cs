@@ -15,6 +15,11 @@ public class SliderScript : MonoBehaviour
     }
 
     void FixedUpdate() {
-    	valueText.text = ((int)slider.value).ToString();
+        if (slider.name == "AcceptanceSlider") {
+            valueText.text = slider.value.ToString();
+        }
+        else {
+           valueText.text = ((int)slider.value).ToString(); 
+        }
     }
 }
