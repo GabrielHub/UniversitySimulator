@@ -20,7 +20,7 @@ public class Resources {
     public float r {
         get {
             //r_rate = ((students + faculty) / wealth) + renown;
-            return ((students + faculty) / wealth) + renown;
+            return (happiness / 30) * renown;
         }
     } //student growth rate r
 
@@ -49,7 +49,7 @@ public class Resources {
         this.buildingCount = buildingCount;
 
         this.agreements = new List<HighSchoolAgreement>();
-        this.agreements.Add(new HighSchoolAgreement("Starter's HS", 100, 1, 0));
+        this.agreements.Add(new HighSchoolAgreement("Starter's HS", 100, 3, 0));
 
         //initial values for other variables
         gamePhase = 0;
@@ -87,7 +87,7 @@ public class Resources {
 
     //wealth. donation and tuition are sliders that change variables in gamemanagerscript, good luck balancing this pos
     public int calcWealth(float donation, float tuition) {
-        int students_penalty = 1 + (int) ((students / 50) * renown);
+        int students_penalty = 1;
         int faculty_penalty = 2 + (faculty / (faculty * buildingCount));
         int temp = (int) ((((alumni * donation) + (students * tuition)) / 5) - (((faculty * faculty_penalty) + (students * students_penalty) + (buildingCount * 5)) / 5));
         wealth += temp;
@@ -114,7 +114,7 @@ public class Resources {
     public int calcStudents(float maxHappiness) {
         // K - Students accepted out of student pool
         // R - Growth Rate
-        int temp = (int) ((acceptanceRate) * (happiness / maxHappiness) * (r * students * ((K - students) / K)));
+        int temp = (int) (r * students * ((K - students) / K));
         students += temp;
 
         return temp;
@@ -128,6 +128,11 @@ public class Resources {
             alumni += students;
             students = 0;
             temp = students;
+        }
+        else if (happiness < 7) {
+            //alumni doesn't decrease
+            temp = -1;
+            alumni += temp;
         }
         else {
             int i = (int) (students / 10);

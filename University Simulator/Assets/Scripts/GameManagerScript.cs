@@ -155,8 +155,7 @@ public class GameManagerScript : MonoBehaviour
             //calculate hidden values
             //K = 350 * buildingCount + 10 * faculty; This algorithm will be used when buildings can be bought
             //K = studentPool;
-            //renown is only increased when buying buildings (atm)
-            //r = ((resources.students + resources.faculty) / resources.wealth) + renown;
+
             //acceptance rate
             this.resources.calcAcceptanceRate(acceptanceRateSlider.value);
 
@@ -215,7 +214,7 @@ public class GameManagerScript : MonoBehaviour
                     agreements[i] = RandomAgreements.instance.generateAgreement(name[i]);
                 }
 
-                agreementThreshold = Random.Range(10, 15); //use this to change time between new agreements
+                agreementThreshold = Random.Range(4, 18); //use this to change time between new agreements
                 agreementTicker = 0;
 
                 //enable every window if they were purchased before
