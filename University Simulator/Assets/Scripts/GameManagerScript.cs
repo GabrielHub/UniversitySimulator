@@ -40,11 +40,17 @@ public class GameManagerScript : MonoBehaviour
     [HideInInspector] // prevent this from being selectable in the inspector
     public EventController eventController; //script for events
 
+    //buyables
+    public List<UpgradeBase> upgradeList; //all available upgrades
+    public Transform contentPanel; //The content object that we're attaching upgrade buttons to
+    public GameObject upgradeButton; //Button prefab for the upgrade object
+
     //EarlyGame Resources
     public HighSchoolAgreement[] agreements; //purchasable agreements
     public GameObject BuyHSA1;
     public GameObject BuyHSA2;
     public GameObject BuyHSA3;
+    public bool enableStatistics = false;
 
     private void Awake() {
         if (GameManagerScript.instance == null) {
@@ -67,6 +73,11 @@ public class GameManagerScript : MonoBehaviour
         playButton.onClick.AddListener(PauseOnClick);
 
         resources = new Resources();
+
+        //Initial upgrades that are available
+        upgradeList = new List<UpgradeBase> ();
+        //AddUpgradable(new UpgradeAdministrator()); //Add Hire Administrators upgrade
+
 
         //set up  ranges (possibly based on difficulty later)
         this.resources.students = 45;
@@ -178,9 +189,16 @@ public class GameManagerScript : MonoBehaviour
             this.eventController.DoEvent(new Event("You've run out of students and this University has failed. \n Don't be sad it happened be happy it's over"));
             CancelInvoke();
         }
-        else if (resources.alumni >= 500000) {
-            this.eventController.DoEvent(new Event("Congrats! You have as many alumni as NYU!"));
-        }
+    }
+
+    //Add Purchasable Upgrades
+    void AddUpgradable(UpgradeBase item) {
+        //Create button prefab and attach it to the content panel
+        GameObject buttonCreation = Instantiate(upgradeButton, contentPanel);
+        UpgradeBuyButton buttonScript = buttonCreation.GetComponent<UpgradeBuyButton> ();
+        buttonScript.Setup(item); //pass upgrade object into the button
+
+        upgradeList.Add(item); //Add to the list of buyable objects
     }
 
     //Pause and Play button click function

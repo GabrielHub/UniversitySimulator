@@ -54,9 +54,6 @@ public class BuyAgreementScript : MonoBehaviour
 
     void BuyOnClick() {
     	if (this.tag == "0") {
-    		//Debug.Log("Wealth: " + GameManagerScript.instance.resources.wealth);
-    		//Debug.Log("Cost: " + GameManagerScript.instance.agreements[0].cost);
-
     		if (GameManagerScript.instance.resources.wealth > GameManagerScript.instance.agreements[0].cost) {
     			GameManagerScript.instance.resources.agreements.Add(GameManagerScript.instance.agreements[0]);
     			GameManagerScript.instance.resources.wealth -= GameManagerScript.instance.agreements[0].cost;
