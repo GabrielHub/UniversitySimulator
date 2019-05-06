@@ -21,12 +21,11 @@ public class StatisticsController : MonoBehaviour
         	enabledText.text = ""; //essentially disabling text
 
         	//main resources per turn 
-        	string students = "Students: " + GameManagerScript.instance.resources.students + "\n";
-        	string faculty = "Faculty: " + GameManagerScript.instance.resources.faculty + "\n";
-        	string alumni = "Alumni: " + GameManagerScript.instance.resources.alumni + "\n";
-        	string wealth = "Wealth: " + GameManagerScript.instance.resources.wealth + "\n";
-        	string buildingCount = "Buildings: " + GameManagerScript.instance.resources.buildingCount + "\n";
-        	mainStats.text += "Resources Per Turn (TO BE FIXED ONCE BALANCED):\n\n" + students + faculty + alumni + wealth + buildingCount;
+        	string students = "Students: " + GameManagerScript.instance.studentsPerTurn + "\n";
+        	string faculty = "Faculty: " + GameManagerScript.instance.facultyPerTurn + "\n";
+        	string alumni = "Alumni: " + GameManagerScript.instance.alumniPerTurn + "\n";
+        	string wealth = "Wealth: " + GameManagerScript.instance.wealthPerTurn + "\n";
+        	mainStats.text += "Resources Per Turn:\n\n" + students + faculty + alumni + wealth;
 
         	//University Moods
         	string happiness = "Happiness: " + GameManagerScript.instance.resources.happiness + "\n";

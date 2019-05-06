@@ -26,6 +26,11 @@ public class GameManagerScript : MonoBehaviour
 	//resources
     public Resources resources;
     //public static Dictionary<string, int> buildings = new Dictionary<string, int> ();
+    //Per Turn Display Stats
+    public int studentsPerTurn;
+    public int facultyPerTurn;
+    public int wealthPerTurn;
+    public int alumniPerTurn;
 
     //sliders
     public Slider tuitionSlider;
@@ -158,16 +163,16 @@ public class GameManagerScript : MonoBehaviour
             this.resources.calcHappiness(tuitionSlider.value, tuitionSlider.maxValue, donationSlider.value, donationSlider.maxValue);
 
             //Calculate wealth
-            this.resources.calcWealth(donationSlider.value, tuitionSlider.value);
+            wealthPerTurn = this.resources.calcWealth(donationSlider.value, tuitionSlider.value);
 
             //Calculate Faculty
-            this.resources.calcFaculty();
+            facultyPerTurn = this.resources.calcFaculty();
 
             //Calculate Students
-            this.resources.calcStudents(tuitionSlider.maxValue + donationSlider.maxValue);
+            studentsPerTurn = this.resources.calcStudents(tuitionSlider.maxValue + donationSlider.maxValue);
 
             //Calculate Alumni
-            this.resources.calcAlumni();
+            alumniPerTurn = this.resources.calcAlumni();
 
             //calculate HS Agreements
             this.resources.calcHSAgreements();
