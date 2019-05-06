@@ -15,6 +15,10 @@ public class GameManagerScript : MonoBehaviour
     public TextMeshProUGUI buildingsText;
 	public TextMeshProUGUI wealthText;
 
+    // For testing purposes
+    public TextMeshProUGUI r_rate;
+    public TextMeshProUGUI k_rate;
+
     //Other UI Elements
     public Button playButton;
     public Text playText;
@@ -76,7 +80,7 @@ public class GameManagerScript : MonoBehaviour
         agreements = new List<HighSchoolAgreement>();
 
         //Start timer thresholds
-        eventThreshold = Random.Range(3, 7);
+        eventThreshold = Random.Range(2, 10);
         agreementThreshold = Random.Range(15, 30);
 
         //run generation function for initial agreements
@@ -101,6 +105,8 @@ public class GameManagerScript : MonoBehaviour
         alumniText.text = "Alumni: " + this.resources.alumni.ToString();
         buildingsText.text = "Buildings: " + this.resources.buildingCount.ToString();
 		wealthText.text = "Wealth: "+ this.resources.wealth.ToString();
+        r_rate.text = "R: " + this.resources.r_rate.ToString();
+        k_rate.text = "K: " + this.resources.k_rate.ToString();
     }
 
     //take into account all policy changes and changes in resources, then update said resources
@@ -111,6 +117,7 @@ public class GameManagerScript : MonoBehaviour
             //eventController.DoEvent();
             ticker++;
             eventTicker++;
+            agreementTicker++;
 
             //calculate hidden values
             //K = 350 * buildingCount + 10 * faculty; This algorithm will be used when buildings can be bought
@@ -129,7 +136,7 @@ public class GameManagerScript : MonoBehaviour
             this.resources.calcFaculty();
 
             //Calculate Students
-            this.resources.calcStudents();
+            this.resources.calcStudents(tuitionSlider.maxValue + donationSlider.maxValue);
 
             //Calculate Alumni
             this.resources.calcAlumni();
@@ -143,18 +150,19 @@ public class GameManagerScript : MonoBehaviour
             //regenerate event threshold, reset time ot next event, and then do an event
             eventThreshold = Random.Range(2, 10); //2 to 10 seconds
             eventTicker = 0;
-            //eventController.DoEvent();
+            eventController.DoEvent(new Event("What is wrong!"));
         }
 
         //randomized agreements, made sure it's only for the early game
         if (resources.gamePhase == 0) {
             if (agreementTicker == agreementThreshold) {
                 this.eventController.DoEvent(new Event("!!!: New HS Agreements are available!"));
+                Debug.Log("New HS Agreements");
 
                 //run generation function
                 string[] name = RandomAgreements.instance.ChooseName(3);
                 for (int i = 0; i < 3; i++) {
-                    agreements.Add(RandomAgreements.instance.generateAgreement(name[i]));
+                    agreements[i] = RandomAgreements.instance.generateAgreement(name[i]);
                 }
 
                 agreementThreshold = Random.Range(15, 30);
