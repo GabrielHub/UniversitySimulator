@@ -16,8 +16,8 @@ public class GameManagerScript : MonoBehaviour
 	public TextMeshProUGUI wealthText;
 
     // For testing purposes
-    public TextMeshProUGUI r_rate;
-    public TextMeshProUGUI k_rate;
+    //public TextMeshProUGUI r_rate;
+    //public TextMeshProUGUI k_rate;
 
     //Other UI Elements
     public Button playButton;
@@ -123,8 +123,12 @@ public class GameManagerScript : MonoBehaviour
         alumniText.text = "Alumni: " + this.resources.alumni.ToString();
         buildingsText.text = "Buildings: " + this.resources.buildingCount.ToString();
 		wealthText.text = "Wealth: "+ this.resources.wealth.ToString();
-        r_rate.text = "R: " + this.resources.r_rate.ToString();
-        k_rate.text = "K: " + this.resources.k_rate.ToString();
+
+        //Debugging
+        Debug.Log("R Value: " + this.resources.r);
+        Debug.Log("K Value: " + this.resources.K);
+        //r_rate.text = "R: " + this.resources.r_rate.ToString();
+        //k_rate.text = "K: " + this.resources.k_rate.ToString();
     }
 
     //take into account all policy changes and changes in resources, then update said resources

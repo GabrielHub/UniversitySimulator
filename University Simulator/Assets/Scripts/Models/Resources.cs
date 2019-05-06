@@ -10,8 +10,8 @@ public class Resources {
     public int students;
     public int wealth;
     public int buildingCount;
-    public float r_rate;
-    public float k_rate;
+    //public float r_rate;
+    //public float k_rate;
 
     //To check what phase of the game we're in
     public int gamePhase = 0;
@@ -19,14 +19,14 @@ public class Resources {
     //Hidden Resources
     public float r {
         get {
-            r_rate = ((students + faculty)/wealth) + renown;
-            return ((students + faculty)/wealth) + renown;
+            //r_rate = ((students + faculty) / wealth) + renown;
+            return ((students + faculty) / wealth) + renown;
         }
     } //student growth rate r
 
     public float K {
         get {
-            k_rate = (studentPool + alumni);
+            //k_rate = (studentPool + alumni);
             return (studentPool + alumni);
         }
     } //carrying capacity (size limit) for student growth K

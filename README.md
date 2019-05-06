@@ -1,7 +1,7 @@
 # University Simulator: Build and grow a University!
 
 ### Game Phases
-## Early Game: 1k students required, 5k wealth recommended to proceed
+## Early Game:
 
 **Premise:**
 
@@ -19,10 +19,8 @@
 - Student Body: Main Goal
 - Wealth: Soft Goal
 - Happiness: Affects number of students who apply to the university
-- Graduation Rate: Static in this phase, set very low
-- Buildings: Given 3 at the start, you cannot buy new buildings in this stage
+- Buildings: Given 3 at the start, you cannot buy new buildings in this stage. Affects the starting student pool.
 - Renown: Affects growth rate of faculty
-- Students to Faculty Ratio: The number of students each faculty can take care of. Static in this stage, set to 10.
 - Available Upgrades: Hire Administrators (Unlocks visibility of hidden resources), Official Campus (Needed to unlock next phase), Official University Certificate (needed to unlock next phase)
 	
 **Lose Condition:**
@@ -36,22 +34,33 @@
 
 **Premise:**
 	
-	Now that the University is official, it can grow by buying buildings, hiring specialists, and no longer needs high school agreements. The university needs to rise in the rankings, so management of the renown of the University becomes vital.
+	Now that the University is official;y recognized, it can grow by buying buildings, hiring specialists, and no longer needs high school agreements. The university needs to rise in the rankings, so management of the renown and graduation rate of the University becomes vital.
 
 **Focus:**
 
 	* Building Management - Introduces clickable tilemap mechanic, building management tab, and StudentPool and Faculty is now capped by the buildings you have
 		- Buildings have different types, that come with different bonuses
-	* Faculty Pay Slider - Affects 
+	* Faculty Pay Slider - Change how much faculty affects wealth per turn. A higher amount decreases wealth, but increases renown and happiness.
+	* Ranking - A new modifier out of 100 that updates every 5 turns. Based on renown, graduation rate. Also modified by Building Bonuses and Special Students.
+	* Student To Faculty Ratio Slider - The number of students each faculty can take care of. Higher ratio increases graduation rate but decreases happiness.
+	* Special Students - A chance of a special student occurs every 4 turns, depending on renown and happiness. Spend a certain amount of wealth to give scholarships to special students.
 
 **Details:**
 
+- Ranking: Main Goal
+- Buildings: Soft Goal
+- Graduation Rate: Now based on Students to Faculty Ratio.
+- Renown: Now based on Faculty Pay, Student To Faculty Ratio, and boosted by Building and Special Student bonuses. A static boost based on the avg Stars of High School Agreements from the previous stage carry over.
+- High School Agreements: No longer available or a factor, converted to a static boost or detriment depending on the high schools you aquired.
+- Random Events: Are now active. Random chance of an event happening every turn, that can be helpful or hurtful depending on how well you're doing.
+- Available Upgrades: Marketing Campaign I (increases renown by a small amount), Marketing Campaign II (increasaes HSA static boost by a small amount), Financial Aid Program (Increases odds of special student), *More to be designed*
+
 **Lose Condition:**
 - No wealth or students
-- Fall out of national ranking (only a lose condition once you make it halfway through the ranking)
+- Fall out of national ranking (only a lose condition once you make it past 50)
 
 **Win Condition:**
-- Become number 1 ranked national university
+- Become number 1 ranked national university, certain amount of buildings, endowment (how much alumni)
 
 ## End Game: *TO BE DESIGNED*
 
