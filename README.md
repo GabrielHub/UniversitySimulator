@@ -10,7 +10,7 @@
 **Focus:**
 	
 	* Tuition Rate Slider - Affects Happiness and Wealth. Higher Tuition rate decreases happiness and increases wealth per turn.
-	* Acceptance Rate Slider - Determines how many of the applied students will enter the University. Higher acceptance rate increases students but decreases faculty per turn.
+	* Acceptance Rate Slider - Determines how many of the applied students will enter the University. Higher acceptance rate increases students but decreases renown per turn.
 	* Highschool Agreements - New agreements appear each turn and must be purchased. Agreements affect the max pool of students who can apply, as well as renown.
 	* Alumni Donation Rate: Affect wealth gained by Alumni. Setting it too high when happiness is low will cause Alumni to denounce the university and alumni number decreases
 	
@@ -32,7 +32,7 @@
 - 1k Students unlocks two required purchases.
 - To move on, you need to purchase **Official Campus** costing 3K wealth and **Official University Certificate** costing 2K wealth
 
-## Mid Game: *TO BE DESIGNED*
+## Mid Game:
 
 **Premise:**
 	
@@ -55,13 +55,6 @@
 
 ## End Game: *TO BE DESIGNED*
 
-### Difficulty
-
-**Early Game:**
-
-	Set fairly easy, you can only lose if you get 0 students or 0 wealth. 
-	Growth isn't based on any dynamic difficulty but by basic actions that only push you forward.
-
 ### Events
 
 	Done using the EventController script. Uses an event ticker that counts down the time since the last event.
@@ -69,14 +62,15 @@
 	Events can be helpful or damaging. Currently based on a random value
 
 ### UI/UX
-(Based on rimworld UI?)
+
 - Tabs on the bottom of the screen for **Event Log** and one for each resource to manage them.
 - The **Event Log** tab, will open or close a transparent Event Log Object in the top middle of the screen.
-- **Event Log** will be a "simple messaging system which will allow items in our projects to subscribe to events, and have events trigger actions in our games. This will reduce dependencies and allow easier maintenance of our projects." (There's a Unity tutorial on how to do this on the unity website)
+- **Event Log** will be a "simple messaging system which will allow items in our projects to subscribe to events, and have events trigger actions in our games. This will reduce dependencies and allow easier maintenance of our projects."
 - **Play / Pause** button will be on the bottom right above the tabs
 - **Resources** will be in the top left
+- Tabs include a **Buy Menu**, an **Advanced Stats** tab, and an **Interactables** tab.
 
-### Resources:
+### Balance and Difficulty:
 
 Rules for resources (every turn):
 	Look at Google Slides Chart
@@ -93,10 +87,12 @@ Types of Resources:
 
 5. Wealth - Resource used to spend used for actions
 
-### Ideas:
-- Add some factors that will change rate of graduation
-- Adjustable tuition rates
-- Amount of donations from alumni
-- How many students per faculty member
-- Maximum class capacity
-- Notable Alumni which have special effects on the university
+Hidden Resources:
+
+1. Student Growth (r) - Determines how many students you get per turn
+
+2. Happiness - Factors into student growth
+
+3. Renown
+
+4. Student Pool - Determines max number of students you can get per turn
