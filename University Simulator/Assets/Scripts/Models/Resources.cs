@@ -27,7 +27,7 @@ public class Resources {
     public float K {
         get {
             //k_rate = (studentPool + alumni);
-            return (studentPool + alumni);
+            return (studentPool);
         }
     } //carrying capacity (size limit) for student growth K
 

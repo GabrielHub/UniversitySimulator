@@ -16,7 +16,7 @@ public class SliderScript : MonoBehaviour
 
     void FixedUpdate() {
         if (slider.name == "AcceptanceSlider") {
-            valueText.text = slider.value.ToString();
+            valueText.text = (slider.value * 100).ToString("F2") + "%" ;
         }
         else {
            valueText.text = ((int)slider.value).ToString(); 
