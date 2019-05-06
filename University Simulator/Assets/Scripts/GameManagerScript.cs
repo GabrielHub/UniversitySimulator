@@ -129,11 +129,9 @@ public class GameManagerScript : MonoBehaviour
         Debug.Log("K Value: " + this.resources.K);
         //r_rate.text = "R: " + this.resources.r_rate.ToString();
         //k_rate.text = "K: " + this.resources.k_rate.ToString();
-    }
 
-    void FixedUpdate()
-    {
-        if (Input.GetKeyDown(KeyCode.DownArrow)) {
+        //pause control by pressing key
+        if (Input.GetKeyDown(KeyCode.P)) {
             PauseOnClick();
         }
     }

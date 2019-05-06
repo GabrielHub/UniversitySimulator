@@ -23,10 +23,19 @@ public class BuyMenuScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //MAke sure you do gamephase checks for phase locked features
+
     	//Visibility for dropdown, defines what content is shown
         if (dropdown.value == 0) {
-        	buyHS.SetActive(true);
-            buyUpgrades.SetActive(false);
+            //check for early gmae phase
+            if (GameManagerScript.instance.resources.gamePhase == 0) {
+                buyHS.SetActive(true);
+                buyUpgrades.SetActive(false);
+            }
+        	else {
+                buyHS.SetActive(false);
+                buyUpgrades.SetActive(false);
+            }
         }
         else if (dropdown.value == 1) {
         	buyHS.SetActive(false);
