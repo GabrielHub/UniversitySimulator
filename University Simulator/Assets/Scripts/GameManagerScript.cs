@@ -215,7 +215,7 @@ public class GameManagerScript : MonoBehaviour
         }
 
         //check for game over, or game win
-        if (resources.students <= 0) {
+        if (resources.students <= 0 && resources.gamePhase == 0) {
             this.eventController.DoEvent(new Event("You've run out of students and this University has failed. \n Don't be sad it happened be happy it's over"));
             CancelInvoke();
         }
