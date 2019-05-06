@@ -131,6 +131,13 @@ public class GameManagerScript : MonoBehaviour
         //k_rate.text = "K: " + this.resources.k_rate.ToString();
     }
 
+    void FixedUpdate()
+    {
+        if (Input.GetKeyDown(KeyCode.DownArrow)) {
+            PauseOnClick();
+        }
+    }
+
     //take into account all policy changes and changes in resources, then update said resources
     void Turns() {
         //Check whether game is paused or not
