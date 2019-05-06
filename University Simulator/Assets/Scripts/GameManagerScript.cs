@@ -26,6 +26,11 @@ public class GameManagerScript : MonoBehaviour
 	//resources
     public Resources resources;
     //public static Dictionary<string, int> buildings = new Dictionary<string, int> ();
+    //Per Turn Display Stats
+    public int studentsPerTurn;
+    public int facultyPerTurn;
+    public int wealthPerTurn;
+    public int alumniPerTurn;
 
     //sliders
     public Slider tuitionSlider;
@@ -125,18 +130,17 @@ public class GameManagerScript : MonoBehaviour
         buildingsText.text = "Buildings: " + this.resources.buildingCount.ToString();
 		wealthText.text = "Wealth: "+ this.resources.wealth.ToString();
 
-        if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            PauseOnClick();
-        }
-
         //Debugging
         Debug.Log("R Value: " + this.resources.r);
         Debug.Log("K Value: " + this.resources.K);
         //r_rate.text = "R: " + this.resources.r_rate.ToString();
         //k_rate.text = "K: " + this.resources.k_rate.ToString();
-    }
 
+        //pause control by pressing key
+        if (Input.GetKeyDown(KeyCode.P)) {
+            PauseOnClick();
+        }
+    }
 
     //take into account all policy changes and changes in resources, then update said resources
     void Turns() {
@@ -160,16 +164,16 @@ public class GameManagerScript : MonoBehaviour
             this.resources.calcHappiness(tuitionSlider.value, tuitionSlider.maxValue, donationSlider.value, donationSlider.maxValue);
 
             //Calculate wealth
-            this.resources.calcWealth(donationSlider.value, tuitionSlider.value);
+            wealthPerTurn = this.resources.calcWealth(donationSlider.value, tuitionSlider.value);
 
             //Calculate Faculty
-            this.resources.calcFaculty();
+            facultyPerTurn = this.resources.calcFaculty();
 
             //Calculate Students
-            this.resources.calcStudents(tuitionSlider.maxValue + donationSlider.maxValue);
+            studentsPerTurn = this.resources.calcStudents(tuitionSlider.maxValue + donationSlider.maxValue);
 
             //Calculate Alumni
-            this.resources.calcAlumni();
+            alumniPerTurn = this.resources.calcAlumni();
 
             //calculate HS Agreements
             this.resources.calcHSAgreements();
@@ -222,7 +226,7 @@ public class GameManagerScript : MonoBehaviour
         }
 
         //check for game over, or game win
-        if (resources.students <= 0) {
+        if (resources.students <= 0 && resources.gamePhase == 0) {
             this.eventController.DoEvent(new Event("You've run out of students and this University has failed. \n Don't be sad it happened be happy it's over"));
             CancelInvoke();
         }

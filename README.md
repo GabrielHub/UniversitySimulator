@@ -115,15 +115,15 @@ Rules for resources (every turn):
 
 Types of Resources:
 
-1. Students - Determining growth counter. Grows depending on certain resources (algorithm below). Provides materials in terms of yearly tuition.
+1. Students - Determining growth counter. Grows depending on certain resources (algorithm below). Provides materials in terms of yearly tuition. Decrease wealth for each student as well based on amount of students and renown.
 
-2. Alumni - A counter for how many students have graduated. Each alumni grants a small amount materials as donations
+2. Alumni - A counter for how many students have graduated. Each alumni grants a small amount of materials as donations
 
 3. Buildings - Determines how much Faculty you can accumulate. Costs donations to purchase more. Buildings can provide a building bonus, whether positive or negative
 
-4. Faculty - Determines how many Students you can have at one time. Can be purchased.
+4. Faculty - Determines how many Students you can have at one time. Can be purchased. Decreases wealth for each faculty
 
-5. Wealth - Resource used to spend used for actions
+5. Wealth - Resource used to spend used for actions and used to maintain students/faculty.
 
 Hidden Resources:
 
@@ -131,6 +131,8 @@ Hidden Resources:
 
 2. Happiness - Factors into student growth
 
-3. Renown
+3. Renown - Determines how much each student costs and increases student growth
 
 4. Student Pool - Determines max number of students you can get per turn
+
+5. Acceptance Rate - Factors into student growth

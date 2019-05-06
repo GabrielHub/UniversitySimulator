@@ -85,41 +85,58 @@ public class Resources {
         acceptanceRate = val;
     }
 
-    //wealth. donation and tuition are sliders that change variables in gamemanagerscript
-    public void calcWealth(float donation, float tuition) {
-        wealth += (int) ((alumni * donation) + (students * tuition)) / 5;
+    //wealth. donation and tuition are sliders that change variables in gamemanagerscript, good luck balancing this pos
+    public int calcWealth(float donation, float tuition) {
         int students_penalty = 1 + (int) ((students / 50) * renown);
         int faculty_penalty = 2 + (faculty / (faculty * buildingCount));
-        wealth -= ((faculty * faculty_penalty) + (students * students_penalty) + (buildingCount * 5)) / 5;
+        int temp = (int) ((((alumni * donation) + (students * tuition)) / 5) - (((faculty * faculty_penalty) + (students * students_penalty) + (buildingCount * 5)) / 5));
+        wealth += temp;
 
+        return wealth;
     }
 
     //faculty.
-    public void calcFaculty() {
+    public int calcFaculty() {
+        int temp;
         if (faculty < wealth) {
-            faculty += buildingCount;
+            temp = buildingCount;
+            
         }
+        else {
+            temp = 0;
+        }
+
+        faculty += temp;
+        return temp;
     }
 
     //students
-    public void calcStudents(float maxHappiness) {
+    public int calcStudents(float maxHappiness) {
         // K - Students accepted out of student pool
         // R - Growth Rate
+        int temp = (int) ((acceptanceRate) * (happiness / maxHappiness) * (r * students * ((K - students) / K)));
+        students += temp;
 
-        students += (int) ((acceptanceRate) * (happiness / maxHappiness) * (r * students * ((K - students) / K)));
+        return temp;
     }
 
     //alumni
-    public void calcAlumni() {
-        if (students <= 5) {
+    public int calcAlumni() {
+        int temp;
+
+        if (students <= 9) {
             alumni += students;
             students = 0;
+            temp = students;
         }
         else {
             int i = (int) (students / 10);
             students -= i;
             alumni += i;
+            temp = i;
         }
+
+        return temp;
     }
 
     //Function to calculate values based on high school agreements (For EARLYGAME)
