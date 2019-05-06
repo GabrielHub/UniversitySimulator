@@ -1,13 +1,13 @@
 using UnityEngine;
 
 public class OpenPanelOnClick: MonoBehaviour {
-	public GameObject target;
+	// public GameObject target;
 
-	public void OnClick() {
-		if (this.target.activeSelf) {
-			this.target.SetActive(false);
+	public void OnClick(GameObject target) {
+		if (target.activeSelf) {
+			target.SetActive(false);
 		} else {
-			this.target.SetActive(true);
+			target.SetActive(true);
 		}
 	}
 }

@@ -7,6 +7,7 @@ using TMPro;
 public class EventLogScript : MonoBehaviour, EventController.Listener {
 	private List<string> eventLog = new List<string> ();
 	private string text = "";
+
 	public TextMeshProUGUI eventLogText;
 
 	public int maxLines;
@@ -14,6 +15,9 @@ public class EventLogScript : MonoBehaviour, EventController.Listener {
     /// This function is called when the object becomes enabled and active.
     void Start() {
         GameManagerScript.instance.eventController.RegisterListener(this);
+        // for (int i = 0; i < 100; ++i) {
+        //     eventLog.Add("asdf\n");
+        // }
     }
 
     /// This function is called when an event is emitted from EventController.
