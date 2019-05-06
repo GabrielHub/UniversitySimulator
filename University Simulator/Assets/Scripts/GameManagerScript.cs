@@ -6,14 +6,10 @@ using TMPro;
 
 public class GameManagerScript : MonoBehaviour {
     public static GameManagerScript instance;
-    
+
     // For testing purposes
     //public TextMeshProUGUI r_rate;
     //public TextMeshProUGUI k_rate;
-
-    //Other UI Elements
-    // public Button playButton;
-    // public Text playText;
 
 	//resources
     public Resources resources;
@@ -32,7 +28,7 @@ public class GameManagerScript : MonoBehaviour {
     private int agreementThreshold; //time until new purchasable HS agreements
 
     //other variables
-    private bool playing = true; //check if paused or not
+    public bool playing = true; //check if paused or not
     [HideInInspector] // prevent this from being selectable in the inspector
     public EventController eventController; //script for events
 
@@ -109,16 +105,9 @@ public class GameManagerScript : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        //Resource List to be updated
-        // studentsText.text = "Students: " + this.resources.students.ToString();
-        // facultyText.text = "Faculty: " + this.resources.faculty.ToString();
-        // alumniText.text = "Alumni: " + this.resources.alumni.ToString();
-        // buildingsText.text = "Buildings: " + this.resources.buildingCount.ToString();
-		// wealthText.text = "Wealth: "+ this.resources.wealth.ToString();
-
         //Debugging
-        Debug.Log("R Value: " + this.resources.r);
-        Debug.Log("K Value: " + this.resources.K);
+        // Debug.Log("R Value: " + this.resources.r);
+        // Debug.Log("K Value: " + this.resources.K);
         //r_rate.text = "R: " + this.resources.r_rate.ToString();
         //k_rate.text = "K: " + this.resources.k_rate.ToString();
     }
