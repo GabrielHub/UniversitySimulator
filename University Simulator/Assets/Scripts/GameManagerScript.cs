@@ -33,7 +33,7 @@ public class GameManagerScript : MonoBehaviour
     public Slider acceptanceRateSlider;
 
     //Ticker/Time variables
-    private int ticker = 0; //unused atm
+    public int ticker = 0;
     private int eventTicker = 0; //time between events, resets after every event
     private int agreementTicker = 0; //time between new purchasable HS agreements
     private int eventThreshold; //time until events, changes after every event
@@ -43,7 +43,19 @@ public class GameManagerScript : MonoBehaviour
     private bool playing = true; //check if paused or not
     [HideInInspector] // prevent this from being selectable in the inspector
     public EventController eventController; //script for events
-    public List<HighSchoolAgreement> agreements; //purchasable agreements
+
+    //buyables
+    public Transform contentPanel; //The content object that we're attaching upgrade buttons to
+    public GameObject upgradeButton; //Button prefab for the upgrade object
+    public List<UpgradeBase> upgradeList;
+
+    //EarlyGame Resources
+    public HighSchoolAgreement[] agreements; //purchasable agreements
+    public GameObject BuyHSA1;
+    public GameObject BuyHSA2;
+    public GameObject BuyHSA3;
+    public bool enableStatistics = false;
+    public int earlyGameRequirements = 0;
 
     private void Awake() {
         if (GameManagerScript.instance == null) {
@@ -67,6 +79,12 @@ public class GameManagerScript : MonoBehaviour
 
         resources = new Resources();
 
+        //Initial upgrades that are available
+        upgradeList = new List<UpgradeBase> ();
+        UpgradeAdministrator upgradeAdmin = new UpgradeAdministrator();
+        AddUpgradable(upgradeAdmin); //Add Hire Administrators upgrade
+
+
         //set up  ranges (possibly based on difficulty later)
         this.resources.students = 45;
 		this.resources.faculty = 10;
@@ -77,7 +95,7 @@ public class GameManagerScript : MonoBehaviour
         this.resources.studentPool = 100; //start the game off with a limit of 100 students
 
         //initial purchasable agreements
-        agreements = new List<HighSchoolAgreement>();
+        agreements = new HighSchoolAgreement[3];
 
         //Start timer thresholds
         eventThreshold = Random.Range(2, 10);
@@ -86,7 +104,7 @@ public class GameManagerScript : MonoBehaviour
         //run generation function for initial agreements
         string[] name = RandomAgreements.instance.ChooseName(3);
         for (int i = 0; i < 3; i++) {
-            agreements.Add(RandomAgreements.instance.generateAgreement(name[i]));
+            agreements[i] = RandomAgreements.instance.generateAgreement(name[i]);
         }
 
         //starting dialogue
@@ -126,6 +144,7 @@ public class GameManagerScript : MonoBehaviour
             //r = ((resources.students + resources.faculty) / resources.wealth) + renown;
             //acceptance rate
             this.resources.calcAcceptanceRate(acceptanceRateSlider.value);
+
             //happiness. Optimal value is currently set to half the max value
             this.resources.calcHappiness(tuitionSlider.value, tuitionSlider.maxValue, donationSlider.value, donationSlider.maxValue);
 
@@ -143,15 +162,31 @@ public class GameManagerScript : MonoBehaviour
 
             //calculate HS Agreements
             this.resources.calcHSAgreements();
+
+
+            //CODE FOR UPGRADES
+            //Unlocking Early Game Upgrades, make sure they aren't already added
+            if (this.resources.students > 1000 && upgradeList.Count < 2) {
+                //Add the Buy Campus and Buy License Upgrades
+                UpgradeCampus campusUpgrade = new UpgradeCampus();
+                AddUpgradable(campusUpgrade);
+
+                UpgradeLicense licenseUpgrade = new UpgradeLicense();
+                AddUpgradable(licenseUpgrade);
+            }
+
         }
+        // ALL CODE BELOW IS OUTSIDE OF THE TICKER AND WILL BE RUN EVERY SECOND
 
         //Events
         if (eventTicker == eventThreshold) {
             //regenerate event threshold, reset time ot next event, and then do an event
-            eventThreshold = Random.Range(2, 10); //2 to 10 seconds
+            eventThreshold = Random.Range(5, 20); //use this to change time between events
             eventTicker = 0;
-            eventController.DoEvent(new Event("What is wrong!"));
+            //eventController.DoEvent();
         }
+
+        //Future Event Code Here: Checks for bad stats (if happiness is too low do an event letting you know that people are unhappy)
 
         //randomized agreements, made sure it's only for the early game
         if (resources.gamePhase == 0) {
@@ -165,19 +200,36 @@ public class GameManagerScript : MonoBehaviour
                     agreements[i] = RandomAgreements.instance.generateAgreement(name[i]);
                 }
 
-                agreementThreshold = Random.Range(15, 30);
-                agreementTicker = 0;   
+                agreementThreshold = Random.Range(10, 15); //use this to change time between new agreements
+                agreementTicker = 0;
+
+                //enable every window if they were purchased before
+                BuyHSA1.SetActive(true);
+                BuyHSA2.SetActive(true);
+                BuyHSA3.SetActive(true);
             }
         }
 
-        //check for game over
+        //check for game over, or game win
         if (resources.students <= 0) {
             this.eventController.DoEvent(new Event("You've run out of students and this University has failed. \n Don't be sad it happened be happy it's over"));
             CancelInvoke();
         }
-        else if (resources.alumni >= 500000) {
-            this.eventController.DoEvent(new Event("Congrats! You have as many alumni as NYU!"));
+        else if (earlyGameRequirements == 2) {
+            this.resources.gamePhase = 1;
+            //Unlock buildings, code required below
+
         }
+    }
+
+    //Add Purchasable Upgrades
+    void AddUpgradable(UpgradeBase item) {
+        //Create button prefab and attach it to the content panel
+        GameObject buttonCreation = Instantiate(upgradeButton, contentPanel);
+        UpgradeBuyButton buttonScript = buttonCreation.GetComponent<UpgradeBuyButton> ();
+        buttonScript.Setup(item); //pass upgrade object into the button
+
+        upgradeList.Add(item);
     }
 
     //Pause and Play button click function

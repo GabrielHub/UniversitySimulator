@@ -23,6 +23,7 @@
 - Buildings: Given 3 at the start, you cannot buy new buildings in this stage
 - Renown: Affects growth rate of faculty
 - Students to Faculty Ratio: The number of students each faculty can take care of. Static in this stage, set to 10.
+- Available Upgrades: Hire Administrators (Unlocks visibility of hidden resources), Official Campus (Needed to unlock next phase), Official University Certificate (needed to unlock next phase)
 	
 **Lose Condition:**
 - No wealth or students
@@ -32,6 +33,25 @@
 - To move on, you need to purchase **Official Campus** costing 3K wealth and **Official University Certificate** costing 2K wealth
 
 ## Mid Game: *TO BE DESIGNED*
+
+**Premise:**
+	
+	Now that the University is official, it can grow by buying buildings, hiring specialists, and no longer needs high school agreements. The university needs to rise in the rankings, so management of the renown of the University becomes vital.
+
+**Focus:**
+
+	* Building Management - Introduces clickable tilemap mechanic, building management tab, and StudentPool and Faculty is now capped by the buildings you have
+		- Buildings have different types, that come with different bonuses
+	* Faculty Pay Slider - Affects 
+
+**Details:**
+
+**Lose Condition:**
+- No wealth or students
+- Fall out of national ranking (only a lose condition once you make it halfway through the ranking)
+
+**Win Condition:**
+- Become number 1 ranked national university
 
 ## End Game: *TO BE DESIGNED*
 

@@ -90,7 +90,7 @@ public class Resources {
         wealth += (int) ((alumni * donation) + (students * tuition)) / 5;
         int students_penalty = 1 + (int) ((students / 50) * renown);
         int faculty_penalty = 2 + (faculty / (faculty * buildingCount));
-        wealth -= ((faculty * faculty_penalty) + (students * students_penalty) + (buildingCount * 5)) / 5; 
+        wealth -= ((faculty * faculty_penalty) + (students * students_penalty) + (buildingCount * 5)) / 5;
 
     }
 
@@ -134,6 +134,6 @@ public class Resources {
         }
         calcRenown(reTemp / agreements.Count());
         studentPool = stuTemp;
-        
+
     }
 }

@@ -9,12 +9,14 @@ public class BuyMenuScript : MonoBehaviour
 	public TMPro.TMP_Dropdown dropdown;
 
 	//For each drop down, there is a content gameobject. By default they are disabled, but enabled when update sees the value of dropdown is changed
-	public GameObject content1;
+	public GameObject buyHS;
+    public GameObject buyUpgrades;
 
     // Start is called before the first frame update
     void Start()
     {
-        content1.SetActive(false);
+        buyHS.SetActive(false);
+        buyUpgrades.SetActive(false);
 
     }
 
@@ -23,10 +25,12 @@ public class BuyMenuScript : MonoBehaviour
     {
     	//Visibility for dropdown, defines what content is shown
         if (dropdown.value == 0) {
-        	content1.SetActive(true);
+        	buyHS.SetActive(true);
+            buyUpgrades.SetActive(false);
         }
         else if (dropdown.value == 1) {
-        	content1.SetActive(false);
+        	buyHS.SetActive(false);
+            buyUpgrades.SetActive(true);
         }
     }
 }
