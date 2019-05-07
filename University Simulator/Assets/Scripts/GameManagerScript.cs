@@ -14,6 +14,11 @@ public class GameManagerScript : MonoBehaviour {
 	//resources
     public Resources resources;
     //public static Dictionary<string, int> buildings = new Dictionary<string, int> ();
+    //Per Turn Display Stats
+    public int studentsPerTurn;
+    public int facultyPerTurn;
+    public int wealthPerTurn;
+    public int alumniPerTurn;
 
     //sliders
     public Slider tuitionSlider;
@@ -26,6 +31,7 @@ public class GameManagerScript : MonoBehaviour {
     private int agreementTicker = 0; //time between new purchasable HS agreements
     private int eventThreshold; //time until events, changes after every event
     private int agreementThreshold; //time until new purchasable HS agreements
+    private int negativeWealthTicker = 5;
 
     //other variables
     public bool playing = true; //check if paused or not
@@ -107,6 +113,11 @@ public class GameManagerScript : MonoBehaviour {
         // Debug.Log("K Value: " + this.resources.K);
         //r_rate.text = "R: " + this.resources.r_rate.ToString();
         //k_rate.text = "K: " + this.resources.k_rate.ToString();
+
+        //pause control by pressing key
+        if (Input.GetKeyDown(KeyCode.P)) {
+            PauseOnClick();
+        }
     }
 
     //take into account all policy changes and changes in resources, then update said resources
@@ -122,8 +133,7 @@ public class GameManagerScript : MonoBehaviour {
             //calculate hidden values
             //K = 350 * buildingCount + 10 * faculty; This algorithm will be used when buildings can be bought
             //K = studentPool;
-            //renown is only increased when buying buildings (atm)
-            //r = ((resources.students + resources.faculty) / resources.wealth) + renown;
+
             //acceptance rate
             this.resources.calcAcceptanceRate(acceptanceRateSlider.value);
 
@@ -131,16 +141,16 @@ public class GameManagerScript : MonoBehaviour {
             this.resources.calcHappiness(tuitionSlider.value, tuitionSlider.maxValue, donationSlider.value, donationSlider.maxValue);
 
             //Calculate wealth
-            this.resources.calcWealth(donationSlider.value, tuitionSlider.value);
+            wealthPerTurn = this.resources.calcWealth(donationSlider.value, tuitionSlider.value);
 
             //Calculate Faculty
-            this.resources.calcFaculty();
+            facultyPerTurn = this.resources.calcFaculty();
 
             //Calculate Students
-            this.resources.calcStudents(tuitionSlider.maxValue + donationSlider.maxValue);
+            studentsPerTurn = this.resources.calcStudents(tuitionSlider.maxValue + donationSlider.maxValue);
 
             //Calculate Alumni
-            this.resources.calcAlumni();
+            alumniPerTurn = this.resources.calcAlumni();
 
             //calculate HS Agreements
             this.resources.calcHSAgreements();
@@ -182,7 +192,7 @@ public class GameManagerScript : MonoBehaviour {
                     agreements[i] = RandomAgreements.instance.generateAgreement(name[i]);
                 }
 
-                agreementThreshold = Random.Range(10, 15); //use this to change time between new agreements
+                agreementThreshold = Random.Range(4, 18); //use this to change time between new agreements
                 agreementTicker = 0;
 
                 //enable every window if they were purchased before
@@ -193,7 +203,7 @@ public class GameManagerScript : MonoBehaviour {
         }
 
         //check for game over, or game win
-        if (resources.students <= 0) {
+        if (resources.students <= 0 && resources.gamePhase == 0) {
             this.eventController.DoEvent(new Event("You've run out of students and this University has failed. \n Don't be sad it happened be happy it's over"));
             CancelInvoke();
         }
@@ -202,6 +212,17 @@ public class GameManagerScript : MonoBehaviour {
             //Unlock buildings, code required below
 
         }
+
+        // when wealth is negative increase ticker.
+        if (resources.wealth < 0) {
+            negativeWealthTicker -= 1;
+            this.eventController.DoEvent(new Event("!!! You are currently in debt. Recover your debt before the collectors shutdown the University. \nYou have " + negativeWealthTicker + "left."));
+        }
+        if (negativeWealthTicker < 0) {
+            this.eventController.DoEvent(new Event("You have been in debt for more than 5 turns and the collectors are at your door. \n This university has failed."));
+            CancelInvoke();
+        }
+
     }
 
     //Add Purchasable Upgrades

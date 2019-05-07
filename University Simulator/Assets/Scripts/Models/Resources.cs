@@ -11,7 +11,7 @@ public class Resources {
     public int wealth;
     public int buildingCount;
     //public float r_rate;
-    //public float k_rate;
+    //public float k_rate; UH OH
 
     //To check what phase of the game we're in
     public int gamePhase = 0;
@@ -20,14 +20,14 @@ public class Resources {
     public float r {
         get {
             //r_rate = ((students + faculty) / wealth) + renown;
-            return ((students + faculty) / wealth) + renown;
+            return (happiness / 30) * renown;
         }
     } //student growth rate r
 
     public float K {
         get {
             //k_rate = (studentPool + alumni);
-            return (studentPool + alumni);
+            return (studentPool);
         }
     } //carrying capacity (size limit) for student growth K
 
@@ -49,7 +49,7 @@ public class Resources {
         this.buildingCount = buildingCount;
 
         this.agreements = new List<HighSchoolAgreement>();
-        this.agreements.Add(new HighSchoolAgreement("Starter's HS", 100, 1, 0));
+        this.agreements.Add(new HighSchoolAgreement("Starter's HS", 100, 3, 0));
 
         //initial values for other variables
         gamePhase = 0;
@@ -85,41 +85,63 @@ public class Resources {
         acceptanceRate = val;
     }
 
-    //wealth. donation and tuition are sliders that change variables in gamemanagerscript
-    public void calcWealth(float donation, float tuition) {
-        wealth += (int) ((alumni * donation) + (students * tuition)) / 5;
-        int students_penalty = 1 + (int) ((students / 50) * renown);
+    //wealth. donation and tuition are sliders that change variables in gamemanagerscript, good luck balancing this pos
+    public int calcWealth(float donation, float tuition) {
+        int students_penalty = 1;
         int faculty_penalty = 2 + (faculty / (faculty * buildingCount));
-        wealth -= ((faculty * faculty_penalty) + (students * students_penalty) + (buildingCount * 5)) / 5;
+        int temp = (int) ((((alumni * donation) + (students * tuition)) / 5) - (((faculty * faculty_penalty) + (students * students_penalty) + (buildingCount * 5)) / 5));
+        wealth += temp;
 
+        return wealth;
     }
 
     //faculty.
-    public void calcFaculty() {
+    public int calcFaculty() {
+        int temp;
         if (faculty < wealth) {
-            faculty += buildingCount;
+            temp = buildingCount;
+            
         }
+        else {
+            temp = 0;
+        }
+
+        faculty += temp;
+        return temp;
     }
 
     //students
-    public void calcStudents(float maxHappiness) {
+    public int calcStudents(float maxHappiness) {
         // K - Students accepted out of student pool
         // R - Growth Rate
+        int temp = (int) (r * students * ((K - students) / K));
+        students += temp;
 
-        students += (int) ((acceptanceRate) * (happiness / maxHappiness) * (r * students * ((K - students) / K)));
+        return temp;
     }
 
     //alumni
-    public void calcAlumni() {
-        if (students <= 5) {
+    public int calcAlumni() {
+        int temp;
+
+        if (students <= 9) {
             alumni += students;
             students = 0;
+            temp = students;
+        }
+        else if (happiness < 7) {
+            //alumni doesn't decrease
+            temp = -1;
+            alumni += temp;
         }
         else {
             int i = (int) (students / 10);
             students -= i;
             alumni += i;
+            temp = i;
         }
+
+        return temp;
     }
 
     //Function to calculate values based on high school agreements (For EARLYGAME)
