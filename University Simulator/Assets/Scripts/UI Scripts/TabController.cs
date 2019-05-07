@@ -8,6 +8,10 @@ public class TabController : MonoBehaviour
 	public ToggleGroup tg;
 	public Image img;
 
+    void Start() {
+        tg.SetAllTogglesOff();
+    }
+
     // Update is called once per frame
     void Update()
     {

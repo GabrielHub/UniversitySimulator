@@ -7,10 +7,10 @@ public class MenuItem: MonoBehaviour {
 	public PopupMenu menu;
 	public Tile item;
 
-    public void OnLeftClick(ClickManager.GetFrontmostRaycastHitResult result) {
-		// Transform box = this.transform.parent;
-		// PopupMenu menu = box.GetComponentInParent<PopupMenu>();
-		Debug.Log("onleftclick");
-		menu.OnClickMenuItem(this);
-	}
+    // public void OnLeftClick(ClickManager.GetFrontmostRaycastHitResult result) {
+	// 	// Transform box = this.transform.parent;
+	// 	// PopupMenu menu = box.GetComponentInParent<PopupMenu>();
+	// 	Debug.Log("onleftclick");
+	// 	menu.OnClickMenuItem(this);
+	// }
 }

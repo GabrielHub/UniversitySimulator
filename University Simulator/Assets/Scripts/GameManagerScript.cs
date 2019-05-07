@@ -4,40 +4,25 @@ using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
 
-public class GameManagerScript : MonoBehaviour
-{
+public class GameManagerScript : MonoBehaviour {
     public static GameManagerScript instance;
-
-    //UI text
-    public TextMeshProUGUI studentsText;
-    public TextMeshProUGUI facultyText;
-    public TextMeshProUGUI alumniText;
-    public TextMeshProUGUI buildingsText;
-	public TextMeshProUGUI wealthText;
 
     // For testing purposes
     //public TextMeshProUGUI r_rate;
     //public TextMeshProUGUI k_rate;
 
-    //Other UI Elements
-    public Button playButton;
-    public Text playText;
-
 	//resources
     public Resources resources;
     //public static Dictionary<string, int> buildings = new Dictionary<string, int> ();
     //Per Turn Display Stats
-    public int studentsPerTurn;
-    public int facultyPerTurn;
-    public int wealthPerTurn;
-    public int alumniPerTurn;
+    public Resources resourcesDelta;
 
     //sliders
     public Slider tuitionSlider;
     public Slider donationSlider;
     public Slider acceptanceRateSlider;
 
-    //Ticker/Time variables
+    //Ticker/Time variabless
     public int ticker = 0;
     private int eventTicker = 0; //time between events, resets after every event
     private int agreementTicker = 0; //time between new purchasable HS agreements
@@ -46,7 +31,7 @@ public class GameManagerScript : MonoBehaviour
     private int negativeWealthTicker = 5;
 
     //other variables
-    private bool playing = true; //check if paused or not
+    public bool playing = true; //check if paused or not
     [HideInInspector] // prevent this from being selectable in the inspector
     public EventController eventController; //script for events
 
@@ -57,9 +42,9 @@ public class GameManagerScript : MonoBehaviour
 
     //EarlyGame Resources
     public HighSchoolAgreement[] agreements; //purchasable agreements
-    public GameObject BuyHSA1;
-    public GameObject BuyHSA2;
-    public GameObject BuyHSA3;
+    public BuyAgreementScript BuyHSA1;
+    public BuyAgreementScript BuyHSA2;
+    public BuyAgreementScript BuyHSA3;
     public bool enableStatistics = false;
     public int earlyGameRequirements = 0;
 
@@ -79,9 +64,6 @@ public class GameManagerScript : MonoBehaviour
             To add events, use eventController.DoEvent(new Event("Sample String"));
             Max lines can be changed in the editor
         */
-
-        //Button Setup //Calls the TaskOnClick/TaskWithParameters/ButtonClicked method when you click the Button
-        playButton.onClick.AddListener(PauseOnClick);
 
         resources = new Resources();
 
@@ -123,22 +105,15 @@ public class GameManagerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Resource List to be updated
-        studentsText.text = "Students: " + this.resources.students.ToString();
-        facultyText.text = "Faculty: " + this.resources.faculty.ToString();
-        alumniText.text = "Alumni: " + this.resources.alumni.ToString();
-        buildingsText.text = "Buildings: " + this.resources.buildingCount.ToString();
-		wealthText.text = "Wealth: "+ this.resources.wealth.ToString();
-
         //Debugging
-        Debug.Log("R Value: " + this.resources.r);
-        Debug.Log("K Value: " + this.resources.K);
+        // Debug.Log("R Value: " + this.resources.r);
+        // Debug.Log("K Value: " + this.resources.K);
         //r_rate.text = "R: " + this.resources.r_rate.ToString();
         //k_rate.text = "K: " + this.resources.k_rate.ToString();
 
         //pause control by pressing key
         if (Input.GetKeyDown(KeyCode.P)) {
-            PauseOnClick();
+            this.playing = !this.playing;
         }
     }
 
@@ -163,16 +138,16 @@ public class GameManagerScript : MonoBehaviour
             this.resources.calcHappiness(tuitionSlider.value, tuitionSlider.maxValue, donationSlider.value, donationSlider.maxValue);
 
             //Calculate wealth
-            wealthPerTurn = this.resources.calcWealth(donationSlider.value, tuitionSlider.value);
+            this.resourcesDelta.wealth = this.resources.calcWealth(donationSlider.value, tuitionSlider.value);
 
             //Calculate Faculty
-            facultyPerTurn = this.resources.calcFaculty();
+            this.resourcesDelta.faculty = this.resources.calcFaculty();
 
             //Calculate Students
-            studentsPerTurn = this.resources.calcStudents(tuitionSlider.maxValue + donationSlider.maxValue);
+            this.resourcesDelta.students = this.resources.calcStudents(tuitionSlider.maxValue + donationSlider.maxValue);
 
             //Calculate Alumni
-            alumniPerTurn = this.resources.calcAlumni();
+            this.resourcesDelta.alumni = this.resources.calcAlumni();
 
             //calculate HS Agreements
             this.resources.calcHSAgreements();
@@ -218,9 +193,9 @@ public class GameManagerScript : MonoBehaviour
                 agreementTicker = 0;
 
                 //enable every window if they were purchased before
-                BuyHSA1.SetActive(true);
-                BuyHSA2.SetActive(true);
-                BuyHSA3.SetActive(true);
+                BuyHSA1.gameObject.SetActive(true);
+                BuyHSA2.gameObject.SetActive(true);
+                BuyHSA3.gameObject.SetActive(true);
             }
         }
 
@@ -255,18 +230,5 @@ public class GameManagerScript : MonoBehaviour
         buttonScript.Setup(item); //pass upgrade object into the button
 
         upgradeList.Add(item);
-    }
-
-    //Pause and Play button click function
-    void PauseOnClick() {
-        //change text when paused or playing
-        if (playing) {
-            playText.text = "Play";
-            playing = !playing;
-        }
-        else {
-            playText.text = "Pause";
-            playing = !playing;
-        }
     }
 }
