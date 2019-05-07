@@ -15,6 +15,7 @@ public class EventLogScript : MonoBehaviour, EventController.Listener {
     /// This function is called when the object becomes enabled and active.
     void Start() {
         GameManagerScript.instance.eventController.RegisterListener(this);
+        this.gameObject.SetActive(false);
         // for (int i = 0; i < 100; ++i) {
         //     eventLog.Add("asdf\n");
         // }

@@ -4,90 +4,47 @@ using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
 
-public class BuyAgreementScript : MonoBehaviour
-{
-	//Agreement Object holding this script
-	public GameObject container;
-
+public class BuyAgreementScript : MonoBehaviour {
+	public enum ScriptNumber { One, Two, Three }
+	public ScriptNumber scriptNumber;
 	//UI text
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI poolText;
     public TextMeshProUGUI valueText;
 
     public Button buyButton;
-    private Text buttonText;
+    public  Text buttonText;
+
+	private HighSchoolAgreement agreement {
+		get {
+			return GameManagerScript.instance.agreements[(int) this.scriptNumber];
+		}
+	}
 
     // Start is called before the first frame update
-    void Start()
-    {
-        //Button Setup //Calls the TaskOnClick/TaskWithParameters/ButtonClicked method when you click the Button
-        buyButton.onClick.AddListener(BuyOnClick);
-
-        buttonText = buyButton.GetComponentInChildren<Text> ();
+    void Start() {
     }
 
     // Update is called once per frame
-    void Update()
-    {
-    	if (this.tag == "0") {
-    		nameText.text = GameManagerScript.instance.agreements[0].name;
-       		poolText.text = GameManagerScript.instance.agreements[0].students.ToString();
-        	valueText.text = GameManagerScript.instance.agreements[0].value.ToString();
-
-        	buttonText.text = (GameManagerScript.instance.agreements[0].cost.ToString());
-    	}
-        else if (this.tag == "1") {
-        	nameText.text = GameManagerScript.instance.agreements[1].name;
-       		poolText.text = GameManagerScript.instance.agreements[1].students.ToString();
-        	valueText.text = GameManagerScript.instance.agreements[1].value.ToString();
-
-        	buttonText.text = (GameManagerScript.instance.agreements[1].cost.ToString());
-        }
-        else {
-        	nameText.text = GameManagerScript.instance.agreements[2].name;
-       		poolText.text = GameManagerScript.instance.agreements[2].students.ToString();
-        	valueText.text = GameManagerScript.instance.agreements[2].value.ToString();
-
-        	buttonText.text = (GameManagerScript.instance.agreements[2].cost.ToString());
-        }
+    void Update() {
+			nameText.text = this.agreement.name;
+			poolText.text = this.agreement.students.ToString();
+			valueText.text = this.agreement.value.ToString();
+			buttonText.text = this.agreement.cost.ToString();
     }
 
-    void BuyOnClick() {
-    	if (this.tag == "0") {
-    		if (GameManagerScript.instance.resources.wealth > GameManagerScript.instance.agreements[0].cost) {
-    			GameManagerScript.instance.resources.agreements.Add(GameManagerScript.instance.agreements[0]);
-    			GameManagerScript.instance.resources.wealth -= GameManagerScript.instance.agreements[0].cost;
-    			GameManagerScript.instance.eventController.DoEvent(new Event("Purchased HS Agreement: " + nameText.text));
+    public void BuyOnClick() {
+			Resources res = GameManagerScript.instance.resources;
+			// todo: fix this logic
+			if (res.wealth >= this.agreement.cost) {
+				res.agreements.Add(this.agreement);
+				res.wealth -= this.agreement.cost;
+				GameManagerScript.instance.eventController.DoEvent(new Event("Purchased HS Agreement: " + nameText.text));
 
-    			container.SetActive(false);
-    		}
-    		else {
-    			GameManagerScript.instance.eventController.DoEvent(new Event("Not Enough $$$ To Make This Purchase!"));
-    		}
-    	}
-        else if (this.tag == "1") {
-        	if (GameManagerScript.instance.resources.wealth > GameManagerScript.instance.agreements[1].cost) {
-    			GameManagerScript.instance.resources.agreements.Add(GameManagerScript.instance.agreements[1]);
-    			GameManagerScript.instance.resources.wealth -= GameManagerScript.instance.agreements[1].cost;
-    			GameManagerScript.instance.eventController.DoEvent(new Event("Purchased HS Agreement: " + nameText.text));
-
-    			container.SetActive(false);
-    		}
-    		else {
-    			GameManagerScript.instance.eventController.DoEvent(new Event("Not Enough $$$ To Make This Purchase!"));
-    		}
-        }
-        else {
-        	if (GameManagerScript.instance.resources.wealth > GameManagerScript.instance.agreements[2].cost) {
-    			GameManagerScript.instance.resources.agreements.Add(GameManagerScript.instance.agreements[2]);
-    			GameManagerScript.instance.resources.wealth -= GameManagerScript.instance.agreements[2].cost;
-    			GameManagerScript.instance.eventController.DoEvent(new Event("Purchased HS Agreement: " + nameText.text));
-
-    			container.SetActive(false);
-    		}
-    		else {
-    			GameManagerScript.instance.eventController.DoEvent(new Event("Not Enough $$$ To Make This Purchase!"));
-    		}
-        }
+				this.gameObject.SetActive(false);
+			} else {
+				// todo: this shouldn't be an event
+				GameManagerScript.instance.eventController.DoEvent(new Event("Not Enough $$$ To Make This Purchase!"));
+			}
     }
 }

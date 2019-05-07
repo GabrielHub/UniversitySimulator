@@ -45,9 +45,9 @@ public class GameManagerScript : MonoBehaviour {
 
     //EarlyGame Resources
     public HighSchoolAgreement[] agreements; //purchasable agreements
-    public GameObject BuyHSA1;
-    public GameObject BuyHSA2;
-    public GameObject BuyHSA3;
+    public BuyAgreementScript BuyHSA1;
+    public BuyAgreementScript BuyHSA2;
+    public BuyAgreementScript BuyHSA3;
     public bool enableStatistics = false;
     public int earlyGameRequirements = 0;
 
@@ -116,7 +116,7 @@ public class GameManagerScript : MonoBehaviour {
 
         //pause control by pressing key
         if (Input.GetKeyDown(KeyCode.P)) {
-            PauseOnClick();
+            this.playing = !this.playing;
         }
     }
 
@@ -196,9 +196,9 @@ public class GameManagerScript : MonoBehaviour {
                 agreementTicker = 0;
 
                 //enable every window if they were purchased before
-                BuyHSA1.SetActive(true);
-                BuyHSA2.SetActive(true);
-                BuyHSA3.SetActive(true);
+                BuyHSA1.gameObject.SetActive(true);
+                BuyHSA2.gameObject.SetActive(true);
+                BuyHSA3.gameObject.SetActive(true);
             }
         }
 
