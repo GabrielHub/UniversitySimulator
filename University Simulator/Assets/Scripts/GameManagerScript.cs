@@ -178,7 +178,7 @@ public class GameManagerScript : MonoBehaviour {
         //Future Event Code Here: Checks for bad stats (if happiness is too low do an event letting you know that people are unhappy)
 
         //randomized agreements, made sure it's only for the early game
-        if (resources.gamePhase == 0) {
+        if (resources.gamePhase == GamePhase.Early) {
             if (agreementTicker == agreementThreshold) {
                 this.eventController.DoEvent(new Event("!!!: New HS Agreements are available!"));
                 Debug.Log("New HS Agreements");
@@ -200,12 +200,12 @@ public class GameManagerScript : MonoBehaviour {
         }
 
         //check for game over, or game win
-        if (resources.students <= 0 && resources.gamePhase == 0) {
+        if (resources.students <= 0 && resources.gamePhase == GamePhase.Early) {
             this.eventController.DoEvent(new Event("You've run out of students and this University has failed. \n Don't be sad it happened be happy it's over"));
             CancelInvoke();
         }
         else if (earlyGameRequirements == 2) {
-            this.resources.gamePhase = 1;
+            this.resources.gamePhase = GamePhase.Mid;
             //Unlock buildings, code required below
 
         }

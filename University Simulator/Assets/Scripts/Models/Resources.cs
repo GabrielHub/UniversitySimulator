@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+public enum GamePhase { Early, Mid, Late }
+
 [System.Serializable]
 public class Resources {
     //5 Main Resources
@@ -14,7 +16,7 @@ public class Resources {
     //public float k_rate; UH OH
 
     //To check what phase of the game we're in
-    public int gamePhase = 0;
+    public GamePhase gamePhase = GamePhase.Early;
 
     //Hidden Resources
     public float r {
@@ -39,7 +41,9 @@ public class Resources {
     public int studentPool;
 
     [SerializeField]
-    public List<HighSchoolAgreement> agreements;
+    public List<HighSchoolAgreement> agreements = new List<HighSchoolAgreement> {
+        new HighSchoolAgreement("Starter's HS", 100, 3, 0)
+    };
 
     public Resources(int faculty = 0, int alumni = 0, int students = 0, int wealth = 0, int buildingCount = 0) {
         this.faculty = faculty;
@@ -48,11 +52,7 @@ public class Resources {
         this.wealth = wealth;
         this.buildingCount = buildingCount;
 
-        this.agreements = new List<HighSchoolAgreement>();
-        this.agreements.Add(new HighSchoolAgreement("Starter's HS", 100, 3, 0));
-
         //initial values for other variables
-        gamePhase = 0;
         happiness = 1;
         acceptanceRate = .8f;
         renown = 1f - (acceptanceRate * 2);
