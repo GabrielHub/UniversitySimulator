@@ -2,8 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public enum GamePhase { Early, Mid, Late }
-
 [System.Serializable]
 public class Resources {
     public const float MAX_HAPPINESS = 30f;
@@ -14,12 +12,6 @@ public class Resources {
     public int alumni;
     public int students;
     public int wealth;
-    public int buildingCount;
-    //public float r_rate;
-    //public float k_rate; UH OH
-
-    //To check what phase of the game we're in
-    public GamePhase gamePhase = GamePhase.Early;
 
     //Hidden Resources
     public float r {
@@ -48,12 +40,11 @@ public class Resources {
         new HighSchoolAgreement("Starter's HS", 100, 3, 0)
     };
 
-    public Resources(int faculty = 0, int alumni = 0, int students = 0, int wealth = 0, int buildingCount = 0) {
+    public Resources(int faculty = 0, int alumni = 0, int students = 0, int wealth = 0) {
         this.faculty = faculty;
         this.alumni = alumni;
         this.students = students;
         this.wealth = wealth;
-        this.buildingCount = buildingCount;
 
         //initial values for other variables
         happiness = 1;
@@ -67,8 +58,7 @@ public class Resources {
             wealth: left.wealth + right.wealth,
             faculty: left.faculty + right.faculty,
             alumni: left.alumni + right.alumni,
-            students: left.students + right.students,
-            buildingCount: left.buildingCount + right.buildingCount
+            students: left.students + right.students
         );
     }
 
@@ -91,8 +81,8 @@ public class Resources {
     //wealth. donation and tuition are sliders that change variables in gamemanagerscript, good luck balancing this pos
     public int calcWealth(float donation, float tuition) {
         int students_penalty = 1;
-        int faculty_penalty = 2 + (faculty / (faculty * buildingCount));
-        int temp = (int) ((((alumni * donation) + (students * tuition)) / 5) - (((faculty * faculty_penalty) + (students * students_penalty) + (buildingCount * 5)) / 5));
+        int faculty_penalty = 2 + (faculty / (faculty * 3));
+        int temp = (int) ((((alumni * donation) + (students * tuition)) / 5) - (((faculty * faculty_penalty) + (students * students_penalty) + (3 * 5)) / 5));
         wealth += temp;
 
         return temp;
@@ -102,7 +92,7 @@ public class Resources {
     public int calcFaculty() {
         int temp;
         if (faculty < wealth) {
-            temp = buildingCount;
+            temp = (int) (3 * renown);
             
         }
         else {
@@ -160,5 +150,25 @@ public class Resources {
         calcRenown(reTemp / agreements.Count());
         studentPool = stuTemp;
 
+    }
+}
+
+[System.Serializable]
+public class ResourcesMidGame : Resources {
+    //new resources
+    public Dictionary<string, int> buildings;
+    public int buildingCount;
+    public int ranking; //out of 1000
+    public float graduationRate;
+
+    public ResourcesMidGame(Resources resc) : base(resc.faculty, resc.alumni, resc.students, resc.wealth) {
+        buildings = new Dictionary<string, int> ();
+        buildingCount = 0;
+        ranking = 1000;
+
+        studentPool = resc.studentPool; //set studentPool to the studentPool from HSA which are no irrelevant
+
+        //initial values that will be overwritten anyway
+        graduationRate = 0.5f;
     }
 }

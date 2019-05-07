@@ -13,7 +13,7 @@ public class GameManagerScript : MonoBehaviour {
 
 	//resources
     public Resources resources;
-    //public static Dictionary<string, int> buildings = new Dictionary<string, int> ();
+    
     //Per Turn Display Stats
     public Resources resourcesDelta;
 
@@ -32,6 +32,8 @@ public class GameManagerScript : MonoBehaviour {
 
     //other variables
     public bool playing = true; //check if paused or not
+    public enum GameState {EarlyGame, MidGame, EndGame};
+    public GameState state;
     [HideInInspector] // prevent this from being selectable in the inspector
     public EventController eventController; //script for events
 
@@ -66,6 +68,7 @@ public class GameManagerScript : MonoBehaviour {
         */
 
         resources = new Resources();
+        state = GameState.EarlyGame;
 
         //Initial upgrades that are available
         upgradeList = new List<UpgradeBase> ();
@@ -77,10 +80,7 @@ public class GameManagerScript : MonoBehaviour {
         this.resources.students = 45;
 		this.resources.faculty = 10;
 		this.resources.alumni = 1;
-		this.resources.buildingCount = 3;
 		this.resources.wealth = 50;
-
-        this.resources.studentPool = 100; //start the game off with a limit of 100 students
 
         //initial purchasable agreements
         agreements = new HighSchoolAgreement[3];
@@ -178,7 +178,7 @@ public class GameManagerScript : MonoBehaviour {
         //Future Event Code Here: Checks for bad stats (if happiness is too low do an event letting you know that people are unhappy)
 
         //randomized agreements, made sure it's only for the early game
-        if (resources.gamePhase == GamePhase.Early) {
+        if (state == GameState.EarlyGame) {
             if (agreementTicker == agreementThreshold) {
                 this.eventController.DoEvent(new Event("!!!: New HS Agreements are available!"));
                 Debug.Log("New HS Agreements");
@@ -200,12 +200,13 @@ public class GameManagerScript : MonoBehaviour {
         }
 
         //check for game over, or game win
-        if (resources.students <= 0 && resources.gamePhase == GamePhase.Early) {
+        if (resources.students <= 0 && state == GameState.EarlyGame) {
             this.eventController.DoEvent(new Event("You've run out of students and this University has failed. \n Don't be sad it happened be happy it's over"));
             CancelInvoke();
         }
-        else if (earlyGameRequirements == 2) {
-            this.resources.gamePhase = GamePhase.Mid;
+        //check if early game is finished
+        if (earlyGameRequirements == 2) {
+            state = GameState.MidGame;
             //Unlock buildings, code required below
 
         }
