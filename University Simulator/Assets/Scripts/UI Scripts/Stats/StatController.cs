@@ -6,7 +6,7 @@ using TMPro;
 
 public class StatController : MonoBehaviour {
     public enum StatType {
-        Wealth, Alumni, Students, Faculty, Buildings
+        Wealth, Alumni, Students, Faculty, Capacity
     }
     public StatType type;
     public int value {
@@ -21,8 +21,8 @@ public class StatController : MonoBehaviour {
                     return res.students;
                 case StatType.Faculty:
                     return res.faculty;
-                case StatType.Buildings:
-                    return res.buildingCount;
+                case StatType.Capacity:
+                    return res.studentPool;
             }
             return 0; // unreachable
         }
@@ -40,8 +40,8 @@ public class StatController : MonoBehaviour {
                     return delta.students;
                 case StatType.Faculty:
                     return delta.faculty;
-                case StatType.Buildings:
-                    return delta.buildingCount;
+                case StatType.Capacity:
+                    return delta.studentPool;
             }
             return 0; // unreachable
         }
