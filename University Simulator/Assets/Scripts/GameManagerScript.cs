@@ -13,7 +13,7 @@ public class GameManagerScript : MonoBehaviour {
 
 	//resources
     public Resources resources;
-    //public static Dictionary<string, int> buildings = new Dictionary<string, int> ();
+    
     //Per Turn Display Stats
     public Resources resourcesDelta;
 
@@ -77,10 +77,7 @@ public class GameManagerScript : MonoBehaviour {
         this.resources.students = 45;
 		this.resources.faculty = 10;
 		this.resources.alumni = 1;
-		this.resources.buildingCount = 3;
 		this.resources.wealth = 50;
-
-        this.resources.studentPool = 100; //start the game off with a limit of 100 students
 
         //initial purchasable agreements
         agreements = new HighSchoolAgreement[3];
