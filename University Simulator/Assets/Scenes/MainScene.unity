@@ -7183,8 +7183,6 @@ MonoBehaviour:
     alumni: 0
     students: 0
     wealth: 0
-    buildingCount: 0
-    gamePhase: 0
     renown: 0
     happiness: 0
     acceptanceRate: 0
@@ -7195,8 +7193,6 @@ MonoBehaviour:
     alumni: 0
     students: 0
     wealth: 0
-    buildingCount: 0
-    gamePhase: 0
     renown: 0
     happiness: 0
     acceptanceRate: 0
@@ -7207,6 +7203,7 @@ MonoBehaviour:
   acceptanceRateSlider: {fileID: 693376032}
   ticker: 0
   playing: 1
+  state: 0
   eventController: {fileID: 1434317444}
   contentPanel: {fileID: 1473837468}
   upgradeButton: {fileID: 2685136072826138174, guid: b95f243a66cd01941a58261e64de51b5,
@@ -8622,7 +8619,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: New Text
+  m_text: No Events Yet
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

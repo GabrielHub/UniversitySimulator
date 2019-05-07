@@ -10,9 +10,6 @@ public class Resources {
     public int students;
     public int wealth;
 
-    //To check what phase of the game we're in. Early Game = 0, Mid Game = 1, End Game = 3
-    public int gamePhase = 0;
-
     //Hidden Resources
     public float r {
         get {
@@ -48,7 +45,6 @@ public class Resources {
         this.agreements.Add(new HighSchoolAgreement("Starter's HS", 100, 3, 0));
 
         //initial values for other variables
-        gamePhase = 0;
         happiness = 1;
         acceptanceRate = .8f;
         renown = 1f - (acceptanceRate * 2);
@@ -161,6 +157,7 @@ public class ResourcesMidGame : Resources {
     public Dictionary<string, int> buildings;
     public int buildingCount;
     public int ranking; //out of 1000
+    public float graduationRate;
 
     public ResourcesMidGame(Resources resc) : base(resc.faculty, resc.alumni, resc.students, resc.wealth) {
         buildings = new Dictionary<string, int> ();
@@ -168,5 +165,8 @@ public class ResourcesMidGame : Resources {
         ranking = 1000;
 
         studentPool = resc.studentPool; //set studentPool to the studentPool from HSA which are no irrelevant
+
+        //initial values that will be overwritten anyway
+        graduationRate = 0.5f;
     }
 }

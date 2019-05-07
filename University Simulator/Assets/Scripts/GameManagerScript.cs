@@ -32,6 +32,8 @@ public class GameManagerScript : MonoBehaviour {
 
     //other variables
     public bool playing = true; //check if paused or not
+    public enum GameState {EarlyGame, MidGame, EndGame};
+    public GameState state;
     [HideInInspector] // prevent this from being selectable in the inspector
     public EventController eventController; //script for events
 
@@ -66,6 +68,7 @@ public class GameManagerScript : MonoBehaviour {
         */
 
         resources = new Resources();
+        state = GameState.EarlyGame;
 
         //Initial upgrades that are available
         upgradeList = new List<UpgradeBase> ();
@@ -175,7 +178,7 @@ public class GameManagerScript : MonoBehaviour {
         //Future Event Code Here: Checks for bad stats (if happiness is too low do an event letting you know that people are unhappy)
 
         //randomized agreements, made sure it's only for the early game
-        if (resources.gamePhase == 0) {
+        if (state == GameState.EarlyGame) {
             if (agreementTicker == agreementThreshold) {
                 this.eventController.DoEvent(new Event("!!!: New HS Agreements are available!"));
                 Debug.Log("New HS Agreements");
@@ -197,12 +200,13 @@ public class GameManagerScript : MonoBehaviour {
         }
 
         //check for game over, or game win
-        if (resources.students <= 0 && resources.gamePhase == 0) {
+        if (resources.students <= 0 && state == GameState.EarlyGame) {
             this.eventController.DoEvent(new Event("You've run out of students and this University has failed. \n Don't be sad it happened be happy it's over"));
             CancelInvoke();
         }
-        else if (earlyGameRequirements == 2) {
-            this.resources.gamePhase = 1;
+        //check if early game is finished
+        if (earlyGameRequirements == 2) {
+            state = GameState.MidGame;
             //Unlock buildings, code required below
 
         }

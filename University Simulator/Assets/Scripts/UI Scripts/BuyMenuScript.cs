@@ -28,7 +28,7 @@ public class BuyMenuScript : MonoBehaviour
     	//Visibility for dropdown, defines what content is shown
         if (dropdown.value == 0) {
             //check for early gmae phase
-            if (GameManagerScript.instance.resources.gamePhase == 0) {
+            if (GameManagerScript.instance.state == GameManagerScript.GameState.EarlyGame) {
                 buyHS.SetActive(true);
                 buyUpgrades.SetActive(false);
             }
