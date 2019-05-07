@@ -6,6 +6,9 @@ public enum GamePhase { Early, Mid, Late }
 
 [System.Serializable]
 public class Resources {
+    public const float MAX_HAPPINESS = 30f;
+    public const float MAX_RENOWN = 5f;
+
     //5 Main Resources
     public int faculty;
     public int alumni;
@@ -92,7 +95,7 @@ public class Resources {
         int temp = (int) ((((alumni * donation) + (students * tuition)) / 5) - (((faculty * faculty_penalty) + (students * students_penalty) + (buildingCount * 5)) / 5));
         wealth += temp;
 
-        return wealth;
+        return temp;
     }
 
     //faculty.

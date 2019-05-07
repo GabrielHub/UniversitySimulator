@@ -13,8 +13,24 @@ public class StatTextController : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        this.text.text = this.stat.value.ToString();
+    void Update() {
+        string unit = "";
+        float denom = 1;
+        if (this.stat.value >= 1_000_000_000) {
+            unit = "b";
+            denom = 1_000_000_000;
+        } else if (this.stat.value >= 1_000_000) {
+            unit = "m";
+            denom = 1_000_000;
+        } else if (this.stat.value >= 1_000) {
+            unit = "k";
+            denom = 1_000;
+        } else {
+            this.text.text = this.stat.value.ToString();
+            return;
+        }
+        int decimals = 1;
+        float precision = Mathf.Pow(10f, decimals);
+        this.text.text = Mathf.Round(this.stat.value / denom * precision) / precision  + unit;
     }
 }
