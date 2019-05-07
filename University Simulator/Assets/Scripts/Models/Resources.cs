@@ -9,11 +9,8 @@ public class Resources {
     public int alumni;
     public int students;
     public int wealth;
-    public int buildingCount;
-    //public float r_rate;
-    //public float k_rate; UH OH
 
-    //To check what phase of the game we're in
+    //To check what phase of the game we're in. Early Game = 0, Mid Game = 1, End Game = 3
     public int gamePhase = 0;
 
     //Hidden Resources
@@ -37,6 +34,9 @@ public class Resources {
 
     //EarlyGame Resources
     public int studentPool;
+
+    //MidGame Resource
+    public int buildingCount;
 
     [SerializeField]
     public List<HighSchoolAgreement> agreements;
