@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RandomAgreements : MonoBehaviour
 {
+	//We might not want this to be a singleton, especially since it's only used in the early game and will be replaced by the RandomUniversity class
 	public static RandomAgreements instance;
 	public List<string> highSchoolNames = new List<string> {
 		"SAD! High School",
@@ -129,7 +130,9 @@ public class RandomAgreements : MonoBehaviour
 		"Lil Pump Mountainview Charter School",
 		"Malibu Seabreeze High School",
 		"Himachi Long Distance Connection HS",
-		"'If at first you don't succeedle turn to the needle' School"
+		"'If at first you don't succeedle turn to the needle' School",
+		"HotTub Toaster High",
+		"Forestfire Hills High School"
 	};
 
 	void Awake() {
@@ -183,15 +186,15 @@ public class RandomAgreements : MonoBehaviour
         }
         else if (val == 3) {
             pool = Random.Range(100, 250);
-            cost = Random.Range(250, 350);
+            cost = Random.Range(300, 450);
         }
         else if (val == 4) {
             pool = Random.Range(50, 100);
-            cost = Random.Range(300, 400);
+            cost = Random.Range(450, 650);
         }
         else {
             pool = Random.Range(35, 75);
-            cost = 500;
+            cost = 750;
         }
         return (new HighSchoolAgreement(name, pool, val, cost));
     }

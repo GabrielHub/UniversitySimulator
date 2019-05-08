@@ -24,7 +24,7 @@ public class UpgradeBase {
 
 //unlocks Advanced Statistics
 public class UpgradeAdministrator : UpgradeBase {
-	public UpgradeAdministrator() : base("Hire Administrators", "unlocks advanced statistics tab", 500) {
+	public UpgradeAdministrator() : base("Hire Administrators", "unlocks advanced statistics tab", 100) {
 		//calls base constructor
 	}
 
