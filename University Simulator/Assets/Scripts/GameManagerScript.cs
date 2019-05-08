@@ -42,7 +42,9 @@ public class GameManagerScript : MonoBehaviour {
     [HideInInspector] // prevent this from being selectable in the inspector
     public EventController eventController; //script for events
 
-    //buyables
+    //Buy Menu
+    public TMP_Dropdown buyMenu;
+    //For UUpgrades in the Buy Menu
     public Transform contentPanel; //The content object that we're attaching upgrade buttons to
     public GameObject upgradeButton; //Button prefab for the upgrade object
     public List<UpgradeBase> upgradeList;
@@ -138,6 +140,11 @@ public class GameManagerScript : MonoBehaviour {
             //happiness. Optimal value is currently set to half the max value
             this.resources.calcHappiness(tuitionSlider.value, tuitionSlider.maxValue, donationSlider.value, donationSlider.maxValue);
 
+            //renown, isn't calculated in Early Game because it's passed a value by calcHSAgreements
+            if (state == GameState.MidGame) {
+                this.resources.calcRenown(salarySlider.value);
+            }
+
             //Calculate wealth
             this.resourcesDelta.wealth = this.resources.calcWealth(donationSlider.value, tuitionSlider.value);
 
@@ -201,29 +208,26 @@ public class GameManagerScript : MonoBehaviour {
             }
         }
 
-        //check for game over, or game win
-        if (resources.students <= 0 && state == GameState.EarlyGame) {
-            this.eventController.DoEvent(new Event("You've run out of students and this University has failed. \n Don't be sad it happened be happy it's over"));
-            CancelInvoke();
-        }
-        //check if early game is finished
-        if (earlyGameRequirements == 2) {
-            state = GameState.MidGame;
-            MoveToEarlyGame();
-            //Unlock buildings, code required below
-
-        }
-
         // when wealth is negative increase ticker.
         if (resources.wealth < 0) {
             negativeWealthTicker -= 1;
             this.eventController.DoEvent(new Event("!!! You are currently in debt. Recover your debt before the collectors shutdown the University. \nYou have " + negativeWealthTicker + "left."));
         }
         if (negativeWealthTicker < 0) {
-            this.eventController.DoEvent(new Event("You have been in debt for more than 5 turns and the collectors are at your door. \n This university has failed."));
+            this.eventController.DoEvent(new Event("You have been in debt for more than 5 turns, when the debts a'rockin' the banks come knockin'. \n This university has failed."));
             CancelInvoke();
         }
 
+        //check for game over, or game win
+        if (resources.students <= 0) {
+            this.eventController.DoEvent(new Event("You've run out of students and this University has failed. \n Don't be sad it happened be happy it's over"));
+            CancelInvoke();
+        }
+        //check if early game is finished
+        if (earlyGameRequirements == 2 && state == GameState.EarlyGame) {
+            state = GameState.MidGame;
+            MoveToEarlyGame();
+        }
     }
 
     //Add A Purchasable Upgrades
@@ -238,6 +242,9 @@ public class GameManagerScript : MonoBehaviour {
 
     //Code when moving to the MIDGAME
     void MoveToEarlyGame() {
+        //disable early game features
+        buyMenu.options.RemoveAt(0); //remove HSA Buy Option
+
         //Create sliders and attach them to their content panel (IDK if this works cuz i need to pass the early game to test it)
         GameObject sliderCreation = Instantiate(salarySliderPrefab, sliderContentPanel);
         salarySlider = sliderCreation.GetComponent<Slider> ();
@@ -246,6 +253,7 @@ public class GameManagerScript : MonoBehaviour {
         facultyRatioSlider = sliderCreation2.GetComponent<Slider> ();
         this.eventController.DoEvent(new Event("NEW POLICIES: Student-Faculty decides how many students a faculty can handle.\n Higher amount increases graduation rate but decreases happiness."));
 
-        
+        //Convert resources to MidGame Resources class
+        resources = new ResourcesMidGame(resources);
     }
 }

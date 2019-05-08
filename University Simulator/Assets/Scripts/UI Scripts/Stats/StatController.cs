@@ -55,7 +55,7 @@ public class StatController : MonoBehaviour {
     }
 
     void Update() {
-        Debug.Log("here");
+        //Debug.Log("here");
         this.deltaText.gameObject.SetActive(GameManagerScript.instance.enableStatistics);
     }
 }

@@ -50,7 +50,7 @@ A Simulation game built in Unity 2019.1.0f2
 - Ranking: Main Goal
 - Buildings: Soft Goal
 - Graduation Rate: Now based on Students to Faculty Ratio.
-- Renown: Now based on Faculty Pay, Student To Faculty Ratio, and boosted by Building and Special Student bonuses. A static boost based on the avg Stars of High School Agreements from the previous stage carry over.
+- Renown: Now based on Faculty Pay and happiness. A static boost based on the avg Stars of High School Agreements from the previous stage carry over.
 - High School Agreements: No longer available or a factor, converted to a static boost or detriment depending on the high schools you aquired.
 - Random Events: Are now active. Random chance of an event happening every turn, that can be helpful or hurtful depending on how well you're doing.
 - Available Upgrades: Marketing Campaign I (increases renown by a small amount), Marketing Campaign II (increasaes HSA static boost by a small amount), Financial Aid Program (Increases odds of special student), Advanced Analysis (upgrades the statistics page), *Design later when implemented*

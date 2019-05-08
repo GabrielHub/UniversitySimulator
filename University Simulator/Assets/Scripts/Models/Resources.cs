@@ -17,7 +17,7 @@ public class Resources {
     public float r {
         get {
             //r_rate = ((students + faculty) / wealth) + renown;
-            return (happiness / 30) * renown;
+            return (happiness / MAX_HAPPINESS) * renown;
         }
     } //student growth rate r
 
@@ -68,7 +68,7 @@ public class Resources {
     }
 
     //renown, earlygame calculations
-    public void calcRenown(float val) {
+    public virtual void calcRenown(float val) {
         //with the avg of hs value, renown below 3.0 will reduce the growth of students
         renown = val - (acceptanceRate * 2);
     }
@@ -79,7 +79,7 @@ public class Resources {
     }
 
     //wealth. donation and tuition are sliders that change variables in gamemanagerscript, good luck balancing this pos
-    public int calcWealth(float donation, float tuition) {
+    public virtual int calcWealth(float donation, float tuition) {
         int students_penalty = 1;
         int faculty_penalty = 2 + (faculty / (faculty * 3));
         int temp = (int) ((((alumni * donation) + (students * tuition)) / 5) - (((faculty * faculty_penalty) + (students * students_penalty) + (3 * 5)) / 5));
@@ -162,13 +162,34 @@ public class ResourcesMidGame : Resources {
     public float graduationRate;
 
     public ResourcesMidGame(Resources resc) : base(resc.faculty, resc.alumni, resc.students, resc.wealth) {
-        buildings = new Dictionary<string, int> ();
+        buildings = new Dictionary<string, int> (); //TODO: When starting out you should have 1 default building, need the tilemap to recognize that
         buildingCount = 0;
         ranking = 1000;
 
         studentPool = resc.studentPool; //set studentPool to the studentPool from HSA which are no irrelevant
 
+        //Starting renown value is the avg rating of HSA you got
+        float reTemp = 0;
+        foreach(HighSchoolAgreement hs in agreements) {
+            reTemp += hs.value;
+        }
+
         //initial values that will be overwritten anyway
         graduationRate = 0.5f;
+        studentPool = resc.students + 100; //give a 100 student safety gap at the start
+    }
+
+    //no need to override because it takes different parameters
+    public int calcWealth(float donation, float tuition, float faculty_penalty) {
+        int temp = (int) ((((alumni * donation) + (students * tuition)) / 5) - (faculty * faculty_penalty / 5));
+        wealth += temp;
+
+        return temp;
+    }
+
+    //renown, override earlygme calculation. val is faculty pay value from the policy slider
+    public override void calcRenown(float val) {
+        //with the avg of hs value, renown below 3.0 will reduce the growth of students
+        renown = val - (acceptanceRate * 2);
     }
 }
