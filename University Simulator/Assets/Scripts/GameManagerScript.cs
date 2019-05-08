@@ -21,6 +21,11 @@ public class GameManagerScript : MonoBehaviour {
     public Slider tuitionSlider;
     public Slider donationSlider;
     public Slider acceptanceRateSlider;
+    public Transform sliderContentPanel; //These sliders need to be added dynamically once the right game phase is active
+    public GameObject salarySliderPrefab;
+    private Slider salarySlider; 
+    public GameObject facultyRatioSliderPrefab;
+    private Slider facultyRatioSlider;
 
     //Ticker/Time variabless
     public int ticker = 0;
@@ -68,7 +73,7 @@ public class GameManagerScript : MonoBehaviour {
         */
 
         resources = new Resources();
-        state = GameState.EarlyGame;
+        state = GameState.EarlyGame; //Set early game state, now disable all features not available in the early game
 
         //Initial upgrades that are available
         upgradeList = new List<UpgradeBase> ();
@@ -127,10 +132,6 @@ public class GameManagerScript : MonoBehaviour {
             eventTicker++;
             agreementTicker++;
 
-            //calculate hidden values
-            //K = 350 * buildingCount + 10 * faculty; This algorithm will be used when buildings can be bought
-            //K = studentPool;
-
             //acceptance rate
             this.resources.calcAcceptanceRate(acceptanceRateSlider.value);
 
@@ -149,9 +150,10 @@ public class GameManagerScript : MonoBehaviour {
             //Calculate Alumni
             this.resourcesDelta.alumni = this.resources.calcAlumni();
 
-            //calculate HS Agreements
-            this.resources.calcHSAgreements();
-
+            //calculate HS Agreements, only done in early game
+            if (state == GameState.EarlyGame) {
+                this.resources.calcHSAgreements();
+            }            
 
             //CODE FOR UPGRADES
             //Unlocking Early Game Upgrades, make sure they aren't already added
@@ -207,6 +209,7 @@ public class GameManagerScript : MonoBehaviour {
         //check if early game is finished
         if (earlyGameRequirements == 2) {
             state = GameState.MidGame;
+            MoveToEarlyGame();
             //Unlock buildings, code required below
 
         }
@@ -223,7 +226,7 @@ public class GameManagerScript : MonoBehaviour {
 
     }
 
-    //Add Purchasable Upgrades
+    //Add A Purchasable Upgrades
     void AddUpgradable(UpgradeBase item) {
         //Create button prefab and attach it to the content panel
         GameObject buttonCreation = Instantiate(upgradeButton, contentPanel);
@@ -231,5 +234,18 @@ public class GameManagerScript : MonoBehaviour {
         buttonScript.Setup(item); //pass upgrade object into the button
 
         upgradeList.Add(item);
+    }
+
+    //Code when moving to the MIDGAME
+    void MoveToEarlyGame() {
+        //Create sliders and attach them to their content panel (IDK if this works cuz i need to pass the early game to test it)
+        GameObject sliderCreation = Instantiate(salarySliderPrefab, sliderContentPanel);
+        salarySlider = sliderCreation.GetComponent<Slider> ();
+        this.eventController.DoEvent(new Event("NEW POLICIES: Faculty Salary determines how much you pay faculty.\n A higher amount decreases wealth, but increases renown and happiness."));
+        GameObject sliderCreation2 = Instantiate(facultyRatioSliderPrefab, sliderContentPanel);
+        facultyRatioSlider = sliderCreation2.GetComponent<Slider> ();
+        this.eventController.DoEvent(new Event("NEW POLICIES: Student-Faculty decides how many students a faculty can handle.\n Higher amount increases graduation rate but decreases happiness."));
+
+        
     }
 }

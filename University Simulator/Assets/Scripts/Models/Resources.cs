@@ -4,7 +4,7 @@ using UnityEngine;
 
 [System.Serializable]
 public class Resources {
-    public const float MAX_HAPPINESS = 30f;
+    public const float MAX_HAPPINESS = 8f;
     public const float MAX_RENOWN = 5f;
 
     //5 Main Resources
@@ -122,7 +122,7 @@ public class Resources {
             students = 0;
             temp = students;
         }
-        else if (happiness < 7) {
+        else if (happiness < 4) {
             //alumni doesn't decrease
             temp = -1;
             alumni += temp;
