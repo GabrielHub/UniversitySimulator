@@ -103,7 +103,7 @@ public class GameManagerScript : MonoBehaviour {
         }
 
         //starting dialogue
-        this.eventController.DoEvent(new Event("BREAKING: Crazy person declares themselves alumnus for non-existent University!"));
+        this.eventController.DoEvent(new Event("Grow by gaining more Students and Wealth"));
 
         //A turn is done every second, with a 0.5 second delay upon resuming
         InvokeRepeating("Turns", 0.5f, 1.0f);
