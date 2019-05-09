@@ -24,7 +24,7 @@ public class Resources {
     public float K {
         get {
             //k_rate = (studentPool + alumni);
-            return (studentPool);
+            return (studentPool * acceptanceRate);
         }
     } //carrying capacity (size limit) for student growth K
 
@@ -100,7 +100,7 @@ public class Resources {
         int temp;
         if (faculty < wealth) {
             temp = (int) (3 * renown);
-            
+
         }
         else {
             temp = 0;
@@ -135,7 +135,7 @@ public class Resources {
             alumni += temp;
         }
         else {
-            int i = (int) (students / 10);
+            int i = (int) (students / 20);
             students -= i;
             alumni += i;
             temp = i;
@@ -234,7 +234,7 @@ public class ResourcesMidGame : Resources {
         //Maxed optimal use of graduation
         if (ret >= 0.99f) {
             ret = 0.99f;
-        } 
+        }
         else if (ret <= 0.0f) {
             ret = 0.01f;
         }

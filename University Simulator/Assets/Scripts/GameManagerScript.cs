@@ -13,7 +13,7 @@ public class GameManagerScript : MonoBehaviour {
 
 	//resources
     public Resources resources;
-    
+
     //Per Turn Display Stats
     public Resources resourcesDelta;
 
@@ -23,7 +23,7 @@ public class GameManagerScript : MonoBehaviour {
     public Slider acceptanceRateSlider;
     public Transform sliderContentPanel; //These sliders need to be added dynamically once the right game phase is active
     public GameObject salarySliderPrefab;
-    private Slider salarySlider; 
+    private Slider salarySlider;
     public GameObject facultyRatioSliderPrefab;
     private Slider facultyRatioSlider;
 
@@ -154,7 +154,7 @@ public class GameManagerScript : MonoBehaviour {
             //calculate HS Agreements, only done in early game
             if (state == GameState.EarlyGame) {
                 this.resources.calcHSAgreements();
-            }   
+            }
 
             //acceptance rate
             this.resources.calcAcceptanceRate(acceptanceRateSlider.value);
@@ -178,7 +178,7 @@ public class GameManagerScript : MonoBehaviour {
             this.resourcesDelta.students = this.resources.calcStudents(tuitionSlider.maxValue + donationSlider.maxValue);
 
             //Calculate Alumni
-            this.resourcesDelta.alumni = this.resources.calcAlumni();         
+            this.resourcesDelta.alumni = this.resources.calcAlumni();
 
             //CODE FOR UPGRADES
             //For unlocking Early Game Upgrades, make sure they aren't already added
@@ -189,6 +189,16 @@ public class GameManagerScript : MonoBehaviour {
 
                 UpgradeLicense licenseUpgrade = new UpgradeLicense();
                 AddUpgradable(licenseUpgrade);
+            }
+            if (resources.wealth < 0)
+            {
+                negativeWealthTicker -= 1;
+                this.eventController.DoEvent(new Event("!!! You are currently in debt. Recover your debt before the collectors shutdown the University. \nYou have " + negativeWealthTicker + " left."));
+            }
+            if (negativeWealthTicker < 0)
+            {
+                this.eventController.DoEvent(new Event("You have been in debt for more than 5 turns and the collectors are at your door. \n This university has failed."));
+                CancelInvoke();
             }
 
             //CODE FOR SPECIAL STUDENTS
