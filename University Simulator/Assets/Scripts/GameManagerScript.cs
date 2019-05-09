@@ -134,6 +134,17 @@ public class GameManagerScript : MonoBehaviour {
             eventTicker++;
             agreementTicker++;
 
+
+            //Building calculations, MAKE SURE THIS IS ALWAYS CALCULATED FIRST, only run every time a new building is added
+            if (state == GameState.MidGame && this.resources.buildings.Count == 0) {
+                this.resources.ApplyBuildingCalculations(new ResidentialBuilding(500, 3, 0));
+            }
+
+            //calculate HS Agreements, only done in early game
+            if (state == GameState.EarlyGame) {
+                this.resources.calcHSAgreements();
+            }   
+
             //acceptance rate
             this.resources.calcAcceptanceRate(acceptanceRateSlider.value);
 
@@ -145,6 +156,7 @@ public class GameManagerScript : MonoBehaviour {
                 this.resources.calcRenown(salarySlider.value);
             }
 
+            //MAIN RESOURCES: Always calcualte these 4 resources LAST
             //Calculate wealth
             this.resourcesDelta.wealth = this.resources.calcWealth(donationSlider.value, tuitionSlider.value);
 
@@ -155,12 +167,7 @@ public class GameManagerScript : MonoBehaviour {
             this.resourcesDelta.students = this.resources.calcStudents(tuitionSlider.maxValue + donationSlider.maxValue);
 
             //Calculate Alumni
-            this.resourcesDelta.alumni = this.resources.calcAlumni();
-
-            //calculate HS Agreements, only done in early game
-            if (state == GameState.EarlyGame) {
-                this.resources.calcHSAgreements();
-            }            
+            this.resourcesDelta.alumni = this.resources.calcAlumni();         
 
             //CODE FOR UPGRADES
             //Unlocking Early Game Upgrades, make sure they aren't already added
@@ -238,6 +245,12 @@ public class GameManagerScript : MonoBehaviour {
         buttonScript.Setup(item); //pass upgrade object into the button
 
         upgradeList.Add(item);
+    }
+
+    //Add Building
+    void AddBuilding(Building b) {
+        this.resources.buildings.Add(b);
+        this.resources.ApplyBuildingCalculations(b);
     }
 
     //Code when moving to the MIDGAME

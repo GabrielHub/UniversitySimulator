@@ -31,9 +31,14 @@ public class Resources {
     public float renown;
     public float happiness;
     public float acceptanceRate;
-
-    //EarlyGame Resources
     public int studentPool;
+
+    //MidGame Resources (Unused by earlygame, just used in the inherited class)
+    public List<Building> buildings;
+    public int ranking; //out of 1000
+    public float graduationRate;
+    public float ssProb; //chance for a special student
+    public int maxFaculty;
 
     [SerializeField]
     public List<HighSchoolAgreement> agreements = new List<HighSchoolAgreement> {
@@ -151,22 +156,20 @@ public class Resources {
         studentPool = stuTemp;
 
     }
+
+    //template function
+    public virtual void ApplyBuildingCalculations(Building b) {
+
+    }
 }
 
 [System.Serializable]
 public class ResourcesMidGame : Resources {
-    //new resources
-    public Dictionary<string, int> buildings;
-    public int buildingCount;
-    public int ranking; //out of 1000
-    public float graduationRate;
 
     public ResourcesMidGame(Resources resc) : base(resc.faculty, resc.alumni, resc.students, resc.wealth) {
-        buildings = new Dictionary<string, int> (); //TODO: When starting out you should have 1 default building, need the tilemap to recognize that
-        buildingCount = 0;
+        buildings = new List<Building> (); //TODO: When starting out you should have 1 default building, need the tilemap to recognize that
+        //buildings.Add(new EducationalBuilding(100));
         ranking = 1000;
-
-        studentPool = resc.studentPool; //set studentPool to the studentPool from HSA which are no irrelevant
 
         //Starting renown value is the avg rating of HSA you got
         float reTemp = 0;
@@ -176,20 +179,61 @@ public class ResourcesMidGame : Resources {
 
         //initial values that will be overwritten anyway
         graduationRate = 0.5f;
-        studentPool = resc.students + 100; //give a 100 student safety gap at the start
+        studentPool = resc.studentPool + 500; //give a 500 student safety gap at the start, set studentPool to the studentPool from HSA which are irrelevant
+        ssProb = 0.01f;
     }
 
-    //no need to override because it takes different parameters
-    public int calcWealth(float donation, float tuition, float faculty_penalty) {
-        int temp = (int) ((((alumni * donation) + (students * tuition)) / 5) - (faculty * faculty_penalty / 5));
-        wealth += temp;
+    //Buildings now affect multiple resources, calculate these here before any other calculation, run everytime a new building is added
+    public override void ApplyBuildingCalculations(Building b) {
+        if (b.type == "Residential") {
+            studentPool += b.capacity;
+        }
+        else if (b.type == "Educational") {
+            
+        }
+        else if (b.type == "Institutional") {
 
-        return temp;
+        }
+        else if (b.type == "Athletic") {
+
+        }
+        else {
+            //Debug.Log("ERROR: Checking building types in building array failed to compare type");
+        }
+    }
+
+    //no need to override because it takes different parameters. Faculty_penalty is the value for student-faculty ratio
+    public int calcWealth(float donation, float tuition, float faculty_penalty) {
+        int ret = (int) ((((alumni * donation) + (students * tuition)) / 5) - (faculty * faculty_penalty / 5));
+        wealth += ret;
+
+        return ret;
     }
 
     //renown, override earlygme calculation. val is faculty pay value from the policy slider
     public override void calcRenown(float val) {
         //with the avg of hs value, renown below 3.0 will reduce the growth of students
         renown = val - (acceptanceRate * 2);
+    }
+
+    //stuFacRatio is the number of students a faculty can teach. The higher it is, the worst it is for graduation.
+    public float calcGradRate(int studentFacultyRatio, int ratioMax, int ratioMin) {
+        //Might just need the first part, but the second added value helps reduce penalties for having higher ratio
+        float ret = ((ratioMax - studentFacultyRatio) / ratioMax) + (ratioMin / (ratioMin + studentFacultyRatio));
+
+        //Maxed optimal use of graduation
+        if (ret >= 0.99f) {
+            ret = 0.99f;
+        }
+
+        graduationRate = ret;
+        return ret;
+    }
+
+    public float calcSSProb() {
+        float ret = 0.0f;
+
+
+        return ret;
     }
 }

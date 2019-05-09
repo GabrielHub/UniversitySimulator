@@ -51,7 +51,7 @@ public class UpgradeCampus : UpgradeBase {
 
 //Second of 2 requirements for Finishing Early Game. Unlocks Next stage
 public class UpgradeLicense : UpgradeBase {
-	public UpgradeLicense() : base("Education License", "REQUIRED to unlock the next stage", 1000) {
+	public UpgradeLicense() : base("Education License", "REQUIRED to unlock the next stage", 1500) {
 		//calls base constructor
 	}
 
