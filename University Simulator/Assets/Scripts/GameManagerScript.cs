@@ -34,6 +34,7 @@ public class GameManagerScript : MonoBehaviour {
     private int eventThreshold; //time until events, changes after every event
     private int agreementThreshold; //time until new purchasable HS agreements
     private int negativeWealthTicker = 5;
+    private int specialStudentTicker = 0; //threshold for this ticker is found in ResourcesMidGame
 
     //other variables
     public bool playing = true; //check if paused or not
@@ -90,6 +91,7 @@ public class GameManagerScript : MonoBehaviour {
 
         //Initial List of special students
         specialStudentList = new List<SpecialStudent> ();
+        specialStudentRNG = new RNGSpecialStudent();
 
         //set up  ranges (possibly based on difficulty later)
         this.resources.students = 45;
@@ -137,11 +139,12 @@ public class GameManagerScript : MonoBehaviour {
         //Check whether game is paused or not
         if (playing) {
             //ticker values
-            //eventController.DoEvent();
             ticker++;
             eventTicker++;
             agreementTicker++;
-
+            if (state != GameState.EarlyGame) {
+                specialStudentTicker++;
+            }
 
             //Building calculations, MAKE SURE THIS IS ALWAYS CALCULATED FIRST, only run every time a new building is added
             if (state == GameState.MidGame && this.resources.buildings.Count == 0) {
@@ -189,7 +192,9 @@ public class GameManagerScript : MonoBehaviour {
             }
 
             //CODE FOR SPECIAL STUDENTS
-            if (state != GameState.EarlyGame) {
+            if (state != GameState.EarlyGame && this.resources.specialStudentThreshold == specialStudentTicker) {
+                specialStudentTicker = 0;
+
                 if (Random.Range(0.0f, 1.0f) <= this.resources.ssProb) {
                     AddSpecialStudent();
                 }
@@ -264,7 +269,9 @@ public class GameManagerScript : MonoBehaviour {
 
     //Add A Special Student
     void AddSpecialStudent() {
-
+        SpecialStudent newStudent = specialStudentRNG.GenerateStudent();
+        specialStudentList.Add(newStudent);
+        this.resources.AddSpecialStudent(newStudent);
     }
 
     //Add Building
@@ -278,7 +285,7 @@ public class GameManagerScript : MonoBehaviour {
         //disable early game features
         buyMenu.options.RemoveAt(0); //remove HSA Buy Option
 
-        //Create sliders and attach them to their content panel (IDK if this works cuz i need to pass the early game to test it)
+        //Create sliders and attach them to their content panel
         GameObject sliderCreation = Instantiate(salarySliderPrefab, sliderContentPanel);
         salarySlider = sliderCreation.GetComponent<Slider> ();
         this.eventController.DoEvent(new Event("NEW POLICIES: Faculty Salary determines how much you pay faculty.\n A higher amount decreases wealth, but increases renown and happiness."));

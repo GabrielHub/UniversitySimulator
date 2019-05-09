@@ -35,6 +35,8 @@ public class Resources {
 
     //MidGame Resources (Unused by earlygame, just used in the inherited class)
     public List<Building> buildings;
+    public List<SpecialStudent> specialStudents;
+    public int specialStudentThreshold; //Time between turns a special student can occur
     public int ranking; //out of 1000
     public float graduationRate;
     public float ssProb; //chance for a special student, between 0 and 1.0f
@@ -157,10 +159,10 @@ public class Resources {
 
     }
 
-    //template function
-    public virtual void ApplyBuildingCalculations(Building b) {
+    //These functions aren't used in the base class, just needed to be overriden by inherited classes
+    public virtual void ApplyBuildingCalculations(Building b) { }
 
-    }
+    public virtual void AddSpecialStudent(SpecialStudent obj) { }
 }
 
 [System.Serializable]
@@ -169,6 +171,9 @@ public class ResourcesMidGame : Resources {
     public ResourcesMidGame(Resources resc) : base(resc.faculty, resc.alumni, resc.students, resc.wealth) {
         buildings = new List<Building> (); //TODO: When starting out you should have 1 default building, need the tilemap to recognize that
         //buildings.Add(new EducationalBuilding(100));
+
+        specialStudents = new List<SpecialStudent> ();
+        specialStudentThreshold = 10;
         ranking = 1000;
 
         //Starting renown value is the avg rating of HSA you got
@@ -239,10 +244,14 @@ public class ResourcesMidGame : Resources {
     }
 
     public float calcSSProb() {
-        float ret = 0.0f;
+        float ret = 0.01f;
 
         //needs to be figured out once SS feature is in
 
         return ret;
+    }
+
+    public virtual void AddSpecialStudent(SpecialStudent obj) {
+        specialStudents.Add(obj);
     }
 }
