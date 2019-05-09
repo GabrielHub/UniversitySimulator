@@ -24,7 +24,7 @@ public class UpgradeBase {
 
 //unlocks Advanced Statistics
 public class UpgradeAdministrator : UpgradeBase {
-	public UpgradeAdministrator() : base("Hire Administrators", "unlocks advanced statistics tab", 500) {
+	public UpgradeAdministrator() : base("Hire Administrators", "unlocks advanced statistics tab", 100) {
 		//calls base constructor
 	}
 
@@ -51,7 +51,7 @@ public class UpgradeCampus : UpgradeBase {
 
 //Second of 2 requirements for Finishing Early Game. Unlocks Next stage
 public class UpgradeLicense : UpgradeBase {
-	public UpgradeLicense() : base("Education License", "REQUIRED to unlock the next stage", 1000) {
+	public UpgradeLicense() : base("Education License", "REQUIRED to unlock the next stage", 1500) {
 		//calls base constructor
 	}
 

@@ -4,40 +4,30 @@ using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
 
-public class GameManagerScript : MonoBehaviour
-{
+public class GameManagerScript : MonoBehaviour {
     public static GameManagerScript instance;
-
-    //UI text
-    public TextMeshProUGUI studentsText;
-    public TextMeshProUGUI facultyText;
-    public TextMeshProUGUI alumniText;
-    public TextMeshProUGUI buildingsText;
-	public TextMeshProUGUI wealthText;
 
     // For testing purposes
     //public TextMeshProUGUI r_rate;
     //public TextMeshProUGUI k_rate;
 
-    //Other UI Elements
-    public Button playButton;
-    public Text playText;
-
 	//resources
     public Resources resources;
-    //public static Dictionary<string, int> buildings = new Dictionary<string, int> ();
+
     //Per Turn Display Stats
-    public int studentsPerTurn;
-    public int facultyPerTurn;
-    public int wealthPerTurn;
-    public int alumniPerTurn;
+    public Resources resourcesDelta;
 
     //sliders
     public Slider tuitionSlider;
     public Slider donationSlider;
     public Slider acceptanceRateSlider;
+    public Transform sliderContentPanel; //These sliders need to be added dynamically once the right game phase is active
+    public GameObject salarySliderPrefab;
+    private Slider salarySlider;
+    public GameObject facultyRatioSliderPrefab;
+    private Slider facultyRatioSlider;
 
-    //Ticker/Time variables
+    //Ticker/Time variabless
     public int ticker = 0;
     private int eventTicker = 0; //time between events, resets after every event
     private int agreementTicker = 0; //time between new purchasable HS agreements
@@ -46,20 +36,24 @@ public class GameManagerScript : MonoBehaviour
     private int negativeWealthTicker = 5;
 
     //other variables
-    private bool playing = true; //check if paused or not
+    public bool playing = true; //check if paused or not
+    public enum GameState {EarlyGame, MidGame, EndGame};
+    public GameState state;
     [HideInInspector] // prevent this from being selectable in the inspector
     public EventController eventController; //script for events
 
-    //buyables
+    //Buy Menu
+    public TMP_Dropdown buyMenu;
+    //For UUpgrades in the Buy Menu
     public Transform contentPanel; //The content object that we're attaching upgrade buttons to
     public GameObject upgradeButton; //Button prefab for the upgrade object
     public List<UpgradeBase> upgradeList;
 
     //EarlyGame Resources
     public HighSchoolAgreement[] agreements; //purchasable agreements
-    public GameObject BuyHSA1;
-    public GameObject BuyHSA2;
-    public GameObject BuyHSA3;
+    public BuyAgreementScript BuyHSA1;
+    public BuyAgreementScript BuyHSA2;
+    public BuyAgreementScript BuyHSA3;
     public bool enableStatistics = false;
     public int earlyGameRequirements = 0;
 
@@ -80,10 +74,8 @@ public class GameManagerScript : MonoBehaviour
             Max lines can be changed in the editor
         */
 
-        //Button Setup //Calls the TaskOnClick/TaskWithParameters/ButtonClicked method when you click the Button
-        playButton.onClick.AddListener(PauseOnClick);
-
         resources = new Resources();
+        state = GameState.EarlyGame; //Set early game state, now disable all features not available in the early game
 
         //Initial upgrades that are available
         upgradeList = new List<UpgradeBase> ();
@@ -95,10 +87,7 @@ public class GameManagerScript : MonoBehaviour
         this.resources.students = 45;
 		this.resources.faculty = 10;
 		this.resources.alumni = 1;
-		this.resources.buildingCount = 3;
 		this.resources.wealth = 50;
-
-        this.resources.studentPool = 100; //start the game off with a limit of 100 students
 
         //initial purchasable agreements
         agreements = new HighSchoolAgreement[3];
@@ -114,7 +103,7 @@ public class GameManagerScript : MonoBehaviour
         }
 
         //starting dialogue
-        this.eventController.DoEvent(new Event("BREAKING: Crazy person declares themselves alumnus for non-existent University!"));
+        this.eventController.DoEvent(new Event("Grow by gaining more Students and Wealth"));
 
         //A turn is done every second, with a 0.5 second delay upon resuming
         InvokeRepeating("Turns", 0.5f, 1.0f);
@@ -123,22 +112,15 @@ public class GameManagerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Resource List to be updated
-        studentsText.text = "Students: " + this.resources.students.ToString();
-        facultyText.text = "Faculty: " + this.resources.faculty.ToString();
-        alumniText.text = "Alumni: " + this.resources.alumni.ToString();
-        buildingsText.text = "Buildings: " + this.resources.buildingCount.ToString();
-		wealthText.text = "Wealth: "+ this.resources.wealth.ToString();
-
         //Debugging
-        Debug.Log("R Value: " + this.resources.r);
-        Debug.Log("K Value: " + this.resources.K);
+        // Debug.Log("R Value: " + this.resources.r);
+        // Debug.Log("K Value: " + this.resources.K);
         //r_rate.text = "R: " + this.resources.r_rate.ToString();
         //k_rate.text = "K: " + this.resources.k_rate.ToString();
 
         //pause control by pressing key
         if (Input.GetKeyDown(KeyCode.P)) {
-            PauseOnClick();
+            this.playing = !this.playing;
         }
     }
 
@@ -152,9 +134,16 @@ public class GameManagerScript : MonoBehaviour
             eventTicker++;
             agreementTicker++;
 
-            //calculate hidden values
-            //K = 350 * buildingCount + 10 * faculty; This algorithm will be used when buildings can be bought
-            //K = studentPool;
+
+            //Building calculations, MAKE SURE THIS IS ALWAYS CALCULATED FIRST, only run every time a new building is added
+            if (state == GameState.MidGame && this.resources.buildings.Count == 0) {
+                this.resources.ApplyBuildingCalculations(new ResidentialBuilding(500, 3, 0));
+            }
+
+            //calculate HS Agreements, only done in early game
+            if (state == GameState.EarlyGame) {
+                this.resources.calcHSAgreements();
+            }
 
             //acceptance rate
             this.resources.calcAcceptanceRate(acceptanceRateSlider.value);
@@ -162,21 +151,23 @@ public class GameManagerScript : MonoBehaviour
             //happiness. Optimal value is currently set to half the max value
             this.resources.calcHappiness(tuitionSlider.value, tuitionSlider.maxValue, donationSlider.value, donationSlider.maxValue);
 
+            //renown, isn't calculated in Early Game because it's passed a value by calcHSAgreements
+            if (state == GameState.MidGame) {
+                this.resources.calcRenown(salarySlider.value);
+            }
+
+            //MAIN RESOURCES: Always calcualte these 4 resources LAST
             //Calculate wealth
-            wealthPerTurn = this.resources.calcWealth(donationSlider.value, tuitionSlider.value);
+            this.resourcesDelta.wealth = this.resources.calcWealth(donationSlider.value, tuitionSlider.value);
 
             //Calculate Faculty
-            facultyPerTurn = this.resources.calcFaculty();
+            this.resourcesDelta.faculty = this.resources.calcFaculty();
 
             //Calculate Students
-            studentsPerTurn = this.resources.calcStudents(tuitionSlider.maxValue + donationSlider.maxValue);
+            this.resourcesDelta.students = this.resources.calcStudents(tuitionSlider.maxValue + donationSlider.maxValue);
 
             //Calculate Alumni
-            alumniPerTurn = this.resources.calcAlumni();
-
-            //calculate HS Agreements
-            this.resources.calcHSAgreements();
-
+            this.resourcesDelta.alumni = this.resources.calcAlumni();
 
             //CODE FOR UPGRADES
             //Unlocking Early Game Upgrades, make sure they aren't already added
@@ -213,7 +204,7 @@ public class GameManagerScript : MonoBehaviour
         //Future Event Code Here: Checks for bad stats (if happiness is too low do an event letting you know that people are unhappy)
 
         //randomized agreements, made sure it's only for the early game
-        if (resources.gamePhase == 0) {
+        if (state == GameState.EarlyGame) {
             if (agreementTicker == agreementThreshold) {
                 this.eventController.DoEvent(new Event("!!!: New HS Agreements are available!"));
                 Debug.Log("New HS Agreements");
@@ -228,27 +219,35 @@ public class GameManagerScript : MonoBehaviour
                 agreementTicker = 0;
 
                 //enable every window if they were purchased before
-                BuyHSA1.SetActive(true);
-                BuyHSA2.SetActive(true);
-                BuyHSA3.SetActive(true);
+                BuyHSA1.gameObject.SetActive(true);
+                BuyHSA2.gameObject.SetActive(true);
+                BuyHSA3.gameObject.SetActive(true);
             }
         }
 
+        // when wealth is negative increase ticker.
+        if (resources.wealth < 0) {
+            negativeWealthTicker -= 1;
+            this.eventController.DoEvent(new Event("!!! You are currently in debt. Recover your debt before the collectors shutdown the University. \nYou have " + negativeWealthTicker + "left."));
+        }
+        if (negativeWealthTicker < 0) {
+            this.eventController.DoEvent(new Event("You have been in debt for more than 5 turns, when the debts a'rockin' the banks come knockin'. \n This university has failed."));
+            CancelInvoke();
+        }
+
         //check for game over, or game win
-        if (resources.students <= 0 && resources.gamePhase == 0) {
+        if (resources.students <= 0) {
             this.eventController.DoEvent(new Event("You've run out of students and this University has failed. \n Don't be sad it happened be happy it's over"));
             CancelInvoke();
         }
-        else if (earlyGameRequirements == 2) {
-            this.resources.gamePhase = 1;
-            //Unlock buildings, code required below
-
+        //check if early game is finished
+        if (earlyGameRequirements == 2 && state == GameState.EarlyGame) {
+            state = GameState.MidGame;
+            MoveToEarlyGame();
         }
-
-        // when wealth is negative increase ticker.
     }
 
-    //Add Purchasable Upgrades
+    //Add A Purchasable Upgrades
     void AddUpgradable(UpgradeBase item) {
         //Create button prefab and attach it to the content panel
         GameObject buttonCreation = Instantiate(upgradeButton, contentPanel);
@@ -258,16 +257,29 @@ public class GameManagerScript : MonoBehaviour
         upgradeList.Add(item);
     }
 
-    //Pause and Play button click function
-    void PauseOnClick() {
-        //change text when paused or playing
-        if (playing) {
-            playText.text = "Play";
-            playing = !playing;
-        }
-        else {
-            playText.text = "Pause";
-            playing = !playing;
-        }
+    //Add Building
+    void AddBuilding(Building b) {
+        this.resources.buildings.Add(b);
+        this.resources.ApplyBuildingCalculations(b);
+    }
+
+    //Code when moving to the MIDGAME
+    void MoveToEarlyGame() {
+        //disable early game features
+        buyMenu.options.RemoveAt(0); //remove HSA Buy Option
+
+        //Create sliders and attach them to their content panel (IDK if this works cuz i need to pass the early game to test it)
+        GameObject sliderCreation = Instantiate(salarySliderPrefab, sliderContentPanel);
+        salarySlider = sliderCreation.GetComponent<Slider> ();
+        this.eventController.DoEvent(new Event("NEW POLICIES: Faculty Salary determines how much you pay faculty.\n A higher amount decreases wealth, but increases renown and happiness."));
+        GameObject sliderCreation2 = Instantiate(facultyRatioSliderPrefab, sliderContentPanel);
+        facultyRatioSlider = sliderCreation2.GetComponent<Slider> ();
+        this.eventController.DoEvent(new Event("NEW POLICIES: Student-Faculty decides how many students a faculty can handle.\n Higher amount increases graduation rate but decreases happiness."));
+
+        facultyRatioSlider.minValue = (int) Mathf.Round((this.resources.students / this.resources.faculty)); //Make sure faculty to student ratio can be accomodated for
+        facultyRatioSlider.maxValue = facultyRatioSlider.minValue * 10;
+
+        //Convert resources to MidGame Resources class
+        resources = new ResourcesMidGame(resources);
     }
 }
