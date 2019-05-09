@@ -42,7 +42,7 @@ public class Resources {
     public float ssProb; //chance for a special student, between 0 and 1.0f
     public int maxFaculty; //MIN and MAX faculty decide the slider values for student to faculty ratio.
     public int minFaculty;
-    private float renownBase; //base renown carried over from HSA agreements in the earlygame
+    public float renownBase; //base renown carried over from HSA agreements in the earlygame
 
     [SerializeField]
     public List<HighSchoolAgreement> agreements = new List<HighSchoolAgreement> {
@@ -258,16 +258,16 @@ public class ResourcesMidGame : Resources {
 
     //Base value that increases based on a combination of happiness and renown that is less than 1.0f
     public float calcSSProb() {
-        float ret = 0.1; //base 10% chance of a Special Student
+        float ret = 0.1f; //base 10% chance of a Special Student
 
         //use renown and happiness to affect this somehow, first need to see how big r gets
 
         return ret;
     }
 
-    //calculates ranking based on renown and graduation rate
-    public int calcRanking() {
-
+    //calculates ranking based on renown and graduation rate. If a threshold is reached, increased ranking
+    public void calcRanking() {
+        
     }
 
     public override void AddSpecialStudent(SpecialStudent obj) {
