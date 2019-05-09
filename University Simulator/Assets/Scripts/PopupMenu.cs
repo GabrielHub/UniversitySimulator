@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class PopupMenu: MonoBehaviour, ClickableTileListener
-{
+public class PopupMenu: MonoBehaviour, ClickableTileListener {
     public Tilemap map;
 
     // Update is called once per frame

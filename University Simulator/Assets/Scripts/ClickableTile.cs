@@ -16,16 +16,16 @@ public class ClickableTile: MonoBehaviour {
     }
 	public Tilemap map;
 
-    // void OnLeftClick(ClickManager.GetFrontmostRaycastHitResult result)
-    // {
-    //     Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-    //     mousePosition.z = 0;
-    //     Vector3Int cellPosition = this.map.WorldToCell(mousePosition);
-    //     mousePosition = this.map.CellToWorld(cellPosition); // center on cell center
-    //     bool isValid = false;
-    //     if (this.map.HasTile(cellPosition)) {
-    //         isValid = true;
-    //     }
-    //     this.target.DidClickTile(mousePosition, this.map, isValid);
-    // }
+    public void OnClick() {
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePosition.z = 0;
+        Vector3Int cellPosition = this.map.WorldToCell(mousePosition);
+        mousePosition = this.map.CellToWorld(cellPosition); // center on cell center
+        bool isValid = false;
+        if (this.map.HasTile(cellPosition)) {
+            isValid = true;
+        }
+        
+        this.target.DidClickTile(mousePosition, this.map, isValid);
+    }
 }
