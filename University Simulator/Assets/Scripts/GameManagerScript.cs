@@ -266,6 +266,9 @@ public class GameManagerScript : MonoBehaviour {
         facultyRatioSlider = sliderCreation2.GetComponent<Slider> ();
         this.eventController.DoEvent(new Event("NEW POLICIES: Student-Faculty decides how many students a faculty can handle.\n Higher amount increases graduation rate but decreases happiness."));
 
+        facultyRatioSlider.minValue = (int) Mathf.Round((this.resources.students / this.resources.faculty)); //Make sure faculty to student ratio can be accomodated for
+        facultyRatioSlider.maxValue = facultyRatioSlider.minValue * 10;
+
         //Convert resources to MidGame Resources class
         resources = new ResourcesMidGame(resources);
     }

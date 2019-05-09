@@ -181,6 +181,7 @@ public class ResourcesMidGame : Resources {
         graduationRate = 0.5f;
         studentPool = resc.studentPool + 500; //give a 500 student safety gap at the start, set studentPool to the studentPool from HSA which are irrelevant
         ssProb = 0.01f;
+        maxFaculty = resc.faculty + 10;
     }
 
     //Buildings now affect multiple resources, calculate these here before any other calculation, run everytime a new building is added
@@ -189,13 +190,13 @@ public class ResourcesMidGame : Resources {
             studentPool += b.capacity;
         }
         else if (b.type == "Educational") {
-            
+            maxFaculty += b.capacity;
         }
         else if (b.type == "Institutional") {
-
+            //NEeds to be figured out
         }
         else if (b.type == "Athletic") {
-
+            //Needs to be figured out
         }
         else {
             //Debug.Log("ERROR: Checking building types in building array failed to compare type");
@@ -219,11 +220,18 @@ public class ResourcesMidGame : Resources {
     //stuFacRatio is the number of students a faculty can teach. The higher it is, the worst it is for graduation.
     public float calcGradRate(int studentFacultyRatio, int ratioMax, int ratioMin) {
         //Might just need the first part, but the second added value helps reduce penalties for having higher ratio
-        float ret = ((ratioMax - studentFacultyRatio) / ratioMax) + (ratioMin / (ratioMin + studentFacultyRatio));
+        float ret = ((ratioMax - studentFacultyRatio) / ratioMax);
+
+        if (studentFacultyRatio < Mathf.Round(students / faculty)) {
+            ret -= 0.1f;
+        }
 
         //Maxed optimal use of graduation
         if (ret >= 0.99f) {
             ret = 0.99f;
+        } 
+        else if (ret <= 0.0f) {
+            ret = 0.01f;
         }
 
         graduationRate = ret;
@@ -233,6 +241,7 @@ public class ResourcesMidGame : Resources {
     public float calcSSProb() {
         float ret = 0.0f;
 
+        //needs to be figured out once SS feature is in
 
         return ret;
     }
