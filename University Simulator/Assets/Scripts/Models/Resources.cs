@@ -131,10 +131,9 @@ public class Resources {
             students = 0;
             temp = students;
         }
-        else if (happiness < 4) {
-            //alumni doesn't decrease
-            temp = -1;
-            alumni += temp;
+        else if (happiness < 3) {
+            //if happiness is too low, students won't graduate
+            temp = 0;
         }
         else {
             int i = (int) (students / 20);
@@ -189,7 +188,7 @@ public class ResourcesMidGame : Resources {
         studentPool = resc.studentPool + 500; //give a 500 student safety gap at the start, set studentPool to the studentPool from HSA which are irrelevant
         ssProb = 0.01f;
         maxFaculty = resc.students; // Max nunber of students each faculty can be set to teach
-        minFaculty = resc.faculty; //min number of students each faculty can be set to teach
+        minFaculty = (int) Mathf.Round(students / faculty); //min number of students each faculty can be set to teach
     }
 
     //Buildings now affect multiple resources, calculate these here before any other calculation, run everytime a new building is added
