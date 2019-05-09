@@ -4,7 +4,6 @@ using UnityEngine;
 
 [System.Serializable]
 public class Resources {
-    //happiness = (int) ((tuitionMax / 2 - tuition) + (donationMax / 2 - donation));
     public const float MAX_HAPPINESS = 7f;
     public const float MAX_RENOWN = 5f;
 
@@ -43,6 +42,7 @@ public class Resources {
     public float ssProb; //chance for a special student, between 0 and 1.0f
     public int maxFaculty; //MIN and MAX faculty decide the slider values for student to faculty ratio.
     public int minFaculty;
+    private float renownBase; //base renown carried over from HSA agreements in the earlygame
 
     [SerializeField]
     public List<HighSchoolAgreement> agreements = new List<HighSchoolAgreement> {
@@ -179,16 +179,17 @@ public class ResourcesMidGame : Resources {
 
         //Starting renown value is the avg rating of HSA you got
         float reTemp = 0;
-        foreach(HighSchoolAgreement hs in agreements) {
+        foreach(HighSchoolAgreement hs in resc.agreements) {
             reTemp += hs.value;
         }
+        renownBase = reTemp;
 
         //initial values that will be overwritten anyway
         graduationRate = 0.5f;
         studentPool = resc.studentPool + 500; //give a 500 student safety gap at the start, set studentPool to the studentPool from HSA which are irrelevant
-        ssProb = 0.01f;
+        ssProb = 0.1f;
         maxFaculty = resc.students; // Max nunber of students each faculty can be set to teach
-        minFaculty = (int) Mathf.Round(students / faculty); //min number of students each faculty can be set to teach
+        minFaculty = (int) Mathf.Round(resc.students / resc.faculty); //min number of students each faculty can be set to teach
     }
 
     //Buildings now affect multiple resources, calculate these here before any other calculation, run everytime a new building is added
@@ -226,8 +227,7 @@ public class ResourcesMidGame : Resources {
 
     //renown, override earlygme calculation. val is faculty pay value from the policy slider
     public override void calcRenown(float val) {
-        //with the avg of hs value, renown below 3.0 will reduce the growth of students
-        renown = val - (acceptanceRate * 2);
+        renown = (renownBase * val) / 10; //r already takes into account happiness with renown, so no need to add happiness to this equation
     }
 
     //stuFacRatio is the number of students a faculty can teach. The higher it is, the worst it is for graduation.
@@ -251,12 +251,23 @@ public class ResourcesMidGame : Resources {
         return ret;
     }
 
-    public float calcSSProb() {
-        float ret = ssProb;
+    //Student growth shouldn't be using renown anymore, since renown is used in so many other calculations. Maybe use ranking instead
+    public void calcR() {
 
-        //needs to be figured out once SS feature is in
+    }
+
+    //Base value that increases based on a combination of happiness and renown that is less than 1.0f
+    public float calcSSProb() {
+        float ret = 0.1; //base 10% chance of a Special Student
+
+        //use renown and happiness to affect this somehow, first need to see how big r gets
 
         return ret;
+    }
+
+    //calculates ranking based on renown and graduation rate
+    public int calcRanking() {
+
     }
 
     public override void AddSpecialStudent(SpecialStudent obj) {
