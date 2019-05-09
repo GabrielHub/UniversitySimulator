@@ -39,10 +39,10 @@ A Simulation game built in Unity 2019.1.0f2
 **Focus:**
 
 	* Building Management - Introduces clickable tilemap mechanic, building management tab, and StudentPool and Faculty is now capped by the buildings you have
-		- Buildings have different types, that come with different bonuses
+		- Buildings have different types (Residential, Educational, Institutional, and Athletic)
 	* Faculty Pay Slider - Change how much faculty affects wealth per turn. A higher amount decreases wealth, but increases renown and happiness.
-	* Ranking - A new modifier out of 100 that updates every 5 turns. Based on renown, graduation rate. Also modified by Building Bonuses and Special Students.
-	* Student To Faculty Ratio Slider - The number of students each faculty can take care of. Higher ratio increases graduation rate but decreases happiness.
+	* Ranking - A new modifier out of 100 that updates every 5 turns. Based on renown, graduation rate. Also modified by Special Students and capped by avg rating of buildings.
+	* Student To Faculty Ratio Slider - The number of students each faculty will take care of. Higher ratio increases graduation rate but decreases happiness.
 	* Special Students - A chance of a special student occurs every 4 turns, depending on renown and happiness. Spend a certain amount of wealth to give scholarships to special students.
 
 **Details:**
@@ -54,6 +54,7 @@ A Simulation game built in Unity 2019.1.0f2
 - High School Agreements: No longer available or a factor, converted to a static boost or detriment depending on the high schools you aquired.
 - Random Events: Are now active. Random chance of an event happening every turn, that can be helpful or hurtful depending on how well you're doing.
 - Available Upgrades: Marketing Campaign I (increases renown by a small amount), Marketing Campaign II (increasaes HSA static boost by a small amount), Financial Aid Program (Increases odds of special student), Advanced Analysis (upgrades the statistics page), *Design later when implemented*
+- Student To Faculty: The max value can be increased by Educational buildings, while the min value will be decided by the starting amount of students / faculty. If the capacity of students is too much for the amount of faculty you've assigned, graduation rates will suffer.
 
 **Lose Condition:**
 - No wealth or students

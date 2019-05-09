@@ -103,7 +103,7 @@ public class GameManagerScript : MonoBehaviour {
         }
 
         //starting dialogue
-        this.eventController.DoEvent(new Event("BREAKING: Crazy person declares themselves alumnus for non-existent University!"));
+        this.eventController.DoEvent(new Event("Grow by gaining more Students and Wealth"));
 
         //A turn is done every second, with a 0.5 second delay upon resuming
         InvokeRepeating("Turns", 0.5f, 1.0f);
@@ -134,6 +134,17 @@ public class GameManagerScript : MonoBehaviour {
             eventTicker++;
             agreementTicker++;
 
+
+            //Building calculations, MAKE SURE THIS IS ALWAYS CALCULATED FIRST, only run every time a new building is added
+            if (state == GameState.MidGame && this.resources.buildings.Count == 0) {
+                this.resources.ApplyBuildingCalculations(new ResidentialBuilding(500, 3, 0));
+            }
+
+            //calculate HS Agreements, only done in early game
+            if (state == GameState.EarlyGame) {
+                this.resources.calcHSAgreements();
+            }   
+
             //acceptance rate
             this.resources.calcAcceptanceRate(acceptanceRateSlider.value);
 
@@ -145,6 +156,7 @@ public class GameManagerScript : MonoBehaviour {
                 this.resources.calcRenown(salarySlider.value);
             }
 
+            //MAIN RESOURCES: Always calcualte these 4 resources LAST
             //Calculate wealth
             this.resourcesDelta.wealth = this.resources.calcWealth(donationSlider.value, tuitionSlider.value);
 
@@ -155,12 +167,7 @@ public class GameManagerScript : MonoBehaviour {
             this.resourcesDelta.students = this.resources.calcStudents(tuitionSlider.maxValue + donationSlider.maxValue);
 
             //Calculate Alumni
-            this.resourcesDelta.alumni = this.resources.calcAlumni();
-
-            //calculate HS Agreements, only done in early game
-            if (state == GameState.EarlyGame) {
-                this.resources.calcHSAgreements();
-            }            
+            this.resourcesDelta.alumni = this.resources.calcAlumni();         
 
             //CODE FOR UPGRADES
             //Unlocking Early Game Upgrades, make sure they aren't already added
@@ -240,6 +247,12 @@ public class GameManagerScript : MonoBehaviour {
         upgradeList.Add(item);
     }
 
+    //Add Building
+    void AddBuilding(Building b) {
+        this.resources.buildings.Add(b);
+        this.resources.ApplyBuildingCalculations(b);
+    }
+
     //Code when moving to the MIDGAME
     void MoveToEarlyGame() {
         //disable early game features
@@ -252,6 +265,9 @@ public class GameManagerScript : MonoBehaviour {
         GameObject sliderCreation2 = Instantiate(facultyRatioSliderPrefab, sliderContentPanel);
         facultyRatioSlider = sliderCreation2.GetComponent<Slider> ();
         this.eventController.DoEvent(new Event("NEW POLICIES: Student-Faculty decides how many students a faculty can handle.\n Higher amount increases graduation rate but decreases happiness."));
+
+        facultyRatioSlider.minValue = (int) Mathf.Round((this.resources.students / this.resources.faculty)); //Make sure faculty to student ratio can be accomodated for
+        facultyRatioSlider.maxValue = facultyRatioSlider.minValue * 10;
 
         //Convert resources to MidGame Resources class
         resources = new ResourcesMidGame(resources);
