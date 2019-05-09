@@ -180,6 +180,16 @@ public class GameManagerScript : MonoBehaviour {
             //Calculate Alumni
             this.resourcesDelta.alumni = this.resources.calcAlumni();
 
+            //Update MidGame policy min and max values if values have changed
+            if (state == GameState.MidGame) {
+                if (facultyRatioSlider.minValue != this.resources.minFaculty) {
+                   facultyRatioSlider.minValue = this.resources.minFaculty; 
+                }
+                if (facultyRatioSlider.maxValue != this.resources.maxFaculty) {
+                   facultyRatioSlider.maxValue = this.resources.maxFaculty; 
+                }
+            }
+
             //CODE FOR UPGRADES
             //For unlocking Early Game Upgrades, make sure they aren't already added
             if (this.resources.students > 1000 && upgradeList.Count < 2) {

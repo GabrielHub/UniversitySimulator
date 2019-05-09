@@ -259,7 +259,7 @@ public class ResourcesMidGame : Resources {
         return ret;
     }
 
-    public virtual void AddSpecialStudent(SpecialStudent obj) {
+    public override void AddSpecialStudent(SpecialStudent obj) {
         specialStudents.Add(obj);
 
         //75% chance that adding a student increases ranking by one
