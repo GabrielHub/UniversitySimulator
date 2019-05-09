@@ -49,6 +49,7 @@ public class GameManagerScript : MonoBehaviour {
     public GameObject upgradeButton; //Button prefab for the upgrade object
     public List<UpgradeBase> upgradeList; //list of all the upgrades that have been available
     //For SpecialStudents in the Buy Menu
+    private RNGSpecialStudent specialStudentRNG; //Pool of randomly generated special students, use to get a special student object
     public TMP_Text specialSDescriptionText; // Change the text when special students are enabled or disabled
     public Transform specialStudentContentPanel; //The content object that we're attaching special student buttons to
     public GameObject specialStudentButton; //Button prefab for the special student object
@@ -87,6 +88,8 @@ public class GameManagerScript : MonoBehaviour {
         UpgradeAdministrator upgradeAdmin = new UpgradeAdministrator();
         AddUpgradable(upgradeAdmin); //Add Hire Administrators upgrade
 
+        //Initial List of special students
+        specialStudentList = new List<SpecialStudent> ();
 
         //set up  ranges (possibly based on difficulty later)
         this.resources.students = 45;
@@ -108,7 +111,7 @@ public class GameManagerScript : MonoBehaviour {
         }
 
         //starting dialogue
-        this.eventController.DoEvent(new Event("Grow by gaining more Students and Wealth"));
+        this.eventController.DoEvent(new Event("Grow by gaining more Students and Wealth, Press Play or 'P' to start"));
 
         //A turn is done every second, with a 0.5 second delay upon resuming
         InvokeRepeating("Turns", 0.5f, 1.0f);
@@ -175,7 +178,7 @@ public class GameManagerScript : MonoBehaviour {
             this.resourcesDelta.alumni = this.resources.calcAlumni();         
 
             //CODE FOR UPGRADES
-            //Unlocking Early Game Upgrades, make sure they aren't already added
+            //For unlocking Early Game Upgrades, make sure they aren't already added
             if (this.resources.students > 1000 && upgradeList.Count < 2) {
                 //Add the Buy Campus and Buy License Upgrades
                 UpgradeCampus campusUpgrade = new UpgradeCampus();
@@ -183,6 +186,13 @@ public class GameManagerScript : MonoBehaviour {
 
                 UpgradeLicense licenseUpgrade = new UpgradeLicense();
                 AddUpgradable(licenseUpgrade);
+            }
+
+            //CODE FOR SPECIAL STUDENTS
+            if (state != GameState.EarlyGame) {
+                if (Random.Range(0.0f, 1.0f) <= this.resources.ssProb) {
+                    AddSpecialStudent();
+                }
             }
 
         }

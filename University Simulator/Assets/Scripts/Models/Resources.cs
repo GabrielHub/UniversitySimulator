@@ -37,7 +37,7 @@ public class Resources {
     public List<Building> buildings;
     public int ranking; //out of 1000
     public float graduationRate;
-    public float ssProb; //chance for a special student
+    public float ssProb; //chance for a special student, between 0 and 1.0f
     public int maxFaculty;
 
     [SerializeField]
