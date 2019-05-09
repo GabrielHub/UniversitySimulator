@@ -4,7 +4,8 @@ using UnityEngine;
 
 [System.Serializable]
 public class Resources {
-    public const float MAX_HAPPINESS = 8f;
+    //happiness = (int) ((tuitionMax / 2 - tuition) + (donationMax / 2 - donation));
+    public const float MAX_HAPPINESS = 7f;
     public const float MAX_RENOWN = 5f;
 
     //5 Main Resources
@@ -40,7 +41,8 @@ public class Resources {
     public int ranking; //out of 1000
     public float graduationRate;
     public float ssProb; //chance for a special student, between 0 and 1.0f
-    public int maxFaculty;
+    public int maxFaculty; //MIN and MAX faculty decide the slider values for student to faculty ratio.
+    public int minFaculty;
 
     [SerializeField]
     public List<HighSchoolAgreement> agreements = new List<HighSchoolAgreement> {
@@ -186,22 +188,29 @@ public class ResourcesMidGame : Resources {
         graduationRate = 0.5f;
         studentPool = resc.studentPool + 500; //give a 500 student safety gap at the start, set studentPool to the studentPool from HSA which are irrelevant
         ssProb = 0.01f;
-        maxFaculty = resc.faculty + 10;
+        maxFaculty = resc.students; // Max nunber of students each faculty can be set to teach
+        minFaculty = resc.faculty; //min number of students each faculty can be set to teach
     }
 
     //Buildings now affect multiple resources, calculate these here before any other calculation, run everytime a new building is added
     public override void ApplyBuildingCalculations(Building b) {
         if (b.type == "Residential") {
-            studentPool += b.capacity;
+            studentPool += b.capacity; //increase student pool
         }
         else if (b.type == "Educational") {
-            maxFaculty += b.capacity;
+            maxFaculty += b.capacity; //increase max amount of students a faculty can teach
+
+            if (minFaculty >= 10) {
+                minFaculty -= 5; //decrease the smallest amount of students a faculty can teach
+            } 
         }
         else if (b.type == "Institutional") {
-            //NEeds to be figured out
+            if (specialStudentThreshold > 1) {
+                specialStudentThreshold--;
+            }
         }
         else if (b.type == "Athletic") {
-            //Needs to be figured out
+            ssProb += 0.1f; //increase student probability by 10%
         }
         else {
             //Debug.Log("ERROR: Checking building types in building array failed to compare type");
@@ -244,7 +253,7 @@ public class ResourcesMidGame : Resources {
     }
 
     public float calcSSProb() {
-        float ret = 0.01f;
+        float ret = ssProb;
 
         //needs to be figured out once SS feature is in
 
@@ -253,5 +262,10 @@ public class ResourcesMidGame : Resources {
 
     public virtual void AddSpecialStudent(SpecialStudent obj) {
         specialStudents.Add(obj);
+
+        //75% chance that adding a student increases ranking by one
+        if (Random.Range(0.0f, 1.0f) <= 0.75f) {
+            ranking++;
+        }
     }
 }

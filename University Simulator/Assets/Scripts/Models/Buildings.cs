@@ -31,7 +31,7 @@ public class ResidentialBuilding : Building {
 	}
 }
 
-//Educational Buildings determine MidGame faculty cap, and student to faculty ratio cap.
+//Educational Buildings determine student to faculty ratio cap.
 public class EducationalBuilding : Building {
 	//public int capacity;
 	//might need a variable for increasing student to faculty, but i think we can just increase those max values in GameManagerScript

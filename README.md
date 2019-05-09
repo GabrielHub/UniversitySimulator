@@ -54,7 +54,7 @@ A Simulation game built in Unity 2019.1.0f2
 - High School Agreements: No longer available or a factor, converted to a static boost or detriment depending on the high schools you aquired.
 - Random Events: Are now active. Random chance of an event happening every turn, that can be helpful or hurtful depending on how well you're doing.
 - Available Upgrades: Marketing Campaign I (increases renown by a small amount), Marketing Campaign II (increasaes HSA static boost by a small amount), Financial Aid Program (Increases odds of special student), Advanced Analysis (upgrades the statistics page), *Design later when implemented*
-- Student To Faculty: The max value can be increased by Educational buildings, while the min value will be decided by the starting amount of students / faculty. If the capacity of students is too much for the amount of faculty you've assigned, graduation rates will suffer.
+- Student To Faculty: The max value can be increased by Educational buildings, while the min value will be decided by the amount of students / faculty. If the capacity of students is too much for the amount of faculty you've assigned, graduation rates will suffer.
 
 **Lose Condition:**
 - No wealth or students
