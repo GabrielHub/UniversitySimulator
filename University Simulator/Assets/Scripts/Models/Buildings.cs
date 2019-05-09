@@ -41,7 +41,7 @@ public class EducationalBuilding : Building {
 	}
 }
 
-//Institutional Buildings gives a small boost to the chance of Special Students and unlocks more upgrades
+//Institutional Buildings decrease the turns until a special student cna happen and unlocks more upgrades
 public class InstitutionalBuilding: Building {
 	
 	public InstitutionalBuilding(float _boost, int _rating, int _cost) : base("Institutional", _rating, _cost) {
@@ -49,7 +49,7 @@ public class InstitutionalBuilding: Building {
 	}
 }
 
-//Athletic Buildings determine the cap of special students and renown
+//Athletic Buildings determine the chance of special students and renown
 public class AthleticBuilding: Building {
 	//public int specialStudentCap;
 	//public float renownCap;

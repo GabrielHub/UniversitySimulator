@@ -47,7 +47,12 @@ public class GameManagerScript : MonoBehaviour {
     //For UUpgrades in the Buy Menu
     public Transform contentPanel; //The content object that we're attaching upgrade buttons to
     public GameObject upgradeButton; //Button prefab for the upgrade object
-    public List<UpgradeBase> upgradeList;
+    public List<UpgradeBase> upgradeList; //list of all the upgrades that have been available
+    //For SpecialStudents in the Buy Menu
+    public TMP_Text specialSDescriptionText; // Change the text when special students are enabled or disabled
+    public Transform specialStudentContentPanel; //The content object that we're attaching special student buttons to
+    public GameObject specialStudentButton; //Button prefab for the special student object
+    public List<SpecialStudent> specialStudentList; //list of all the special students that have been available
 
     //EarlyGame Resources
     public HighSchoolAgreement[] agreements; //purchasable agreements
@@ -245,6 +250,11 @@ public class GameManagerScript : MonoBehaviour {
         buttonScript.Setup(item); //pass upgrade object into the button
 
         upgradeList.Add(item);
+    }
+
+    //Add A Special Student
+    void AddSpecialStudent() {
+
     }
 
     //Add Building

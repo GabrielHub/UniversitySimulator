@@ -1,5 +1,5 @@
 ﻿/*
-	These are the objects for buying upgrades. Gamemanager script will generate only 3 at a time, at different points in the game
+	These are the objects for buying upgrades. Gamemanager script will generate ..., at different points in the game
 */
 
 public class UpgradeBase {

@@ -43,7 +43,7 @@ A Simulation game built in Unity 2019.1.0f2
 	* Faculty Pay Slider - Change how much faculty affects wealth per turn. A higher amount decreases wealth, but increases renown and happiness.
 	* Ranking - A new modifier out of 100 that updates every 5 turns. Based on renown, graduation rate. Also modified by Special Students and capped by avg rating of buildings.
 	* Student To Faculty Ratio Slider - The number of students each faculty will take care of. Higher ratio increases graduation rate but decreases happiness.
-	* Special Students - A chance of a special student occurs every 4 turns, depending on renown and happiness. Spend a certain amount of wealth to give scholarships to special students.
+	* Special Students - A chance of a special student occurs every x turns, depending on renown and happiness. Spend a certain amount of wealth to give scholarships to special students.
 
 **Details:**
 
@@ -108,6 +108,7 @@ A Simulation game built in Unity 2019.1.0f2
 - **Play / Pause** button will be on the bottom right above the tabs
 - **Resources** will be in the top left
 - Tabs include a **Buy Menu**, an **Advanced Stats** tab, and an **Interactables** tab.
+- We've extended .ToAbbreviatedString() to convert integer/floats to rounded strings (1000 == 1K, or 1M) (make sure each numerical string uses this function)
 
 ### Balance and Difficulty:
 
