@@ -20,14 +20,14 @@ public class Resources {
     public float r {
         get {
             //r_rate = ((students + faculty) / wealth) + renown;
-            return (happiness / 30) * renown;
+            return (happiness / 20) * renown;
         }
     } //student growth rate r
 
     public float K {
         get {
             //k_rate = (studentPool + alumni);
-            return (studentPool);
+            return (studentPool * acceptanceRate);
         }
     } //carrying capacity (size limit) for student growth K
 
@@ -87,8 +87,8 @@ public class Resources {
 
     //wealth. donation and tuition are sliders that change variables in gamemanagerscript, good luck balancing this pos
     public int calcWealth(float donation, float tuition) {
-        int students_penalty = 1;
-        int faculty_penalty = 2 + (faculty / (faculty * buildingCount));
+        int students_penalty = 2;
+        int faculty_penalty = 2 + (faculty / students);
         int temp = (int) ((((alumni * donation) + (students * tuition)) / 5) - (((faculty * faculty_penalty) + (students * students_penalty) + (buildingCount * 5)) / 5));
         wealth += temp;
 
@@ -129,13 +129,13 @@ public class Resources {
             students = 0;
             temp = students;
         }
-        else if (happiness < 7) {
+        else if (happiness < 4) {
             //alumni doesn't decrease
             temp = -1;
             alumni += temp;
         }
         else {
-            int i = (int) (students / 10);
+            int i = (int) (students / 20);
             students -= i;
             alumni += i;
             temp = i;

@@ -188,6 +188,16 @@ public class GameManagerScript : MonoBehaviour
                 UpgradeLicense licenseUpgrade = new UpgradeLicense();
                 AddUpgradable(licenseUpgrade);
             }
+            if (resources.wealth < 0)
+            {
+                negativeWealthTicker -= 1;
+                this.eventController.DoEvent(new Event("!!! You are currently in debt. Recover your debt before the collectors shutdown the University. \nYou have " + negativeWealthTicker + " left."));
+            }
+            if (negativeWealthTicker < 0)
+            {
+                this.eventController.DoEvent(new Event("You have been in debt for more than 5 turns and the collectors are at your door. \n This university has failed."));
+                CancelInvoke();
+            }
 
         }
         // ALL CODE BELOW IS OUTSIDE OF THE TICKER AND WILL BE RUN EVERY SECOND
@@ -236,15 +246,6 @@ public class GameManagerScript : MonoBehaviour
         }
 
         // when wealth is negative increase ticker.
-        if (resources.wealth < 0) {
-            negativeWealthTicker -= 1;
-            this.eventController.DoEvent(new Event("!!! You are currently in debt. Recover your debt before the collectors shutdown the University. \nYou have " + negativeWealthTicker + "left."));
-        }
-        if (negativeWealthTicker < 0) {
-            this.eventController.DoEvent(new Event("You have been in debt for more than 5 turns and the collectors are at your door. \n This university has failed."));
-            CancelInvoke();
-        }
-
     }
 
     //Add Purchasable Upgrades
