@@ -35,6 +35,24 @@ public class EventTextScript: MonoBehaviour, EventController.Listener {
 	public void EventDidOccur(Event e) {
 		this.text.text = e.text;
 		this.textTimer = 0f;
-		this.background.color = Color.red;
+
+		if (e.type == "GameState") {
+			this.background.color = Color.red;
+		}
+		else if (e.type == "Notification") {
+			this.background.color = Color.green;
+		}
+		else if (e.type == "Narrative") {
+			this.background.color = Color.blue;
+		}
+		else if (e.type == "Random") {
+			this.background.color = Color.yellow;
+		}
+		else if (e.type == "Feature") {
+			this.background.color = Color.magenta;
+		}
+		else {
+			Debug.Log("ERROR: mislabled event type, event type does not exist: " + e.text);
+		}
 	}
 }

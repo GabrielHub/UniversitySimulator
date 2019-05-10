@@ -1,5 +1,5 @@
 ﻿/*
-	These are the objects for buying upgrades. Gamemanager script will generate only 3 at a time, at different points in the game
+	These are the objects for buying upgrades. Gamemanager script will generate ..., at different points in the game
 */
 
 public class UpgradeBase {
@@ -32,7 +32,7 @@ public class UpgradeAdministrator : UpgradeBase {
 		bought = true;
 		GameManagerScript.instance.enableStatistics = true;
 		GameManagerScript.instance.resources.faculty += 5;
-		GameManagerScript.instance.eventController.DoEvent(new Event("Hired Administrators: hiding the paper trail has never been easier"));
+		GameManagerScript.instance.eventController.DoEvent(new Event("Hired Administrators: hiding the paper trail has never been easier", "Notification"));
 	}
 }
 
@@ -45,7 +45,7 @@ public class UpgradeCampus : UpgradeBase {
 	public override void ApplyEffect() {
 		bought = true;
 		GameManagerScript.instance.earlyGameRequirements++;
-		GameManagerScript.instance.eventController.DoEvent(new Event("Bought A Campus: sometimes you gotta fly before you can walk"));
+		GameManagerScript.instance.eventController.DoEvent(new Event("Bought A Campus: sometimes you gotta fly before you can walk", "Notification"));
 	}
 }
 
@@ -58,6 +58,6 @@ public class UpgradeLicense : UpgradeBase {
 	public override void ApplyEffect() {
 		bought = true;
 		GameManagerScript.instance.earlyGameRequirements++;
-		GameManagerScript.instance.eventController.DoEvent(new Event("Education License Approved: a recognized degree for me"));
+		GameManagerScript.instance.eventController.DoEvent(new Event("Education License Approved: a recognized degree for me", "Notification"));
 	}
 }

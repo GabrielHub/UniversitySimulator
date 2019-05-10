@@ -4,7 +4,7 @@ using UnityEngine;
 
 [System.Serializable]
 public class Resources {
-    public const float MAX_HAPPINESS = 8f;
+    public const float MAX_HAPPINESS = 7f;
     public const float MAX_RENOWN = 5f;
 
     //5 Main Resources
@@ -35,10 +35,14 @@ public class Resources {
 
     //MidGame Resources (Unused by earlygame, just used in the inherited class)
     public List<Building> buildings;
+    public List<SpecialStudent> specialStudents;
+    public int specialStudentThreshold; //Time between turns a special student can occur
     public int ranking; //out of 1000
     public float graduationRate;
-    public float ssProb; //chance for a special student
-    public int maxFaculty;
+    public float ssProb; //chance for a special student, between 0 and 1.0f
+    public int maxFaculty; //MIN and MAX faculty decide the slider values for student to faculty ratio.
+    public int minFaculty;
+    public float renownBase; //base renown carried over from HSA agreements in the earlygame
 
     [SerializeField]
     public List<HighSchoolAgreement> agreements = new List<HighSchoolAgreement> {
@@ -127,10 +131,9 @@ public class Resources {
             students = 0;
             temp = students;
         }
-        else if (happiness < 4) {
-            //alumni doesn't decrease
-            temp = -1;
-            alumni += temp;
+        else if (happiness < 3) {
+            //if happiness is too low, students won't graduate
+            temp = 0;
         }
         else {
             int i = (int) (students / 20);
@@ -157,10 +160,10 @@ public class Resources {
 
     }
 
-    //template function
-    public virtual void ApplyBuildingCalculations(Building b) {
+    //These functions aren't used in the base class, just needed to be overriden by inherited classes
+    public virtual void ApplyBuildingCalculations(Building b) { }
 
-    }
+    public virtual void AddSpecialStudent(SpecialStudent obj) { }
 }
 
 [System.Serializable]
@@ -169,34 +172,45 @@ public class ResourcesMidGame : Resources {
     public ResourcesMidGame(Resources resc) : base(resc.faculty, resc.alumni, resc.students, resc.wealth) {
         buildings = new List<Building> (); //TODO: When starting out you should have 1 default building, need the tilemap to recognize that
         //buildings.Add(new EducationalBuilding(100));
+
+        specialStudents = new List<SpecialStudent> ();
+        specialStudentThreshold = 10;
         ranking = 1000;
 
         //Starting renown value is the avg rating of HSA you got
         float reTemp = 0;
-        foreach(HighSchoolAgreement hs in agreements) {
+        foreach(HighSchoolAgreement hs in resc.agreements) {
             reTemp += hs.value;
         }
+        renownBase = reTemp;
 
         //initial values that will be overwritten anyway
         graduationRate = 0.5f;
         studentPool = resc.studentPool + 500; //give a 500 student safety gap at the start, set studentPool to the studentPool from HSA which are irrelevant
-        ssProb = 0.01f;
-        maxFaculty = resc.faculty + 10;
+        ssProb = 0.1f;
+        maxFaculty = resc.students; // Max nunber of students each faculty can be set to teach
+        minFaculty = (int) Mathf.Round(resc.students / resc.faculty); //min number of students each faculty can be set to teach
     }
 
     //Buildings now affect multiple resources, calculate these here before any other calculation, run everytime a new building is added
     public override void ApplyBuildingCalculations(Building b) {
         if (b.type == "Residential") {
-            studentPool += b.capacity;
+            studentPool += b.capacity; //increase student pool
         }
         else if (b.type == "Educational") {
-            maxFaculty += b.capacity;
+            maxFaculty += b.capacity; //increase max amount of students a faculty can teach
+
+            if (minFaculty >= 10) {
+                minFaculty -= 5; //decrease the smallest amount of students a faculty can teach
+            } 
         }
         else if (b.type == "Institutional") {
-            //NEeds to be figured out
+            if (specialStudentThreshold > 1) {
+                specialStudentThreshold--;
+            }
         }
         else if (b.type == "Athletic") {
-            //Needs to be figured out
+            ssProb += 0.1f; //increase student probability by 10%
         }
         else {
             //Debug.Log("ERROR: Checking building types in building array failed to compare type");
@@ -213,8 +227,7 @@ public class ResourcesMidGame : Resources {
 
     //renown, override earlygme calculation. val is faculty pay value from the policy slider
     public override void calcRenown(float val) {
-        //with the avg of hs value, renown below 3.0 will reduce the growth of students
-        renown = val - (acceptanceRate * 2);
+        renown = (renownBase * val) / 10; //r already takes into account happiness with renown, so no need to add happiness to this equation
     }
 
     //stuFacRatio is the number of students a faculty can teach. The higher it is, the worst it is for graduation.
@@ -238,11 +251,31 @@ public class ResourcesMidGame : Resources {
         return ret;
     }
 
-    public float calcSSProb() {
-        float ret = 0.0f;
+    //Student growth shouldn't be using renown anymore, since renown is used in so many other calculations. Maybe use ranking instead
+    public void calcR() {
 
-        //needs to be figured out once SS feature is in
+    }
+
+    //Base value that increases based on a combination of happiness and renown that is less than 1.0f
+    public float calcSSProb() {
+        float ret = 0.1f; //base 10% chance of a Special Student
+
+        //use renown and happiness to affect this somehow, first need to see how big r gets
 
         return ret;
+    }
+
+    //calculates ranking based on renown and graduation rate. If a threshold is reached, increased ranking
+    public void calcRanking() {
+        
+    }
+
+    public override void AddSpecialStudent(SpecialStudent obj) {
+        specialStudents.Add(obj);
+
+        //75% chance that adding a student increases ranking by one
+        if (Random.Range(0.0f, 1.0f) <= 0.75f) {
+            ranking++;
+        }
     }
 }

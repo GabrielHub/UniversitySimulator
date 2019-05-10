@@ -31,7 +31,7 @@ public class ResidentialBuilding : Building {
 	}
 }
 
-//Educational Buildings determine MidGame faculty cap, and student to faculty ratio cap.
+//Educational Buildings determine student to faculty ratio cap.
 public class EducationalBuilding : Building {
 	//public int capacity;
 	//might need a variable for increasing student to faculty, but i think we can just increase those max values in GameManagerScript
@@ -41,7 +41,7 @@ public class EducationalBuilding : Building {
 	}
 }
 
-//Institutional Buildings gives a small boost to the chance of Special Students and unlocks more upgrades
+//Institutional Buildings decrease the turns until a special student cna happen and unlocks more upgrades
 public class InstitutionalBuilding: Building {
 	
 	public InstitutionalBuilding(float _boost, int _rating, int _cost) : base("Institutional", _rating, _cost) {
@@ -49,7 +49,7 @@ public class InstitutionalBuilding: Building {
 	}
 }
 
-//Athletic Buildings determine the cap of special students and renown
+//Athletic Buildings determine the chance of special students and renown
 public class AthleticBuilding: Building {
 	//public int specialStudentCap;
 	//public float renownCap;

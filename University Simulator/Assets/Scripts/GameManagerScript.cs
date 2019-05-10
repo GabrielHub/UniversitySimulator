@@ -34,6 +34,7 @@ public class GameManagerScript : MonoBehaviour {
     private int eventThreshold; //time until events, changes after every event
     private int agreementThreshold; //time until new purchasable HS agreements
     private int negativeWealthTicker = 5;
+    private int specialStudentTicker = 0; //threshold for this ticker is found in ResourcesMidGame
 
     //other variables
     public bool playing = true; //check if paused or not
@@ -47,7 +48,13 @@ public class GameManagerScript : MonoBehaviour {
     //For UUpgrades in the Buy Menu
     public Transform contentPanel; //The content object that we're attaching upgrade buttons to
     public GameObject upgradeButton; //Button prefab for the upgrade object
-    public List<UpgradeBase> upgradeList;
+    public List<UpgradeBase> upgradeList; //list of all the upgrades that have been available
+    //For SpecialStudents in the Buy Menu
+    private RNGSpecialStudent specialStudentRNG; //Pool of randomly generated special students, use to get a special student object
+    public TMP_Text specialSDescriptionText; // Change the text when special students are enabled or disabled
+    public Transform specialStudentContentPanel; //The content object that we're attaching special student buttons to
+    public GameObject specialStudentButton; //Button prefab for the special student object
+    public List<SpecialStudent> specialStudentList; //list of all the special students that have been available
 
     //EarlyGame Resources
     public HighSchoolAgreement[] agreements; //purchasable agreements
@@ -82,6 +89,9 @@ public class GameManagerScript : MonoBehaviour {
         UpgradeAdministrator upgradeAdmin = new UpgradeAdministrator();
         AddUpgradable(upgradeAdmin); //Add Hire Administrators upgrade
 
+        //Initial List of special students
+        specialStudentList = new List<SpecialStudent> ();
+        specialStudentRNG = new RNGSpecialStudent();
 
         //set up  ranges (possibly based on difficulty later)
         this.resources.students = 45;
@@ -103,7 +113,7 @@ public class GameManagerScript : MonoBehaviour {
         }
 
         //starting dialogue
-        this.eventController.DoEvent(new Event("Grow by gaining more Students and Wealth"));
+        this.eventController.DoEvent(new Event("Grow by gaining more Students and Wealth, Press Play or 'P' to start", "Narrative"));
 
         //A turn is done every second, with a 0.5 second delay upon resuming
         InvokeRepeating("Turns", 0.5f, 1.0f);
@@ -129,11 +139,12 @@ public class GameManagerScript : MonoBehaviour {
         //Check whether game is paused or not
         if (playing) {
             //ticker values
-            //eventController.DoEvent();
             ticker++;
             eventTicker++;
             agreementTicker++;
-
+            if (state != GameState.EarlyGame) {
+                specialStudentTicker++;
+            }
 
             //Building calculations, MAKE SURE THIS IS ALWAYS CALCULATED FIRST, only run every time a new building is added
             if (state == GameState.MidGame && this.resources.buildings.Count == 0) {
@@ -169,8 +180,18 @@ public class GameManagerScript : MonoBehaviour {
             //Calculate Alumni
             this.resourcesDelta.alumni = this.resources.calcAlumni();
 
+            //Update MidGame policy min and max values if values have changed
+            if (state == GameState.MidGame) {
+                if (facultyRatioSlider.minValue != this.resources.minFaculty) {
+                   facultyRatioSlider.minValue = this.resources.minFaculty; 
+                }
+                if (facultyRatioSlider.maxValue != this.resources.maxFaculty) {
+                   facultyRatioSlider.maxValue = this.resources.maxFaculty; 
+                }
+            }
+
             //CODE FOR UPGRADES
-            //Unlocking Early Game Upgrades, make sure they aren't already added
+            //For unlocking Early Game Upgrades, make sure they aren't already added
             if (this.resources.students > 1000 && upgradeList.Count < 2) {
                 //Add the Buy Campus and Buy License Upgrades
                 UpgradeCampus campusUpgrade = new UpgradeCampus();
@@ -182,12 +203,21 @@ public class GameManagerScript : MonoBehaviour {
             if (resources.wealth < 0)
             {
                 negativeWealthTicker -= 1;
-                this.eventController.DoEvent(new Event("!!! You are currently in debt. Recover your debt before the collectors shutdown the University. \nYou have " + negativeWealthTicker + " left."));
+                this.eventController.DoEvent(new Event("!!! You are currently in debt. Recover your debt before the collectors shutdown the University.", "Notification"));
             }
             if (negativeWealthTicker < 0)
             {
-                this.eventController.DoEvent(new Event("You have been in debt for more than 5 turns and the collectors are at your door. \n This university has failed."));
+                this.eventController.DoEvent(new Event("You have been in debt for more than 5 turns and the collectors are at your door.", "GameState"));
                 CancelInvoke();
+            }
+
+            //CODE FOR SPECIAL STUDENTS
+            if (state != GameState.EarlyGame && this.resources.specialStudentThreshold == specialStudentTicker) {
+                specialStudentTicker = 0;
+
+                if (Random.Range(0.0f, 1.0f) <= this.resources.ssProb) {
+                    AddSpecialStudent();
+                }
             }
 
         }
@@ -206,8 +236,7 @@ public class GameManagerScript : MonoBehaviour {
         //randomized agreements, made sure it's only for the early game
         if (state == GameState.EarlyGame) {
             if (agreementTicker == agreementThreshold) {
-                this.eventController.DoEvent(new Event("!!!: New HS Agreements are available!"));
-                Debug.Log("New HS Agreements");
+                this.eventController.DoEvent(new Event("!!!: New HS Agreements are available!", "Notification"));
 
                 //run generation function
                 string[] name = RandomAgreements.instance.ChooseName(3);
@@ -225,19 +254,9 @@ public class GameManagerScript : MonoBehaviour {
             }
         }
 
-        // when wealth is negative increase ticker.
-        if (resources.wealth < 0) {
-            negativeWealthTicker -= 1;
-            this.eventController.DoEvent(new Event("!!! You are currently in debt. Recover your debt before the collectors shutdown the University. \nYou have " + negativeWealthTicker + "left."));
-        }
-        if (negativeWealthTicker < 0) {
-            this.eventController.DoEvent(new Event("You have been in debt for more than 5 turns, when the debts a'rockin' the banks come knockin'. \n This university has failed."));
-            CancelInvoke();
-        }
-
         //check for game over, or game win
         if (resources.students <= 0) {
-            this.eventController.DoEvent(new Event("You've run out of students and this University has failed. \n Don't be sad it happened be happy it's over"));
+            this.eventController.DoEvent(new Event("You've run out of students. Don't be sad it happened be happy it's over.", "GameState"));
             CancelInvoke();
         }
         //check if early game is finished
@@ -257,6 +276,13 @@ public class GameManagerScript : MonoBehaviour {
         upgradeList.Add(item);
     }
 
+    //Add A Special Student
+    void AddSpecialStudent() {
+        SpecialStudent newStudent = specialStudentRNG.GenerateStudent();
+        specialStudentList.Add(newStudent);
+        this.resources.AddSpecialStudent(newStudent);
+    }
+
     //Add Building
     void AddBuilding(Building b) {
         this.resources.buildings.Add(b);
@@ -268,16 +294,16 @@ public class GameManagerScript : MonoBehaviour {
         //disable early game features
         buyMenu.options.RemoveAt(0); //remove HSA Buy Option
 
-        //Create sliders and attach them to their content panel (IDK if this works cuz i need to pass the early game to test it)
+        //Create sliders and attach them to their content panel
         GameObject sliderCreation = Instantiate(salarySliderPrefab, sliderContentPanel);
         salarySlider = sliderCreation.GetComponent<Slider> ();
-        this.eventController.DoEvent(new Event("NEW POLICIES: Faculty Salary determines how much you pay faculty.\n A higher amount decreases wealth, but increases renown and happiness."));
+        this.eventController.DoEvent(new Event("NEW POLICIES: Faculty Salary determines how much you pay faculty. A higher amount decreases wealth, but increases renown and happiness.", "Feature"));
         GameObject sliderCreation2 = Instantiate(facultyRatioSliderPrefab, sliderContentPanel);
         facultyRatioSlider = sliderCreation2.GetComponent<Slider> ();
-        this.eventController.DoEvent(new Event("NEW POLICIES: Student-Faculty decides how many students a faculty can handle.\n Higher amount increases graduation rate but decreases happiness."));
+        this.eventController.DoEvent(new Event("NEW POLICIES: Student-Faculty decides how many students a faculty can handle. Higher amount increases graduation rate but decreases happiness.", "Feature"));
 
-        facultyRatioSlider.minValue = (int) Mathf.Round((this.resources.students / this.resources.faculty)); //Make sure faculty to student ratio can be accomodated for
-        facultyRatioSlider.maxValue = facultyRatioSlider.minValue * 10;
+        facultyRatioSlider.minValue = this.resources.minFaculty; //Make sure faculty to student ratio can be accomodated for
+        facultyRatioSlider.maxValue = this.resources.maxFaculty;
 
         //Convert resources to MidGame Resources class
         resources = new ResourcesMidGame(resources);
