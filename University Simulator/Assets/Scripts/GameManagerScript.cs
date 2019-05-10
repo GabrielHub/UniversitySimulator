@@ -113,7 +113,7 @@ public class GameManagerScript : MonoBehaviour {
         }
 
         //starting dialogue
-        this.eventController.DoEvent(new Event("Grow by gaining more Students and Wealth, Press Play or 'P' to start"));
+        this.eventController.DoEvent(new Event("Grow by gaining more Students and Wealth, Press Play or 'P' to start", "Narrative"));
 
         //A turn is done every second, with a 0.5 second delay upon resuming
         InvokeRepeating("Turns", 0.5f, 1.0f);
@@ -203,11 +203,11 @@ public class GameManagerScript : MonoBehaviour {
             if (resources.wealth < 0)
             {
                 negativeWealthTicker -= 1;
-                this.eventController.DoEvent(new Event("!!! You are currently in debt. Recover your debt before the collectors shutdown the University. \nYou have " + negativeWealthTicker + " left."));
+                this.eventController.DoEvent(new Event("!!! You are currently in debt. Recover your debt before the collectors shutdown the University.", "Notification"));
             }
             if (negativeWealthTicker < 0)
             {
-                this.eventController.DoEvent(new Event("You have been in debt for more than 5 turns and the collectors are at your door. \n This university has failed."));
+                this.eventController.DoEvent(new Event("You have been in debt for more than 5 turns and the collectors are at your door.", "GameState"));
                 CancelInvoke();
             }
 
@@ -236,8 +236,7 @@ public class GameManagerScript : MonoBehaviour {
         //randomized agreements, made sure it's only for the early game
         if (state == GameState.EarlyGame) {
             if (agreementTicker == agreementThreshold) {
-                this.eventController.DoEvent(new Event("!!!: New HS Agreements are available!"));
-                Debug.Log("New HS Agreements");
+                this.eventController.DoEvent(new Event("!!!: New HS Agreements are available!", "Notification"));
 
                 //run generation function
                 string[] name = RandomAgreements.instance.ChooseName(3);
@@ -255,19 +254,9 @@ public class GameManagerScript : MonoBehaviour {
             }
         }
 
-        // when wealth is negative increase ticker.
-        if (resources.wealth < 0) {
-            negativeWealthTicker -= 1;
-            this.eventController.DoEvent(new Event("!!! You are currently in debt. Recover your debt before the collectors shutdown the University. \nYou have " + negativeWealthTicker + "left."));
-        }
-        if (negativeWealthTicker < 0) {
-            this.eventController.DoEvent(new Event("You have been in debt for more than 5 turns, when the debts a'rockin' the banks come knockin'. \n This university has failed."));
-            CancelInvoke();
-        }
-
         //check for game over, or game win
         if (resources.students <= 0) {
-            this.eventController.DoEvent(new Event("You've run out of students and this University has failed. \n Don't be sad it happened be happy it's over"));
+            this.eventController.DoEvent(new Event("You've run out of students. Don't be sad it happened be happy it's over.", "GameState"));
             CancelInvoke();
         }
         //check if early game is finished
@@ -308,10 +297,10 @@ public class GameManagerScript : MonoBehaviour {
         //Create sliders and attach them to their content panel
         GameObject sliderCreation = Instantiate(salarySliderPrefab, sliderContentPanel);
         salarySlider = sliderCreation.GetComponent<Slider> ();
-        this.eventController.DoEvent(new Event("NEW POLICIES: Faculty Salary determines how much you pay faculty.\n A higher amount decreases wealth, but increases renown and happiness."));
+        this.eventController.DoEvent(new Event("NEW POLICIES: Faculty Salary determines how much you pay faculty. A higher amount decreases wealth, but increases renown and happiness.", "Feature"));
         GameObject sliderCreation2 = Instantiate(facultyRatioSliderPrefab, sliderContentPanel);
         facultyRatioSlider = sliderCreation2.GetComponent<Slider> ();
-        this.eventController.DoEvent(new Event("NEW POLICIES: Student-Faculty decides how many students a faculty can handle.\n Higher amount increases graduation rate but decreases happiness."));
+        this.eventController.DoEvent(new Event("NEW POLICIES: Student-Faculty decides how many students a faculty can handle. Higher amount increases graduation rate but decreases happiness.", "Feature"));
 
         facultyRatioSlider.minValue = this.resources.minFaculty; //Make sure faculty to student ratio can be accomodated for
         facultyRatioSlider.maxValue = this.resources.maxFaculty;

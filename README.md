@@ -82,7 +82,7 @@ A Simulation game built in Unity 2019.1.0f2
 - Power: Main Goal
 - Campuses: Soft Goal
 - Student Growth: Now a static linear function based on building upgrades.
-- Faculty Growth: Now a static linera function based on building upgrades.
+- Faculty Growth: Now a static linear function based on building upgrades.
 - Alumni: Now a static amount every turn.
 - Renown: Now based on building upgrades.
 - University Count: All the universities left in the world.
