@@ -96,15 +96,25 @@ A Simulation game built in Unity 2019.1.0f2
 
 ### Events
 
-	Done using the EventController script. Uses an event ticker that counts down the time since the last event.
-	Picks a random value in a range. When the ticker hits that number an event happens.
-	Events can be helpful or damaging. Currently based on a random value
+**Types of Events:**
+
+- Random Events: In the EventController script. A random event can happen between a range and can be helpful or damaging and manipulates resources
+- Feature Events: When a new feature becomes available they send a message to the event log notifying the player.
+- GameState Events: When in a lose state, or when moving to another game phase.
+- Narrative Events: Acts as goals to achieve, notifies you whne there's a new goal, with a premise to string the player along a narrative
+- Notification Events: When new buyables are available, or when a resource has been low for a while.
+
+**Implementation:**
+
+Uses a messaging system, push new events to the EventController using DoEvent() when you want a random event to happen.
+
+Each event will flash a different color to show what kind of event it is.
 
 ### UI/UX
 
 - Tabs on the bottom of the screen for **Event Log** and one for each resource to manage them.
-- The **Event Log** tab, will open or close a transparent Event Log Object in the top middle of the screen.
-- **Event Log** will be a "simple messaging system which will allow items in our projects to subscribe to events, and have events trigger actions in our games. This will reduce dependencies and allow easier maintenance of our projects."
+- The **Event Log** button, will open or close an Event Log Object in the top middle of the screen to show you all past events.
+- **Event Log** will be a "simple messaging system which will allow items in our projects to subscribe to events, and have events trigger actions in our games. This will reduce dependencies and allow easier maintenance of our project."
 - **Play / Pause** button will be on the bottom right above the tabs
 - **Resources** will be in the top left
 - Tabs include a **Buy Menu**, an **Advanced Stats** tab, and an **Interactables** tab.
