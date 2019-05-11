@@ -110,7 +110,7 @@ public class GameManagerScript : MonoBehaviour {
         agreementThreshold = Random.Range(15, 30);
 
         //starting dialogue
-        this.eventController.DoEvent(new Event("The 'University' is unrecognized. How shall we fix this?", "Narrative"));
+        this.eventController.DoEvent(new Event("The 'Online University' is unrecognized. Let's begin (Press P to pause or resume)", "Narrative"));
 
         //A turn is done every second, with a 0.5 second delay upon resuming
         InvokeRepeating("Turns", 0.5f, 1.0f);
@@ -270,8 +270,25 @@ public class GameManagerScript : MonoBehaviour {
             this.eventController.DoEvent(new Event("You've run out of students. Don't be sad it happened be happy it's over.", "GameState"));
             CancelInvoke();
         }
+        //move from earlygame stages. NEED TO ADD UPGRADES TO EACH STAGE AS A GATE TO PROGRESSION
+        if (state == GameState.EarlyGame1 && this.resources.students >= 50) {
+            state = GameState.EarlyGame2;
+            this.eventController.DoEvent(new Event("You've heard a rumor that some High Schools will take a bribe to push students to your school...", "Narrative"));
+            this.playing = !this.playing;
+        }
+        else if (state == GameState.EarlyGame2 && this.resources.students >= 100) {
+            state = GameState.EarlyGame3;
+            this.eventController.DoEvent(new Event("With this many students maybe you can start giving out degrees", "Narrative"));
+            this.playing = !this.playing;
+        }
+        else if (state == GameState.EarlyGame3 && this.resources.students >= 500) {
+            state = GameState.EarlyGame4;
+            this.eventController.DoEvent(new Event("Students care about happiness and renown. Who knew? Maybe we need to start changing our policies to keep growing", "Narrative"));
+            this.playing = !this.playing;
+        }
         //check if early game is finished
-        if (earlyGameRequirements == 2 && state == GameState.EarlyGame3) {
+        if (earlyGameRequirements == 2 && state == GameState.EarlyGame4) {
+            this.eventController.DoEvent(new Event("A University is a business, and business is good...", "Narrative"));
             state = GameState.MidGame;
             MoveToMidGame();
         }
@@ -308,10 +325,9 @@ public class GameManagerScript : MonoBehaviour {
         //Create sliders and attach them to their content panel
         GameObject sliderCreation = Instantiate(salarySliderPrefab, sliderContentPanel);
         salarySlider = sliderCreation.GetComponent<Slider> ();
-        this.eventController.DoEvent(new Event("NEW POLICIES: Faculty Salary determines how much you pay faculty. A higher amount decreases wealth, but increases renown and happiness.", "Feature"));
         GameObject sliderCreation2 = Instantiate(facultyRatioSliderPrefab, sliderContentPanel);
         facultyRatioSlider = sliderCreation2.GetComponent<Slider> ();
-        this.eventController.DoEvent(new Event("NEW POLICIES: Student-Faculty decides how many students a faculty can handle. Higher amount increases graduation rate but decreases happiness.", "Feature"));
+        this.eventController.DoEvent(new Event("NEW POLICIES: Student-Faculty decides how many students a faculty can handle. Faculty Salary determines how much you pay faculty.", "Feature"));
 
         facultyRatioSlider.minValue = this.resources.minFaculty; //Make sure faculty to student ratio can be accomodated for
         facultyRatioSlider.maxValue = this.resources.maxFaculty;

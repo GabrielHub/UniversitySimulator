@@ -11,8 +11,8 @@ A Simulation game built in Unity 2019.1.0f2
 
 - First stage of the game you only have students and wealth. Buy faculty upgrades
 - Next stage at 50 students unlocks High School Agreements
-- After you hit 100 students you can unlock the ability to graduate students and create alumni. These will provide a permanent boost to wealth growth. Use this to buy HSA agreements. Unlock sliders
-- After 500 students, renown and happiness now affect student capacity. Unlock advanced statistics upgrade. 
+- After you hit 100 students you can unlock the ability to graduate students and create alumni. These will provide a permanent boost to wealth growth. Use this to buy HSA agreements. 
+- After 500 students, renown and happiness now affect student capacity. Unlock advanced statistics upgrade. Unlock policies
 - After 1000 students you can now move onto the midgame.
 
 **Focus:**
