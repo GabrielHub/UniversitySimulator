@@ -92,8 +92,8 @@ public class GameManagerScript : MonoBehaviour {
 
         //Initial upgrades that are available
         upgradeList = new List<UpgradeBase> ();
-        UpgradeAdministrator upgradeAdmin = new UpgradeAdministrator();
-        //AddUpgradable(upgradeAdmin); //Add Hire Administrators upgrade
+        UpgradeHireFaculty upgradeFaculty = new UpgradeHireFaculty(0);
+        AddUpgradable(upgradeFaculty); //Add Hire Administrators upgrade
 
         //Initial List of special students
         specialStudentList = new List<SpecialStudent> ();
@@ -110,7 +110,7 @@ public class GameManagerScript : MonoBehaviour {
         agreementThreshold = Random.Range(15, 30);
 
         //starting dialogue
-        this.eventController.DoEvent(new Event("'YoU cOuLd ToTaLlY mAkE a BeTtEr UnI', maybe you shouldn't have listened to that guy", "Narrative"));
+        this.eventController.DoEvent(new Event("'YoU cOuLd ToTaLlY mAkE a BeTtEr UnIvErSiTy ThE sYsTeM iS bRoKeN', maybe you shouldn't have listened to that guy", "Narrative"));
 
         //A turn is done every second, with a 0.5 second delay upon resuming
         InvokeRepeating("Turns", 0.5f, 1.0f);
@@ -136,10 +136,10 @@ public class GameManagerScript : MonoBehaviour {
             specialStudentTicker++;
 
             //Do Narrative Events
-            if (ticker == 4) {
-                this.eventController.DoEvent(new Event("The school is picking up a little (Press P to pause or resume)", "Narrative"));
+            if (ticker == 6) {
+                this.eventController.DoEvent(new Event("Hiring more faculty would help us get more students (Press P to pause or resume)", "Narrative"));
             }
-            else if (ticker == 10) {
+            else if (ticker == 12) {
                 //this.eventController.DoEvent(new Event("This thing is picking up, Online College Classes sounds like a good idea", "Narrative"));
             }
 
@@ -157,7 +157,7 @@ public class GameManagerScript : MonoBehaviour {
             }
 
             //calculate HS Agreements, only done in early game
-            if (state == GameState.EarlyGame2 || state == GameState.EarlyGame3) {
+            if (state == GameState.EarlyGame2 || state == GameState.EarlyGame3 || state == GameState.EarlyGame4) {
                 this.resources.calcHSAgreements();
             }
 
@@ -283,6 +283,23 @@ public class GameManagerScript : MonoBehaviour {
             state = GameState.EarlyGame2;
             this.eventController.DoEvent(new Event("You've heard a rumor that some High Schools will take a bribe to push students to your school...", "Narrative"));
             this.playing = !this.playing;
+
+            //Add the first agreement
+            this.resources.agreements.Add(new HighSchoolAgreement("Init HS", 20, 4, 0));
+
+            //run generation function for HSA
+            string[] name = RandomAgreements.instance.ChooseName(3);
+            for (int i = 0; i < 3; i++) {
+                agreements[i] = RandomAgreements.instance.generateAgreement(name[i]);
+            }
+
+            agreementThreshold = Random.Range(4, 18); //use this to change time between new agreements
+            agreementTicker = 0;
+
+            //enable every window if they were purchased before
+            BuyHSA1.gameObject.SetActive(true);
+            BuyHSA2.gameObject.SetActive(true);
+            BuyHSA3.gameObject.SetActive(true);
         }
         else if (state == GameState.EarlyGame2 && this.resources.students >= 100) {
             state = GameState.EarlyGame3;
@@ -293,6 +310,9 @@ public class GameManagerScript : MonoBehaviour {
             state = GameState.EarlyGame4;
             this.eventController.DoEvent(new Event("Students care about happiness and renown. Who knew? Maybe we need to start changing our policies to keep growing", "Narrative"));
             this.playing = !this.playing;
+
+            UpgradeAdministrator upgradeAdmin = new UpgradeAdministrator();
+            AddUpgradable(upgradeAdmin); //Add Hire Administrators upgrade
         }
         //check if early game is finished
         if (earlyGameRequirements == 2 && state == GameState.EarlyGame4) {
@@ -303,7 +323,7 @@ public class GameManagerScript : MonoBehaviour {
     }
 
     //Add A Purchasable Upgrades
-    void AddUpgradable(UpgradeBase item) {
+    public void AddUpgradable(UpgradeBase item) {
         //Create button prefab and attach it to the content panel
         GameObject buttonCreation = Instantiate(upgradeButton, contentPanel);
         UpgradeBuyButton buttonScript = buttonCreation.GetComponent<UpgradeBuyButton> ();

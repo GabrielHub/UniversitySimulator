@@ -22,6 +22,22 @@ public class UpgradeBase {
 	}
 }
 
+//repeatable hire faculty to increase K
+public class UpgradeHireFaculty : UpgradeBase {
+	public UpgradeHireFaculty(int prevCost) : base("Hire New Faculty", "Hiring more faculty to help out increases student capacity", (int) (prevCost * 1.5 + 10)) {
+
+	}
+
+	public override void ApplyEffect() {
+		bought = true;
+		GameManagerScript.instance.resources.faculty += 2;
+		GameManagerScript.instance.eventController.DoEvent(new Event("Hired New Faculty: more meat for the machine", "Notification"));
+
+		UpgradeHireFaculty upgradeFaculty = new UpgradeHireFaculty(cost);
+        GameManagerScript.instance.AddUpgradable(upgradeFaculty); //Add new repeatable
+	}
+}
+
 //unlocks Advanced Statistics
 public class UpgradeAdministrator : UpgradeBase {
 	public UpgradeAdministrator() : base("Hire Administrators", "unlocks advanced statistics tab", 100) {

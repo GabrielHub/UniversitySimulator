@@ -72,7 +72,7 @@ public class Resources {
 
     //Calculate K, the student capacity (student pool)
     public virtual float calcK() {
-        K = studentPool * acceptanceRate;
+        K = (studentPool + faculty * 5) * acceptanceRate;
         return K;
     }
 
