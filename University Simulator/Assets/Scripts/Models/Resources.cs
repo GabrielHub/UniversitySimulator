@@ -142,6 +142,7 @@ public class Resources {
         }
         else if (GameManagerScript.instance.state == GameManagerScript.GameState.EarlyGame2) {
             if (students < K) {
+                Debug.Log("EarlyGame2 r: " + r);
                 temp = (int) (r * 2);
             }
             else {

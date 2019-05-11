@@ -138,6 +138,7 @@ public class GameManagerScript : MonoBehaviour {
             //Do Narrative Events
             if (ticker == 6) {
                 this.eventController.DoEvent(new Event("Hiring more faculty would help us get more students (Press P to pause or resume)", "Narrative"));
+                this.playing = !this.playing;
             }
             else if (ticker == 12) {
                 //this.eventController.DoEvent(new Event("This thing is picking up, Online College Classes sounds like a good idea", "Narrative"));
@@ -285,7 +286,7 @@ public class GameManagerScript : MonoBehaviour {
             this.playing = !this.playing;
 
             //Add the first agreement
-            this.resources.agreements.Add(new HighSchoolAgreement("Init HS", 20, 4, 0));
+            this.resources.agreements.Add(new HighSchoolAgreement("Init HS", 15, 4, 0));
 
             //run generation function for HSA
             string[] name = RandomAgreements.instance.ChooseName(3);
