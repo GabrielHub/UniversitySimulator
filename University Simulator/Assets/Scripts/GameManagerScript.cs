@@ -1,8 +1,15 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
+
+public class GameStateChangeMessage: Message.IMessage {
+    public GameManagerScript.GameState state;
+    public GameStateChangeMessage(GameManagerScript.GameState state) {
+        this.state = state;
+    }
+}
 
 public class GameManagerScript : MonoBehaviour {
     public static GameManagerScript instance;
@@ -271,5 +278,7 @@ public class GameManagerScript : MonoBehaviour {
 
         //Convert resources to MidGame Resources class
         resources = new ResourcesMidGame(resources);
+
+        MessageBus.instance.sendMessageToHandlers(new GameStateChangeMessage(GameState.MidGame));
     }
 }
