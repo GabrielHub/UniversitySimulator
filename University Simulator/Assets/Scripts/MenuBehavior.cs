@@ -10,6 +10,10 @@ public class MenuBehavior : MonoBehaviour
         
     } 
 
+    public void loadTutorial(){
+        SceneManager.LoadScene(2);
+    } 
+
     public void quitGame(){
         Debug.Log("Quit");
         Application.Quit();

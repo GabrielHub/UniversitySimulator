@@ -35,5 +35,8 @@ public class UpgradeBuyButton : MonoBehaviour
     		Destroy(gameObject);
     		//gameObject.SetActive(false);
     	}
+        else {
+            GameManagerScript.instance.eventController.DoEvent(new Event("Not enough wealth to buy this upgrade", "Notification"));
+        }
     }
 }

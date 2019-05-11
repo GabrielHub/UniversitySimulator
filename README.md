@@ -43,7 +43,7 @@ A Simulation game built in Unity 2019.1.0f2
 	* Faculty Pay Slider - Change how much faculty affects wealth per turn. A higher amount decreases wealth, but increases renown and happiness.
 	* Ranking - A new modifier out of 100 that updates every 5 turns. Based on renown, graduation rate. Also modified by Special Students and capped by avg rating of buildings.
 	* Student To Faculty Ratio Slider - The number of students each faculty will take care of. Higher ratio increases graduation rate but decreases happiness.
-	* Special Students - A chance of a special student occurs every 4 turns, depending on renown and happiness. Spend a certain amount of wealth to give scholarships to special students.
+	* Special Students - A chance of a special student occurs every x turns, depending on renown and happiness. Spend a certain amount of wealth to give scholarships to special students.
 
 **Details:**
 
@@ -54,7 +54,7 @@ A Simulation game built in Unity 2019.1.0f2
 - High School Agreements: No longer available or a factor, converted to a static boost or detriment depending on the high schools you aquired.
 - Random Events: Are now active. Random chance of an event happening every turn, that can be helpful or hurtful depending on how well you're doing.
 - Available Upgrades: Marketing Campaign I (increases renown by a small amount), Marketing Campaign II (increasaes HSA static boost by a small amount), Financial Aid Program (Increases odds of special student), Advanced Analysis (upgrades the statistics page), *Design later when implemented*
-- Student To Faculty: The max value can be increased by Educational buildings, while the min value will be decided by the starting amount of students / faculty. If the capacity of students is too much for the amount of faculty you've assigned, graduation rates will suffer.
+- Student To Faculty: The max value can be increased by Educational buildings, while the min value will be decided by the amount of students / faculty. If the capacity of students is too much for the amount of faculty you've assigned, graduation rates will suffer.
 
 **Lose Condition:**
 - No wealth or students
@@ -82,7 +82,7 @@ A Simulation game built in Unity 2019.1.0f2
 - Power: Main Goal
 - Campuses: Soft Goal
 - Student Growth: Now a static linear function based on building upgrades.
-- Faculty Growth: Now a static linera function based on building upgrades.
+- Faculty Growth: Now a static linear function based on building upgrades.
 - Alumni: Now a static amount every turn.
 - Renown: Now based on building upgrades.
 - University Count: All the universities left in the world.
@@ -96,18 +96,29 @@ A Simulation game built in Unity 2019.1.0f2
 
 ### Events
 
-	Done using the EventController script. Uses an event ticker that counts down the time since the last event.
-	Picks a random value in a range. When the ticker hits that number an event happens.
-	Events can be helpful or damaging. Currently based on a random value
+**Types of Events:**
+
+- Random Events: In the EventController script. A random event can happen between a range and can be helpful or damaging and manipulates resources
+- Feature Events: When a new feature becomes available they send a message to the event log notifying the player.
+- GameState Events: When in a lose state, or when moving to another game phase.
+- Narrative Events: Acts as goals to achieve, notifies you whne there's a new goal, with a premise to string the player along a narrative
+- Notification Events: When new buyables are available, or when a resource has been low for a while.
+
+**Implementation:**
+
+Uses a messaging system, push new events to the EventController using DoEvent() when you want a random event to happen.
+
+Each event will flash a different color to show what kind of event it is.
 
 ### UI/UX
 
 - Tabs on the bottom of the screen for **Event Log** and one for each resource to manage them.
-- The **Event Log** tab, will open or close a transparent Event Log Object in the top middle of the screen.
-- **Event Log** will be a "simple messaging system which will allow items in our projects to subscribe to events, and have events trigger actions in our games. This will reduce dependencies and allow easier maintenance of our projects."
+- The **Event Log** button, will open or close an Event Log Object in the top middle of the screen to show you all past events.
+- **Event Log** will be a "simple messaging system which will allow items in our projects to subscribe to events, and have events trigger actions in our games. This will reduce dependencies and allow easier maintenance of our project."
 - **Play / Pause** button will be on the bottom right above the tabs
 - **Resources** will be in the top left
 - Tabs include a **Buy Menu**, an **Advanced Stats** tab, and an **Interactables** tab.
+- We've extended .ToAbbreviatedString() to convert integer/floats to rounded strings (1000 == 1K, or 1M) (make sure each numerical string uses this function)
 
 ### Balance and Difficulty:
 
