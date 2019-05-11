@@ -167,6 +167,9 @@ public class GameManagerScript : MonoBehaviour {
                 this.resources.calcRenown(salarySlider.value);
             }
 
+            //Calculate R: The student growth rate
+            this.resources.calcR();
+
             //MAIN RESOURCES: Always calcualte these 4 resources LAST
             //Calculate wealth
             this.resourcesDelta.wealth = this.resources.calcWealth(donationSlider.value, tuitionSlider.value);

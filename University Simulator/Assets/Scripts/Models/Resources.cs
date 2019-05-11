@@ -14,12 +14,7 @@ public class Resources {
     public int wealth;
 
     //Hidden Resources
-    public float r {
-        get {
-            //r_rate = ((students + faculty) / wealth) + renown;
-            return (happiness / MAX_HAPPINESS) * renown;
-        }
-    } //student growth rate r
+    public float r; //student growth rate r
 
     public float K {
         get {
@@ -60,6 +55,7 @@ public class Resources {
         acceptanceRate = .8f;
         renown = 1f - (acceptanceRate * 2);
         studentPool = 100;
+        calcR();
     }
 
     public static Resources operator+(Resources left, Resources right) {
@@ -72,8 +68,13 @@ public class Resources {
     }
 
     //happiness. Optimal value is currently set to half the max value
-    public void calcHappiness(float tuition, float tuitionMax, float donation, float donationMax) {
+    public virtual void calcHappiness(float tuition, float tuitionMax, float donation, float donationMax) {
         happiness = (int) ((tuitionMax / 2 - tuition) + (donationMax / 2 - donation));
+    }
+
+    //Calculate R the student growth factor.
+    public virtual float calcR() {
+        return (happiness / MAX_HAPPINESS) * renown;
     }
 
     //renown, earlygame calculations
@@ -164,6 +165,8 @@ public class Resources {
     public virtual void ApplyBuildingCalculations(Building b) { }
 
     public virtual void AddSpecialStudent(SpecialStudent obj) { }
+
+    public virtual int calcRanking() { return 1000; }
 }
 
 [System.Serializable]
@@ -230,6 +233,11 @@ public class ResourcesMidGame : Resources {
         renown = (renownBase * val) / 10; //r already takes into account happiness with renown, so no need to add happiness to this equation
     }
 
+    //happiness. Based on faculty pay slider (higher is good) and student to faculty ratio (higher is bad)
+    public override void calcHappiness(float tuition, float fpay, float donation, float ratio) {
+        happiness = (int) (fpay / ((tuition + donation) / 10 + ratio));
+    }
+
     //stuFacRatio is the number of students a faculty can teach. The higher it is, the worst it is for graduation.
     public float calcGradRate(int studentFacultyRatio, int ratioMax, int ratioMin) {
         //Might just need the first part, but the second added value helps reduce penalties for having higher ratio
@@ -252,7 +260,7 @@ public class ResourcesMidGame : Resources {
     }
 
     //Student growth shouldn't be using renown anymore, since renown is used in so many other calculations. Maybe use ranking instead
-    public void calcR() {
+    public override float calcR() {
 
     }
 
@@ -266,8 +274,12 @@ public class ResourcesMidGame : Resources {
     }
 
     //calculates ranking based on renown and graduation rate. If a threshold is reached, increased ranking
-    public void calcRanking() {
-        
+    public override int calcRanking() {
+        int ret = 1000;
+
+        //needs to be calculated
+
+        return ret;
     }
 
     public override void AddSpecialStudent(SpecialStudent obj) {
