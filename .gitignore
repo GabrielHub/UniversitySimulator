@@ -36,3 +36,5 @@ sysinfo.txt
 *.unitypackage
 
 University Simulator/\.vscode/
+
+University Simulator/\.nyc_output/

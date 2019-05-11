@@ -1,8 +1,15 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
+
+public class GameStateChangeMessage: Message.IMessage {
+    public GameManagerScript.GameState state;
+    public GameStateChangeMessage(GameManagerScript.GameState state) {
+        this.state = state;
+    }
+}
 
 public class GameManagerScript : MonoBehaviour {
     public static GameManagerScript instance;
@@ -306,8 +313,6 @@ public class GameManagerScript : MonoBehaviour {
             state = GameState.EarlyGame3;
             this.eventController.DoEvent(new Event("With this many students maybe you can start giving out degrees", "Narrative"));
             this.playing = !this.playing;
-
-            //Add Upgrade to unlock Alumni
         }
         else if (state == GameState.EarlyGame3 && this.resources.students >= 500) {
             state = GameState.EarlyGame4;
@@ -365,5 +370,7 @@ public class GameManagerScript : MonoBehaviour {
 
         //Convert resources to MidGame Resources class
         resources = new ResourcesMidGame(resources);
+
+        MessageBus.instance.sendMessageToHandlers(new GameStateChangeMessage(GameState.MidGame));
     }
 }
