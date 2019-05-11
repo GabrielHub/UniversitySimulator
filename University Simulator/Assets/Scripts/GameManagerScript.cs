@@ -81,7 +81,13 @@ public class GameManagerScript : MonoBehaviour {
             Max lines can be changed in the editor
         */
 
-        resources = new Resources();
+        resources = new Resources(1, 1, 1, 10);
+        //set up  ranges (possibly based on difficulty later)
+        /*this.resources.students = 1;
+        this.resources.faculty = 1;
+        this.resources.alumni = 1;
+        this.resources.wealth = 1;*/
+
         state = GameState.EarlyGame1; //Set early game state, now disable all features not available in the early game
 
         //Initial upgrades that are available
@@ -92,12 +98,6 @@ public class GameManagerScript : MonoBehaviour {
         //Initial List of special students
         specialStudentList = new List<SpecialStudent> ();
         specialStudentRNG = new RNGSpecialStudent();
-
-        //set up  ranges (possibly based on difficulty later)
-        this.resources.students = 1;
-		this.resources.faculty = 1;
-		this.resources.alumni = 1;
-		this.resources.wealth = 1;
 
         //initial purchasable agreements
         agreements = new HighSchoolAgreement[3];
@@ -110,7 +110,7 @@ public class GameManagerScript : MonoBehaviour {
         agreementThreshold = Random.Range(15, 30);
 
         //starting dialogue
-        this.eventController.DoEvent(new Event("The 'Online University' is unrecognized. Let's begin (Press P to pause or resume)", "Narrative"));
+        this.eventController.DoEvent(new Event("'YoU cOuLd ToTaLlY mAkE a BeTtEr UnI', maybe you shouldn't have listened to that guy", "Narrative"));
 
         //A turn is done every second, with a 0.5 second delay upon resuming
         InvokeRepeating("Turns", 0.5f, 1.0f);
@@ -134,6 +134,14 @@ public class GameManagerScript : MonoBehaviour {
             eventTicker++;
             agreementTicker++;
             specialStudentTicker++;
+
+            //Do Narrative Events
+            if (ticker == 4) {
+                this.eventController.DoEvent(new Event("The school is picking up a little (Press P to pause or resume)", "Narrative"));
+            }
+            else if (ticker == 10) {
+                //this.eventController.DoEvent(new Event("This thing is picking up, Online College Classes sounds like a good idea", "Narrative"));
+            }
 
             /*
             - First stage of the game you only have students and wealth. Buy faculty upgrades
@@ -186,7 +194,7 @@ public class GameManagerScript : MonoBehaviour {
             //Calculate Students
             this.resourcesDelta.students = this.resources.calcStudents(tuitionSlider.maxValue + donationSlider.maxValue);
 
-            //Calculate Alumni
+            //Calculate Alumni, only unlocked by earlygame 3
             if (state == GameState.EarlyGame3 || state == GameState.EarlyGame4 || state == GameState.MidGame) {
                 this.resourcesDelta.alumni = this.resources.calcAlumni();
             }

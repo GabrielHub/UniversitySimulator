@@ -35,9 +35,7 @@ public class Resources {
     public float renownBase; //base renown carried over from HSA agreements in the earlygame
 
     [SerializeField]
-    public List<HighSchoolAgreement> agreements = new List<HighSchoolAgreement> {
-        new HighSchoolAgreement("Starter's HS", 100, 3, 0)
-    };
+    public List<HighSchoolAgreement> agreements = new List<HighSchoolAgreement> ();
 
     public Resources(int faculty = 0, int alumni = 0, int students = 0, int wealth = 0) {
         this.faculty = faculty;
@@ -46,12 +44,10 @@ public class Resources {
         this.wealth = wealth;
 
         //initial values for other variables
-        happiness = 1;
-        acceptanceRate = .8f;
-        renown = 1f - (acceptanceRate * 2);
-        studentPool = 50;
-        calcR();
-        calcK();
+        happiness = 7.0f;
+        acceptanceRate = 1.0f;
+        renown = 1.0f;
+        studentPool = 10;
     }
 
     public static Resources operator+(Resources left, Resources right) {
@@ -70,18 +66,20 @@ public class Resources {
 
     //Calculate R the student growth factor.
     public virtual float calcR() {
-        return (happiness / MAX_HAPPINESS) * renown;
+        r = (happiness / MAX_HAPPINESS) * renown;
+        return r;
     }
 
     //Calculate K, the student capacity (student pool)
     public virtual float calcK() {
-        return studentPool * acceptanceRate;
+        K = studentPool * acceptanceRate;
+        return K;
     }
 
     //renown, earlygame calculations
     public virtual void calcRenown(float val) {
         //with the avg of hs value, renown below 3.0 will reduce the growth of students
-        renown = val - (acceptanceRate * 2);
+        renown = val - (acceptanceRate * 1.2f);
     }
 
     //acceptance rate slider calculations, should always be a float between 0.0 and 1.0
@@ -93,7 +91,24 @@ public class Resources {
     public virtual int calcWealth(float donation, float tuition) {
         int students_penalty = 1;
         int faculty_penalty = 2 + (faculty / (faculty * 3));
-        int temp = (int) ((((alumni * donation) + (students * tuition)) / 5) - (((faculty * faculty_penalty) + (students * students_penalty) + (3 * 5)) / 5));
+        int temp = 0;
+
+        if (GameManagerScript.instance.state == GameManagerScript.GameState.EarlyGame1) {
+            temp = (int) (students * 0.5);
+        }
+        else if (GameManagerScript.instance.state == GameManagerScript.GameState.EarlyGame2) {
+            temp = students;
+        }
+        else if (GameManagerScript.instance.state == GameManagerScript.GameState.EarlyGame3) {
+            temp = (int) (students * 1.5);
+        }
+        else if (GameManagerScript.instance.state == GameManagerScript.GameState.EarlyGame4) {
+            temp = (int) ((((alumni * donation) + (students * tuition)) / 5) - ((faculty * faculty_penalty) + (students * students_penalty) / 3));
+        }
+        else {
+            Debug.Log("OOPSIE WOOPSIE WE MADE A FUCKYWUCKY: calcwealth in earlygame is out of valid gamestate");
+        }
+
         wealth += temp;
 
         return temp;
@@ -118,9 +133,32 @@ public class Resources {
     public int calcStudents(float maxHappiness) {
         // K - Students accepted out of student pool
         // R - Growth Rate
-        int temp = (int) (r * students * ((K - students) / K));
-        students += temp;
+        int temp = 0;
 
+        if (GameManagerScript.instance.state == GameManagerScript.GameState.EarlyGame1) {
+            if (students < K) {
+                temp = 1;
+            }
+        }
+        else if (GameManagerScript.instance.state == GameManagerScript.GameState.EarlyGame2) {
+            if (students < K) {
+                temp = (int) (r * 2);
+            }
+            else {
+                temp = -1;
+            }
+        }
+        else if (GameManagerScript.instance.state == GameManagerScript.GameState.EarlyGame3) {
+            temp = (int) (0.5 * students * ((K - students) / K));
+        }
+        else if (GameManagerScript.instance.state == GameManagerScript.GameState.EarlyGame4) {
+            temp = (int) (r * students * ((K - students) / K));
+        }
+        else {
+            Debug.Log("WOOPS: calcstudents is working outside of a valid gamestate in EarlyGame");
+        }
+
+        students += temp;
         return temp;
     }
 
