@@ -637,7 +637,7 @@ RectTransform:
   - {fileID: 456019079}
   - {fileID: 947741004}
   m_Father: {fileID: 497941193}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3306,8 +3306,8 @@ RectTransform:
   - {fileID: 745307788}
   - {fileID: 572607669}
   - {fileID: 675394456}
-  - {fileID: 163625703}
   - {fileID: 617720935}
+  - {fileID: 163625703}
   - {fileID: 840923899}
   m_Father: {fileID: 2114653520}
   m_RootOrder: 0
@@ -3365,9 +3365,9 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: High School Agreements
-      m_Image: {fileID: 0}
     - m_Text: University Upgrades
+      m_Image: {fileID: 0}
+    - m_Text: High School Agreements
       m_Image: {fileID: 0}
     - m_Text: Special Students
       m_Image: {fileID: 0}
@@ -3950,7 +3950,7 @@ RectTransform:
   m_Children:
   - {fileID: 355941568}
   m_Father: {fileID: 497941193}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -4585,7 +4585,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: High School Agreements
+  m_text: University Upgrades
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -4654,10 +4654,10 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 745307789}
-    characterCount: 22
+    characterCount: 19
     spriteCount: 0
-    spaceCount: 2
-    wordCount: 3
+    spaceCount: 1
+    wordCount: 2
     linkCount: 0
     lineCount: 1
     pageCount: 1
@@ -7883,30 +7883,40 @@ MonoBehaviour:
     alumni: 0
     students: 0
     wealth: 0
+    r: 0
+    K: 0
     renown: 0
     happiness: 0
     acceptanceRate: 0
     studentPool: 0
     buildings: []
+    specialStudentThreshold: 0
     ranking: 0
     graduationRate: 0
     ssProb: 0
     maxFaculty: 0
+    minFaculty: 0
+    renownBase: 0
     agreements: []
   resourcesDelta:
     faculty: 0
     alumni: 0
     students: 0
     wealth: 0
+    r: 0
+    K: 0
     renown: 0
     happiness: 0
     acceptanceRate: 0
     studentPool: 0
     buildings: []
+    specialStudentThreshold: 0
     ranking: 0
     graduationRate: 0
     ssProb: 0
     maxFaculty: 0
+    minFaculty: 0
+    renownBase: 0
     agreements: []
   tuitionSlider: {fileID: 591737978}
   donationSlider: {fileID: 1237417093}
@@ -8952,8 +8962,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: New agreements appear randomly and affect the max pool of students who can
-    apply
+  m_text: Keep growing to unlock agreements
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -8981,10 +8990,10 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 20
+  m_fontSize: 48.2
   m_fontSizeBase: 20
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -9022,10 +9031,10 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 1678428560}
-    characterCount: 80
+    characterCount: 33
     spriteCount: 0
-    spaceCount: 13
-    wordCount: 14
+    spaceCount: 4
+    wordCount: 5
     linkCount: 0
     lineCount: 1
     pageCount: 1
@@ -11445,6 +11454,7 @@ MonoBehaviour:
   buyHS: {fileID: 163625702}
   buyUpgrades: {fileID: 617720934}
   buySS: {fileID: 840923898}
+  hsaText: {fileID: 1678428560}
 --- !u!1 &2144803640
 GameObject:
   m_ObjectHideFlags: 0

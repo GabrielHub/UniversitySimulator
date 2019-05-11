@@ -38,7 +38,7 @@ public class GameManagerScript : MonoBehaviour {
 
     //other variables
     public bool playing = true; //check if paused or not
-    public enum GameState {EarlyGame, MidGame, EndGame};
+    public enum GameState {EarlyGame1, EarlyGame2, EarlyGame3, EarlyGame4, MidGame, EndGame};
     public GameState state;
     [HideInInspector] // prevent this from being selectable in the inspector
     public EventController eventController; //script for events
@@ -82,38 +82,35 @@ public class GameManagerScript : MonoBehaviour {
         */
 
         resources = new Resources();
-        state = GameState.EarlyGame; //Set early game state, now disable all features not available in the early game
+        state = GameState.EarlyGame1; //Set early game state, now disable all features not available in the early game
 
         //Initial upgrades that are available
         upgradeList = new List<UpgradeBase> ();
         UpgradeAdministrator upgradeAdmin = new UpgradeAdministrator();
-        AddUpgradable(upgradeAdmin); //Add Hire Administrators upgrade
+        //AddUpgradable(upgradeAdmin); //Add Hire Administrators upgrade
 
         //Initial List of special students
         specialStudentList = new List<SpecialStudent> ();
         specialStudentRNG = new RNGSpecialStudent();
 
         //set up  ranges (possibly based on difficulty later)
-        this.resources.students = 45;
-		this.resources.faculty = 10;
+        this.resources.students = 1;
+		this.resources.faculty = 1;
 		this.resources.alumni = 1;
-		this.resources.wealth = 50;
+		this.resources.wealth = 1;
 
         //initial purchasable agreements
         agreements = new HighSchoolAgreement[3];
+        BuyHSA1.gameObject.SetActive(false);
+        BuyHSA2.gameObject.SetActive(false);
+        BuyHSA3.gameObject.SetActive(false);
 
         //Start timer thresholds
         eventThreshold = Random.Range(2, 10);
         agreementThreshold = Random.Range(15, 30);
 
-        //run generation function for initial agreements
-        string[] name = RandomAgreements.instance.ChooseName(3);
-        for (int i = 0; i < 3; i++) {
-            agreements[i] = RandomAgreements.instance.generateAgreement(name[i]);
-        }
-
         //starting dialogue
-        this.eventController.DoEvent(new Event("Grow by gaining more Students and Wealth, Press Play or 'P' to start", "Narrative"));
+        this.eventController.DoEvent(new Event("The 'University' is unrecognized. How shall we fix this?", "Narrative"));
 
         //A turn is done every second, with a 0.5 second delay upon resuming
         InvokeRepeating("Turns", 0.5f, 1.0f);
@@ -122,12 +119,6 @@ public class GameManagerScript : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        //Debugging
-        // Debug.Log("R Value: " + this.resources.r);
-        // Debug.Log("K Value: " + this.resources.K);
-        //r_rate.text = "R: " + this.resources.r_rate.ToString();
-        //k_rate.text = "K: " + this.resources.k_rate.ToString();
-
         //pause control by pressing key
         if (Input.GetKeyDown(KeyCode.P)) {
             this.playing = !this.playing;
@@ -142,27 +133,37 @@ public class GameManagerScript : MonoBehaviour {
             ticker++;
             eventTicker++;
             agreementTicker++;
-            if (state != GameState.EarlyGame) {
-                specialStudentTicker++;
-            }
+            specialStudentTicker++;
+
+            /*
+            - First stage of the game you only have students and wealth. Buy faculty upgrades
+            - Next stage at 50 students unlocks High School Agreements
+            - After you hit 100 students you can unlock the ability to graduate students and create alumni. These will provide a permanent boost to wealth growth. Use this to buy HSA agreements. Unlock sliders
+            - After 500 students, renown and happiness now affect student capacity. Unlock advanced statistics upgrade. 
+            - After 1000 students you can now move onto the midgame.
+            */
 
             //Building calculations, MAKE SURE THIS IS ALWAYS CALCULATED FIRST, only run every time a new building is added
-            if (state == GameState.MidGame && this.resources.buildings.Count == 0) {
+            if (state == GameState.MidGame && this.resources.buildings.Count == 0) { //add the first building
                 this.resources.ApplyBuildingCalculations(new ResidentialBuilding(500, 3, 0));
             }
 
             //calculate HS Agreements, only done in early game
-            if (state == GameState.EarlyGame) {
+            if (state == GameState.EarlyGame2 || state == GameState.EarlyGame3) {
                 this.resources.calcHSAgreements();
             }
 
             //acceptance rate
-            this.resources.calcAcceptanceRate(acceptanceRateSlider.value);
+            if (state == GameState.EarlyGame4 || state == GameState.MidGame) {
+                this.resources.calcAcceptanceRate(acceptanceRateSlider.value);
+            }
 
             //happiness. Optimal value is currently set to half the max value
-            this.resources.calcHappiness(tuitionSlider.value, tuitionSlider.maxValue, donationSlider.value, donationSlider.maxValue);
+            if (state == GameState.EarlyGame4 || state == GameState.MidGame) {
+                this.resources.calcHappiness(tuitionSlider.value, tuitionSlider.maxValue, donationSlider.value, donationSlider.maxValue);
+            }
 
-            //renown, isn't calculated in Early Game because it's passed a value by calcHSAgreements
+            //renown, isn't calculated in Early Game because it's calculated by HSA in the earlygame
             if (state == GameState.MidGame) {
                 this.resources.calcRenown(salarySlider.value);
             }
@@ -170,18 +171,25 @@ public class GameManagerScript : MonoBehaviour {
             //Calculate R: The student growth rate
             this.resources.calcR();
 
+            //Calculate K: The student capacity
+            this.resources.calcK();
+
             //MAIN RESOURCES: Always calcualte these 4 resources LAST
             //Calculate wealth
             this.resourcesDelta.wealth = this.resources.calcWealth(donationSlider.value, tuitionSlider.value);
 
-            //Calculate Faculty
-            this.resourcesDelta.faculty = this.resources.calcFaculty();
-
+            //Calculate Faculty, only auto calculated in the midgame, you need to manually increase faculty in the early earlygame
+            if (state == GameState.EarlyGame4 || state == GameState.MidGame) {
+                this.resourcesDelta.faculty = this.resources.calcFaculty();
+            }
+            
             //Calculate Students
             this.resourcesDelta.students = this.resources.calcStudents(tuitionSlider.maxValue + donationSlider.maxValue);
 
             //Calculate Alumni
-            this.resourcesDelta.alumni = this.resources.calcAlumni();
+            if (state == GameState.EarlyGame3 || state == GameState.EarlyGame4 || state == GameState.MidGame) {
+                this.resourcesDelta.alumni = this.resources.calcAlumni();
+            }
 
             //Update MidGame policy min and max values if values have changed
             if (state == GameState.MidGame) {
@@ -215,7 +223,7 @@ public class GameManagerScript : MonoBehaviour {
             }
 
             //CODE FOR SPECIAL STUDENTS
-            if (state != GameState.EarlyGame && this.resources.specialStudentThreshold == specialStudentTicker) {
+            if (state == GameState.MidGame && this.resources.specialStudentThreshold == specialStudentTicker) {
                 specialStudentTicker = 0;
 
                 if (Random.Range(0.0f, 1.0f) <= this.resources.ssProb) {
@@ -237,7 +245,7 @@ public class GameManagerScript : MonoBehaviour {
         //Future Event Code Here: Checks for bad stats (if happiness is too low do an event letting you know that people are unhappy)
 
         //randomized agreements, made sure it's only for the early game
-        if (state == GameState.EarlyGame) {
+        if (state == GameState.EarlyGame2 || state == GameState.EarlyGame3 || state == GameState.EarlyGame4) {
             if (agreementTicker == agreementThreshold) {
                 this.eventController.DoEvent(new Event("!!!: New HS Agreements are available!", "Notification"));
 
@@ -257,15 +265,15 @@ public class GameManagerScript : MonoBehaviour {
             }
         }
 
-        //check for game over, or game win
+        //check for game over, or game win, or gamestate changes
         if (resources.students <= 0) {
             this.eventController.DoEvent(new Event("You've run out of students. Don't be sad it happened be happy it's over.", "GameState"));
             CancelInvoke();
         }
         //check if early game is finished
-        if (earlyGameRequirements == 2 && state == GameState.EarlyGame) {
+        if (earlyGameRequirements == 2 && state == GameState.EarlyGame3) {
             state = GameState.MidGame;
-            MoveToEarlyGame();
+            MoveToMidGame();
         }
     }
 
@@ -293,9 +301,9 @@ public class GameManagerScript : MonoBehaviour {
     }
 
     //Code when moving to the MIDGAME
-    void MoveToEarlyGame() {
+    void MoveToMidGame() {
         //disable early game features
-        buyMenu.options.RemoveAt(0); //remove HSA Buy Option
+        //buyMenu.options.RemoveAt(0); //remove HSA Buy Option
 
         //Create sliders and attach them to their content panel
         GameObject sliderCreation = Instantiate(salarySliderPrefab, sliderContentPanel);

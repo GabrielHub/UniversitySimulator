@@ -16,12 +16,7 @@ public class Resources {
     //Hidden Resources
     public float r; //student growth rate r
 
-    public float K {
-        get {
-            //k_rate = (studentPool + alumni);
-            return (studentPool * acceptanceRate);
-        }
-    } //carrying capacity (size limit) for student growth K
+    public float K; //carrying capacity (size limit) for student growth K
 
     public float renown;
     public float happiness;
@@ -54,8 +49,9 @@ public class Resources {
         happiness = 1;
         acceptanceRate = .8f;
         renown = 1f - (acceptanceRate * 2);
-        studentPool = 100;
+        studentPool = 50;
         calcR();
+        calcK();
     }
 
     public static Resources operator+(Resources left, Resources right) {
@@ -75,6 +71,11 @@ public class Resources {
     //Calculate R the student growth factor.
     public virtual float calcR() {
         return (happiness / MAX_HAPPINESS) * renown;
+    }
+
+    //Calculate K, the student capacity (student pool)
+    public virtual float calcK() {
+        return studentPool * acceptanceRate;
     }
 
     //renown, earlygame calculations
@@ -171,6 +172,18 @@ public class Resources {
 
 [System.Serializable]
 public class ResourcesMidGame : Resources {
+    /*
+    MidGame Resources (Unused by earlygame, just used in the inherited class)
+    public List<Building> buildings;
+    public List<SpecialStudent> specialStudents;
+    public int specialStudentThreshold; //Time between turns a special student can occur
+    public int ranking; //out of 1000
+    public float graduationRate;
+    public float ssProb; //chance for a special student, between 0 and 1.0f
+    public int maxFaculty; //MIN and MAX faculty decide the slider values for student to faculty ratio.
+    public int minFaculty;
+    public float renownBase; //base renown carried over from HSA agreements in the earlygame
+    */
 
     public ResourcesMidGame(Resources resc) : base(resc.faculty, resc.alumni, resc.students, resc.wealth) {
         buildings = new List<Building> (); //TODO: When starting out you should have 1 default building, need the tilemap to recognize that
@@ -261,7 +274,11 @@ public class ResourcesMidGame : Resources {
 
     //Student growth shouldn't be using renown anymore, since renown is used in so many other calculations. Maybe use ranking instead
     public override float calcR() {
+        return (1.0f - (ranking / 1000)) + 0.5f;
+    }
 
+    public override float calcK() {
+        return studentPool;
     }
 
     //Base value that increases based on a combination of happiness and renown that is less than 1.0f

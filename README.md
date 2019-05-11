@@ -7,6 +7,14 @@ A Simulation game built in Unity 2019.1.0f2
 
 	The university is brand new and doesn't have enough students to be recognized as a university yet! The school relies on local highschools to funnel students into SADU. Starting with generated high schools every couple of turns, SADU picks new agreements that can be upgrades or downgrades.
 
+**Game Flow:**
+
+- First stage of the game you only have students and wealth. Buy faculty upgrades
+- Next stage at 50 students unlocks High School Agreements
+- After you hit 100 students you can unlock the ability to graduate students and create alumni. These will provide a permanent boost to wealth growth. Use this to buy HSA agreements. Unlock sliders
+- After 500 students, renown and happiness now affect student capacity. Unlock advanced statistics upgrade. 
+- After 1000 students you can now move onto the midgame.
+
 **Focus:**
 	
 	* Tuition Rate Slider - Affects Happiness and Wealth. Higher Tuition rate decreases happiness and increases wealth per turn.
@@ -19,9 +27,8 @@ A Simulation game built in Unity 2019.1.0f2
 - Student Body: Main Goal
 - Wealth: Soft Goal
 - Happiness: Affects number of students who apply to the university
-- Buildings: Given 3 at the start, you cannot buy new buildings in this stage. Affects the starting student pool.
 - Renown: Affects growth rate of faculty
-- Available Upgrades: Hire Administrators (Unlocks visibility of hidden resources), Official Campus (Needed to unlock next phase), Official University Certificate (needed to unlock next phase)
+- Available Upgrades: Hire Faculty (repeatable purchase that increases in cost each time), Degrees (Allows you to graduate students), (Hire Administrators (Unlocks visibility of hidden resources), Official Campus (Needed to unlock next phase), Official University Certificate (needed to unlock next phase)
 	
 **Lose Condition:**
 - No wealth or students
