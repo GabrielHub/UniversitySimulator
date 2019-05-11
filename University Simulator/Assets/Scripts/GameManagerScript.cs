@@ -306,6 +306,8 @@ public class GameManagerScript : MonoBehaviour {
             state = GameState.EarlyGame3;
             this.eventController.DoEvent(new Event("With this many students maybe you can start giving out degrees", "Narrative"));
             this.playing = !this.playing;
+
+            //Add Upgrade to unlock Alumni
         }
         else if (state == GameState.EarlyGame3 && this.resources.students >= 500) {
             state = GameState.EarlyGame4;

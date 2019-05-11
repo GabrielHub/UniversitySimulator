@@ -30,7 +30,23 @@ public class UpgradeHireFaculty : UpgradeBase {
 
 	public override void ApplyEffect() {
 		bought = true;
-		GameManagerScript.instance.resources.faculty += 2;
+		GameManagerScript.instance.resources.faculty++;
+		GameManagerScript.instance.eventController.DoEvent(new Event("Hired New Faculty: more meat for the machine", "Notification"));
+
+		UpgradeHireFaculty upgradeFaculty = new UpgradeHireFaculty(cost);
+        GameManagerScript.instance.AddUpgradable(upgradeFaculty); //Add new repeatable
+	}
+}
+
+//unlocks alumni
+public class UpgradeAlumni : UpgradeBase {
+	public UpgradeAlumni() : base("Graduation Programs", "Create official degrees and unlock alumni", 300) {
+
+	}
+
+	public override void ApplyEffect() {
+		bought = true;
+		GameManagerScript.instance.resources.faculty++;
 		GameManagerScript.instance.eventController.DoEvent(new Event("Hired New Faculty: more meat for the machine", "Notification"));
 
 		UpgradeHireFaculty upgradeFaculty = new UpgradeHireFaculty(cost);
