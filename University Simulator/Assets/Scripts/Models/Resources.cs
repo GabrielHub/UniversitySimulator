@@ -100,7 +100,7 @@ public class Resources {
             temp = students;
         }
         else if (GameManagerScript.instance.state == GameManagerScript.GameState.EarlyGame3) {
-            temp = (int) (students * 1.5);
+            temp = (int) (students + alumni);
         }
         else if (GameManagerScript.instance.state == GameManagerScript.GameState.EarlyGame4) {
             temp = (int) ((((alumni * donation) + (students * tuition)) / 5) - ((faculty * faculty_penalty) + (students * students_penalty) / 3));
@@ -119,7 +119,6 @@ public class Resources {
         int temp;
         if (faculty < wealth) {
             temp = (int) (3 * renown);
-
         }
         else {
             temp = 0;

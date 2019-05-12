@@ -217,16 +217,7 @@ public class GameManagerScript : MonoBehaviour {
                 }
             }
 
-            //CODE FOR UPGRADES
-            //For unlocking Early Game Upgrades, make sure they aren't already added
-            if (this.resources.students > 1000 && upgradeList.Count < 2) {
-                //Add the Buy Campus and Buy License Upgrades
-                UpgradeCampus campusUpgrade = new UpgradeCampus();
-                AddUpgradable(campusUpgrade);
-
-                UpgradeLicense licenseUpgrade = new UpgradeLicense();
-                AddUpgradable(licenseUpgrade);
-            }
+            //Code for being in debt
             if (resources.wealth < 0)
             {
                 negativeWealthTicker -= 1;
@@ -318,6 +309,13 @@ public class GameManagerScript : MonoBehaviour {
         }
         else if (state == GameState.EarlyGame3 && this.resources.students >= 500) {
             state = GameState.EarlyGame4;
+            //Add the Buy Campus and Buy License Upgrades
+            UpgradeCampus campusUpgrade = new UpgradeCampus();
+            AddUpgradable(campusUpgrade);
+
+            UpgradeLicense licenseUpgrade = new UpgradeLicense();
+            AddUpgradable(licenseUpgrade);
+
             this.eventController.DoEvent(new Event("Students care about happiness and renown. Who knew? Maybe we need to start changing our policies to keep growing", "Narrative"));
             this.playing = !this.playing;
 
