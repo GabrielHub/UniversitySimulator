@@ -24,7 +24,7 @@ public class UpgradeBase {
 
 //repeatable hire faculty to increase K
 public class UpgradeHireFaculty : UpgradeBase {
-	public UpgradeHireFaculty(int prevCost) : base("Hire New Faculty", "Hiring more faculty to help out increases student capacity", (int) (prevCost * 1.5 + 10)) {
+	public UpgradeHireFaculty(int prevCost) : base("Hire New Faculty", "Hiring more faculty to help out increases student capacity", (int) (prevCost * 1.8 + 10)) {
 
 	}
 
@@ -35,6 +35,17 @@ public class UpgradeHireFaculty : UpgradeBase {
 
 		UpgradeHireFaculty upgradeFaculty = new UpgradeHireFaculty(cost);
         GameManagerScript.instance.AddUpgradable(upgradeFaculty); //Add new repeatable
+	}
+}
+
+//For unlocking alumni
+public class UpgradeAlumni : UpgradeBase {
+	public UpgradeAlumni() : base("Undergrad Diplomas", "Official degrees that unlock alumni", 250) { }
+
+	public override void ApplyEffect() {
+		bought = true;
+		GameManagerScript.instance.eventController.DoEvent(new Event("College Diplomas For Everyone*!: *For the low low price of 4** years @ 70k a year **No guarantees or refunds", "Notification"));
+		GameManagerScript.instance.resources.alumni++;
 	}
 }
 
@@ -54,7 +65,7 @@ public class UpgradeAdministrator : UpgradeBase {
 
 //First of 2 requirements for Finishing Early Game. Unlocks Buildings
 public class UpgradeCampus : UpgradeBase {
-	public UpgradeCampus() : base("Buy A Campus", "REQUIRED to unlock buildings", 3500) {
+	public UpgradeCampus() : base("Buy A Campus", "REQUIRED to unlock buildings", 4000) {
 		//calls base constructor
 	}
 
@@ -67,7 +78,7 @@ public class UpgradeCampus : UpgradeBase {
 
 //Second of 2 requirements for Finishing Early Game. Unlocks Next stage
 public class UpgradeLicense : UpgradeBase {
-	public UpgradeLicense() : base("Education License", "REQUIRED to unlock the next stage", 1500) {
+	public UpgradeLicense() : base("Education License", "REQUIRED to unlock the next stage", 2000) {
 		//calls base constructor
 	}
 

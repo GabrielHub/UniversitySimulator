@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
@@ -88,7 +88,7 @@ public class GameManagerScript : MonoBehaviour {
             Max lines can be changed in the editor
         */
 
-        resources = new Resources(1, 1, 1, 10);
+        resources = new Resources(1, 0, 1, 10); //IMPORANT: ALUNI is 0 FOR A REASON DONT CHANGE IT DUMMY
         //set up  ranges (possibly based on difficulty later)
         /*this.resources.students = 1;
         this.resources.faculty = 1;
@@ -310,7 +310,9 @@ public class GameManagerScript : MonoBehaviour {
             BuyHSA3.gameObject.SetActive(true);
         }
         else if (state == GameState.EarlyGame2 && this.resources.students >= 100) {
-            state = GameState.EarlyGame3;
+            //Don't change states immediately, instead add the upgrade which must be bought to move on
+            UpgradeAlumni upgradeAlumni = new UpgradeAlumni();
+            AddUpgradable(upgradeAlumni);
             this.eventController.DoEvent(new Event("With this many students maybe you can start giving out degrees", "Narrative"));
             this.playing = !this.playing;
         }
@@ -322,6 +324,12 @@ public class GameManagerScript : MonoBehaviour {
             UpgradeAdministrator upgradeAdmin = new UpgradeAdministrator();
             AddUpgradable(upgradeAdmin); //Add Hire Administrators upgrade
         }
+
+        //Check if alumni upgrade is bought to move on to EarlyGame3. Alumni will become 1 if upgrade is bought
+        if (state == GameState.EarlyGame2 && this.resources.alumni > 0) {
+            state = GameState.EarlyGame3;
+        }
+
         //check if early game is finished
         if (earlyGameRequirements == 2 && state == GameState.EarlyGame4) {
             this.eventController.DoEvent(new Event("A University is a business, and business is good...", "Narrative"));

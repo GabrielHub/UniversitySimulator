@@ -19,7 +19,7 @@ public class RandomAgreements : MonoBehaviour
 		"One Dance Tech School",
 		"Morty&Rick Film School",
 		"Pepsi Co Prep",
-		"NaCLHS",
+		"NaCL HS",
 		"Charcuterie Board High School of Fine Arts",
 		"CIA Van 7",
 		"Pogwarts",
@@ -65,7 +65,7 @@ public class RandomAgreements : MonoBehaviour
 		"School For Unfortunate Events",
 		"Brendan Fraser Comeback Theatre School",
 		"Jim Carrey's Gym",
-		"$$$ Hulu Has Live Sports $$$",
+		"Blue-eyes White High School",
 		"Michael Bay's Chemistry Studio",
 		"Helen Keller's Academy of the Arts",
 		"Bill Cosby's Cocktail Courses",
@@ -132,7 +132,18 @@ public class RandomAgreements : MonoBehaviour
 		"Himachi Long Distance Connection HS",
 		"'If at first you don't succeedle turn to the needle' School",
 		"HotTub Toaster High",
-		"Forestfire Hills High School"
+		"Forestfire Hills High School",
+		"Bencil Sharperino School of Journalism",
+		"K. Lamar South L.A. High School",
+		"GoT Season 8 Is A Travesty High School",
+		"Stamford American School",
+		"G.R. Wolfvalley High School",
+		"Supreme HS",
+		"Juul High School",
+		"Big Wins High School",
+		"Dwayne R. Johnson Prep",
+		"Dangerous Coastline High",
+		"Notch Mineville Academy of The Arts"
 	};
 
 	void Awake() {
@@ -177,23 +188,23 @@ public class RandomAgreements : MonoBehaviour
 
         //val is the 'star' of HS out of 5. Lower rated HS will provide more students tho
         if (val == 1) {
-            pool = Random.Range(300, 550);
+            pool = Random.Range(85, 100);
             cost = 100;
         }
         else if (val == 2) {
-            pool = Random.Range(250, 450);
+            pool = Random.Range(75, 85);
             cost = Random.Range(200, 300);
         }
         else if (val == 3) {
-            pool = Random.Range(100, 250);
+            pool = Random.Range(55, 75);
             cost = Random.Range(300, 450);
         }
         else if (val == 4) {
-            pool = Random.Range(50, 100);
+            pool = Random.Range(35, 55);
             cost = Random.Range(450, 650);
         }
         else {
-            pool = Random.Range(35, 75);
+            pool = Random.Range(10, 35);
             cost = 750;
         }
         return (new HighSchoolAgreement(name, pool, val, cost));
