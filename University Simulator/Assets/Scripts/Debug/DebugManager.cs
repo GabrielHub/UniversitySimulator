@@ -1,9 +1,10 @@
 using System.Collections.Generic;
+
 using UnityEngine;
 
 [ExecuteInEditMode]
-public class DebugManager: MonoBehaviour {
-	public class DidChange: Message.IMessage {
+public class DebugManager : MonoBehaviour {
+	public class DidChange : Message.IMessage {
 		public override UpdateStage getUpdateStage() { return UpdateStage.Immediate; }
 	}
 
@@ -11,14 +12,16 @@ public class DebugManager: MonoBehaviour {
 	public bool debug = false;
 
 	public GameObject[] targets;
-	
+
 	private void Awake() {
 		if (instance == null) {
 			instance = this;
-		} else if (instance != this) {
+		}
+		else if (instance != this) {
 			if (Application.isPlaying) {
 				Destroy(this);
-			} else {
+			}
+			else {
 				DestroyImmediate(this);
 			}
 			throw new System.Exception($"Only 1 Debug Manager can exist!");
@@ -30,7 +33,7 @@ public class DebugManager: MonoBehaviour {
 		if (debug != lastDebug) {
 			setVisibility();
 		}
-		lastDebug = debug; 
+		lastDebug = debug;
 	}
 
 	void setVisibility() {

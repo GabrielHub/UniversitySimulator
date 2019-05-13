@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class MenuItem: MonoBehaviour {
-    public Tilemap map;
+public class MenuItem : MonoBehaviour {
+	public Tilemap map;
 	public PopupMenu menu;
 	public Tile item;
 	public Building building;

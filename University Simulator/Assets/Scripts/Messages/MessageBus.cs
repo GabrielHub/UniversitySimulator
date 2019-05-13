@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using System.Linq;
+// using System.Linq;
 using System.Runtime.CompilerServices;
 
 public enum UpdateStage {
@@ -10,10 +10,10 @@ public enum UpdateStage {
 }
 
 public interface MessageHandler {
-	void handleMessage<T>(T m) where T: Message.IMessage;
+	void handleMessage<T>(T m) where T : Message.IMessage;
 }
 
-public abstract class MessageHandler<T>: MessageHandler where T: Message.IMessage {
+public abstract class MessageHandler<T> : MessageHandler where T : Message.IMessage {
 	public MessageHandler() {
 		MessageBus.instance.register<T>(this);
 	}
@@ -23,7 +23,7 @@ public abstract class MessageHandler<T>: MessageHandler where T: Message.IMessag
 	}
 
 	public abstract void handleTypedMessage(T m);
-	public virtual void handleMessage<X>(X m) where X: Message.IMessage {
+	public virtual void handleMessage<X>(X m) where X : Message.IMessage {
 		if (m is T) {
 			this.handleTypedMessage(m as T);
 		}
@@ -33,7 +33,7 @@ public abstract class MessageHandler<T>: MessageHandler where T: Message.IMessag
 public class MessageBus {
 	static MessageBus _instance;
 	public static MessageBus instance {
-		get { 
+		get {
 			if (MessageBus._instance == null) {
 				MessageBus._instance = new MessageBus();
 			}
@@ -42,7 +42,7 @@ public class MessageBus {
 	}
 
 	public List<System.Action<System.Exception, Message.IMessage>> errorHandlers;
-	
+
 	// public System.Type[] messages;
 
 	MessageBus() {
@@ -58,7 +58,7 @@ public class MessageBus {
 
 	public Dictionary<System.Type, List<MessageHandler>> handlers = new Dictionary<System.Type, List<MessageHandler>>();
 
-	public void register<T>(MessageHandler handler) where T: Message.IMessage {
+	public void register<T>(MessageHandler handler) where T : Message.IMessage {
 		this.register(typeof(T), handler);
 	}
 
@@ -72,7 +72,7 @@ public class MessageBus {
 		this.handlers[type].Add(handler);
 	}
 
-	public void deregister<T>(MessageHandler handler) where T: Message.IMessage {
+	public void deregister<T>(MessageHandler handler) where T : Message.IMessage {
 		this.deregister(typeof(T), handler);
 	}
 
@@ -87,40 +87,42 @@ public class MessageBus {
 	}
 
 	public void emit(Message.IMessage m) {
-		lock (this) {
+		lock(this) {
 			var stage = m.getUpdateStage();
 			if (stage == UpdateStage.Immediate) {
 				this._sendMessageToHandlers(m);
-			} else {
+			}
+			else {
 				MessageBusUpdater.AddMessage(m);
 			}
 		}
 	}
 
-    public void _sendMessageToHandlers(Message.IMessage m, [CallerLineNumber] int line = 0, [CallerFilePath] string file = "", [CallerMemberName] string funcName = "") {
+	public void _sendMessageToHandlers(Message.IMessage m, [CallerLineNumber] int line = 0, [CallerFilePath] string file = "", [CallerMemberName] string funcName = "") {
 		m.callerInfo = new Message.CallerInfo {
 			line = line,
-			file = file,
-			funcName = funcName
+				file = file,
+				funcName = funcName
 		};
 		System.Action<MessageHandler> runHandler = (handler) => {
 			try {
 				handler.handleMessage(m);
-			} catch (System.Exception e) {
+			}
+			catch (System.Exception e) {
 				foreach (var errorHandler in this.errorHandlers) {
 					errorHandler(e, m);
 				}
 			} // TODO: Catch errors
 		};
-        if (MessageBus.instance.handlers.ContainsKey(m.GetType())) {
-            foreach (MessageHandler handler in MessageBus.instance.handlers[m.GetType()]) {
+		if (MessageBus.instance.handlers.ContainsKey(m.GetType())) {
+			foreach (MessageHandler handler in MessageBus.instance.handlers[m.GetType()]) {
 				runHandler(handler);
-            }
-        }
-        if (MessageBus.instance.handlers.ContainsKey(typeof(Message.AllType))) {
-            foreach (MessageHandler handler in MessageBus.instance.handlers[typeof(Message.AllType)]) {
+			}
+		}
+		if (MessageBus.instance.handlers.ContainsKey(typeof(Message.AllType))) {
+			foreach (MessageHandler handler in MessageBus.instance.handlers[typeof(Message.AllType)]) {
 				runHandler(handler);
-            }
-        }
-    }
+			}
+		}
+	}
 }

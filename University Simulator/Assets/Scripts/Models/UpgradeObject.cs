@@ -1,11 +1,11 @@
-﻿/*
+/*
 	These are the objects for buying upgrades. Gamemanager script will generate ..., at different points in the game
 */
 
 public class UpgradeBase {
 	public string name;
 	public string description;
-	public int cost; 
+	public int cost;
 	public bool bought;
 	//public int gamePhase; //what game phase this upgrade object is available in, might not be used we'll see
 
@@ -34,7 +34,7 @@ public class UpgradeHireFaculty : UpgradeBase {
 		GameManagerScript.instance.eventController.DoEvent(new Event("Hired New Faculty: more meat for the machine", Event.Type.Notification));
 
 		UpgradeHireFaculty upgradeFaculty = new UpgradeHireFaculty(cost);
-        GameManagerScript.instance.AddUpgradable(upgradeFaculty); //Add new repeatable
+		GameManagerScript.instance.AddUpgradable(upgradeFaculty); //Add new repeatable
 	}
 }
 

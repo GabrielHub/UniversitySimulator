@@ -1,9 +1,9 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 
-public class RandomAgreements : MonoBehaviour
-{
+public class RandomAgreements : MonoBehaviour {
 	//We might not want this to be a singleton, especially since it's only used in the early game and will be replaced by the RandomUniversity class
 	public static RandomAgreements instance;
 	public List<string> highSchoolNames = new List<string> {
@@ -149,7 +149,8 @@ public class RandomAgreements : MonoBehaviour
 	void Awake() {
 		if (RandomAgreements.instance == null) {
 			RandomAgreements.instance = this;
-		} else {
+		}
+		else {
 			Destroy(this);
 		}
 
@@ -158,56 +159,56 @@ public class RandomAgreements : MonoBehaviour
 	}
 
 	//n is the number of strings you want to choose
-    public string[] ChooseName(int n) {
-    	string[] result = new string[n];
-    	
-    	int numToChoose = n;
+	public string[] ChooseName(int n) {
+		string[] result = new string[n];
 
-    	for (int numLeft = highSchoolNames.Count; numLeft > 0; numLeft--) {
+		int numToChoose = n;
 
-    		float prob = (float) numToChoose / (float) numLeft;
-    		if (Random.value <= prob) {
-    			numToChoose--;
-    			result[numToChoose] = highSchoolNames[numLeft - 1];
-    			
-    			if (numToChoose == 0) {
-    				break;
-    			}
-    		}
-    	}
+		for (int numLeft = highSchoolNames.Count; numLeft > 0; numLeft--) {
 
-    	return result;
-    }
+			float prob = (float) numToChoose / (float) numLeft;
+			if (Random.value <= prob) {
+				numToChoose--;
+				result[numToChoose] = highSchoolNames[numLeft - 1];
 
-      //randomize HSAgreements after a certain time
-    public HighSchoolAgreement generateAgreement(string name) {
+				if (numToChoose == 0) {
+					break;
+				}
+			}
+		}
 
-        int val = Random.Range(1, 6);
-        int pool;
-        int cost;
+		return result;
+	}
 
-        //val is the 'star' of HS out of 5. Lower rated HS will provide more students tho
-        if (val == 1) {
-            pool = Random.Range(85, 100);
-            cost = 100;
-        }
-        else if (val == 2) {
-            pool = Random.Range(75, 85);
-            cost = Random.Range(200, 300);
-        }
-        else if (val == 3) {
-            pool = Random.Range(55, 75);
-            cost = Random.Range(300, 450);
-        }
-        else if (val == 4) {
-            pool = Random.Range(35, 55);
-            cost = Random.Range(450, 650);
-        }
-        else {
-            pool = Random.Range(10, 35);
-            cost = 750;
-        }
-        return (new HighSchoolAgreement(name, pool, val, cost));
-    }
+	//randomize HSAgreements after a certain time
+	public HighSchoolAgreement generateAgreement(string name) {
+
+		int val = Random.Range(1, 6);
+		int pool;
+		int cost;
+
+		//val is the 'star' of HS out of 5. Lower rated HS will provide more students tho
+		if (val == 1) {
+			pool = Random.Range(85, 100);
+			cost = 100;
+		}
+		else if (val == 2) {
+			pool = Random.Range(75, 85);
+			cost = Random.Range(200, 300);
+		}
+		else if (val == 3) {
+			pool = Random.Range(55, 75);
+			cost = Random.Range(300, 450);
+		}
+		else if (val == 4) {
+			pool = Random.Range(35, 55);
+			cost = Random.Range(450, 650);
+		}
+		else {
+			pool = Random.Range(10, 35);
+			cost = 750;
+		}
+		return (new HighSchoolAgreement(name, pool, val, cost));
+	}
 
 }

@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 
 [ExecuteInEditMode]
-public class MessageBusUpdater: MonoBehaviour {
+public class MessageBusUpdater : MonoBehaviour {
 	static MessageBusUpdater instance;
 
 	public Dictionary<UpdateStage, Queue<Message.IMessage>> messageQueues = new Dictionary<UpdateStage, Queue<Message.IMessage>> {
@@ -15,10 +16,12 @@ public class MessageBusUpdater: MonoBehaviour {
 	private void Awake() {
 		if (MessageBusUpdater.instance == null) {
 			MessageBusUpdater.instance = this;
-		} else if (MessageBusUpdater.instance != this) {
+		}
+		else if (MessageBusUpdater.instance != this) {
 			if (Application.isPlaying) {
 				Destroy(this);
-			} else {
+			}
+			else {
 				DestroyImmediate(this);
 			}
 		}
@@ -29,7 +32,7 @@ public class MessageBusUpdater: MonoBehaviour {
 	}
 
 	// Update is called once per frame
-	private void Update () {
+	private void Update() {
 		this.sendMessageForStage(UpdateStage.Update);
 	}
 
@@ -46,5 +49,5 @@ public class MessageBusUpdater: MonoBehaviour {
 
 	public static void AddMessage(Message.IMessage m) {
 		MessageBusUpdater.instance.messageQueues[m.getUpdateStage()].Enqueue(m);
-	} 
+	}
 }
