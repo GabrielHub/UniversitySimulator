@@ -88,7 +88,7 @@ public class Resources {
     }
 
     //wealth. donation and tuition are sliders that change variables in gamemanagerscript, good luck balancing this pos
-    public virtual long calcWealth(float donation, float tuition) {
+    public virtual long calcWealth(float donation, float tuition, float unused = 0) {
         long students_penalty = 1;
         long faculty_penalty = 2 + (faculty / (faculty * 3));
         long temp = 0;
@@ -129,7 +129,7 @@ public class Resources {
     }
 
     //students
-    public int calcStudents(float maxHappiness) {
+    public virtual int calcStudents(float maxHappiness) {
         // K - Students accepted out of student pool
         // R - Growth Rate
         int temp = 0;
@@ -278,11 +278,20 @@ public class ResourcesMidGame : Resources {
     }
 
     //no need to override because it takes different parameters. Faculty_penalty is the value for student-faculty ratio
-    public int calcWealth(float donation, float tuition, float faculty_penalty) {
+    public override long calcWealth(float donation, float tuition, float faculty_penalty) {
         int ret = (int) ((((alumni * donation) + (students * tuition)) / 5) - (faculty * faculty_penalty / 5));
         wealth += ret;
 
         return ret;
+    }
+
+    public override int calcStudents(float maxHappiness) {
+        int temp;
+
+        temp = (int) (r * students * ((K - students) / K));
+
+        students += temp;
+        return temp;
     }
 
     //renown, override earlygme calculation. val is faculty pay value from the policy slider
