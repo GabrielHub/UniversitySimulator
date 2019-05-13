@@ -88,7 +88,7 @@ public class Resources {
     }
 
     //wealth. donation and tuition are sliders that change variables in gamemanagerscript, good luck balancing this pos
-    public virtual long calcWealth(float donation, float tuition, float unused = 0) {
+    public virtual long calcWealth(float donation, float tuition) {
         long students_penalty = 1;
         long faculty_penalty = 2 + (faculty / (faculty * 3));
         long temp = 0;
@@ -129,7 +129,7 @@ public class Resources {
     }
 
     //students
-    public virtual int calcStudents(float maxHappiness) {
+    public int calcStudents(float maxHappiness) {
         // K - Students accepted out of student pool
         // R - Growth Rate
         int temp = 0;
@@ -176,7 +176,7 @@ public class Resources {
             temp = 0;
         }
         else {
-            int i = (int) (students / 20);
+            int i = (int) (students / 50);
             students -= i;
             alumni += i;
             temp = i;
@@ -246,12 +246,10 @@ public class ResourcesMidGame : Resources {
 
         //initial values that will be overwritten anyway
         graduationRate = 0.5f;
-        studentPool = resc.students + 500; //give a 500 student safety gap at the start, set studentPool to the studentPool from HSA which are irrelevant
+        studentPool = resc.studentPool + 500; //give a 500 student safety gap at the start, set studentPool to the studentPool from HSA which are irrelevant
         ssProb = 0.1f;
         maxFaculty = resc.students; // Max nunber of students each faculty can be set to teach
         minFaculty = (int) Mathf.Round(resc.students / resc.faculty); //min number of students each faculty can be set to teach
-        calcR();
-        calcK();
     }
 
     //Buildings now affect multiple resources, calculate these here before any other calculation, run everytime a new building is added
@@ -264,7 +262,7 @@ public class ResourcesMidGame : Resources {
 
             if (minFaculty >= 10) {
                 minFaculty -= 5; //decrease the smallest amount of students a faculty can teach
-            } 
+            }
         }
         else if (b.type == Building.Type.Institutional) {
             if (specialStudentThreshold > 1) {
@@ -280,20 +278,11 @@ public class ResourcesMidGame : Resources {
     }
 
     //no need to override because it takes different parameters. Faculty_penalty is the value for student-faculty ratio
-    public override long calcWealth(float donation, float tuition, float faculty_penalty) {
+    public int calcWealth(float donation, float tuition, float faculty_penalty) {
         int ret = (int) ((((alumni * donation) + (students * tuition)) / 5) - (faculty * faculty_penalty / 5));
         wealth += ret;
 
         return ret;
-    }
-
-    public override int calcStudents(float maxHappiness) {
-        int temp;
-
-        temp = (int) (r * students * ((K - students) / K));
-
-        students += temp;
-        return temp;
     }
 
     //renown, override earlygme calculation. val is faculty pay value from the policy slider
@@ -330,15 +319,11 @@ public class ResourcesMidGame : Resources {
 
     //Student growth shouldn't be using renown anymore, since renown is used in so many other calculations. Maybe use ranking instead
     public override float calcR() {
-        float temp = (1.0f - (ranking / 1000)) + 0.5f
-        r = temp;
-        return temp;
+        return (1.0f - (ranking / 1000)) + 0.5f;
     }
 
     public override float calcK() {
-        float temp = studentPool;
-        K = temp;
-        return temp;
+        return studentPool;
     }
 
     //Base value that increases based on a combination of happiness and renown that is less than 1.0f
