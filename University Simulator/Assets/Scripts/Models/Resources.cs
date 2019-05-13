@@ -246,10 +246,12 @@ public class ResourcesMidGame : Resources {
 
         //initial values that will be overwritten anyway
         graduationRate = 0.5f;
-        studentPool = resc.studentPool + 500; //give a 500 student safety gap at the start, set studentPool to the studentPool from HSA which are irrelevant
+        studentPool = resc.students + 500; //give a 500 student safety gap at the start, set studentPool to the studentPool from HSA which are irrelevant
         ssProb = 0.1f;
         maxFaculty = resc.students; // Max nunber of students each faculty can be set to teach
         minFaculty = (int) Mathf.Round(resc.students / resc.faculty); //min number of students each faculty can be set to teach
+        calcR();
+        calcK();
     }
 
     //Buildings now affect multiple resources, calculate these here before any other calculation, run everytime a new building is added
@@ -328,11 +330,15 @@ public class ResourcesMidGame : Resources {
 
     //Student growth shouldn't be using renown anymore, since renown is used in so many other calculations. Maybe use ranking instead
     public override float calcR() {
-        return (1.0f - (ranking / 1000)) + 0.5f;
+        float temp = (1.0f - (ranking / 1000)) + 0.5f
+        r = temp;
+        return temp;
     }
 
     public override float calcK() {
-        return studentPool;
+        float temp = studentPool;
+        K = temp;
+        return temp;
     }
 
     //Base value that increases based on a combination of happiness and renown that is less than 1.0f
