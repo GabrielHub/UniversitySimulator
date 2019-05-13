@@ -142,17 +142,17 @@ public class Resources {
         else if (GameManagerScript.instance.state == GameState.State.EarlyGame2) {
             if (students < K) {
                 Debug.Log("EarlyGame2 r: " + r);
-                temp = (int) (r * 1.5);
+                temp = (int) (r * 2.0);
             }
             else {
                 temp = -1;
             }
         }
         else if (GameManagerScript.instance.state == GameState.State.EarlyGame3) {
-            temp = (int) (0.5 * students * ((K - students) / K));
+            temp = (int) (0.25 * students * ((K - students) / K));
         }
         else if (GameManagerScript.instance.state == GameState.State.EarlyGame4) {
-            temp = (int) (r * students * ((K - students) / K));
+            temp = (int) (0.5*r * students * ((K - students) / K));
         }
         else {
             Debug.Log("WOOPS: calcstudents is working outside of a valid gamestate in EarlyGame");
