@@ -28,14 +28,14 @@ public class SpecialStudentButtonScript : MonoBehaviour
     	if (GameManagerScript.instance.resources.wealth > student.cost) {
     		GameManagerScript.instance.resources.wealth -= student.cost;
 
-    		GameManagerScript.instance.eventController.DoEvent(new Event("This isn't implemented yet", "Notification"));
+    		GameManagerScript.instance.eventController.DoEvent(new Event("This isn't implemented yet", Event.Type.Notification));
 
     		//destroy button
     		Destroy(gameObject);
     		//gameObject.SetActive(false);
     	}
     	else {
-    		GameManagerScript.instance.eventController.DoEvent(new Event("Not enough wealth to give this scholarship", "Notification"));
+    		GameManagerScript.instance.eventController.DoEvent(new Event("Not enough wealth to give this scholarship", Event.Type.Notification));
     	}
     }
 }

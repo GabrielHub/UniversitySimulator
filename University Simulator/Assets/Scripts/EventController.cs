@@ -14,39 +14,39 @@ public class EventController: MonoBehaviour {
     //Format for event: "NAME: Description (Actual Effect)"    
     public Event lost_faculty = new Event(
         "Lost Hope: Faculty dislike working out of a shack (- Faculty)",
-        "Random",
+        Event.Type.Random,
         new Resources(faculty: -3)
     );
     public Event lost_buildings = new Event(
         "Earthquake: Yeah this seems a little harsh (Nothing Happens)",
-        "Random",
+        Event.Type.Random,
         new Resources(/*tbd*/)
     );
     public Event lost_student = new Event(
         "Dangerous Knowledge: Some Chemistry students have been eating their lab materials (- Students)",
-        "Random",
+        Event.Type.Random,
         new Resources(students: -10)
     );
 
     //public const string renown_increase = "Renown and Students: Your math A-team aces the MATH national challenge competition and was broadcasted across all news channels.";
     public Event increase_wealth = new Event(
         "Tax Break 101: One of your accomplished alumni donates a lump sum of MOOLAH (+ Wealth)",
-        "Random",
+        Event.Type.Random,
         new Resources(wealth: +2000)
     );
     public Event increase_student_and_wealth = new Event(
         "College Admission Scandal: A couple donations never hurt anybody (+ Wealth, + Students)",
-        "Random",
+        Event.Type.Random,
         new Resources(wealth: +500, students: +5)
     );
     public Event increase_building = new Event(
         "Clumsy Builders: We're not doing building stuff yet (Nothing Happens)",
-        "Random",
+        Event.Type.Random,
         new Resources(/*tbd*/)
     );
     public Event increase_faculty = new Event(
         "Networking: Sadness should be enjoyed in groups (++ Faculty)",
-        "Random",
+        Event.Type.Random,
         new Resources(faculty: +3)
     );
 

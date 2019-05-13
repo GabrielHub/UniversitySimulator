@@ -31,7 +31,7 @@ public class UpgradeHireFaculty : UpgradeBase {
 	public override void ApplyEffect() {
 		bought = true;
 		GameManagerScript.instance.resources.faculty += 2;
-		GameManagerScript.instance.eventController.DoEvent(new Event("Hired New Faculty: more meat for the machine", "Notification"));
+		GameManagerScript.instance.eventController.DoEvent(new Event("Hired New Faculty: more meat for the machine", Event.Type.Notification));
 
 		UpgradeHireFaculty upgradeFaculty = new UpgradeHireFaculty(cost);
         GameManagerScript.instance.AddUpgradable(upgradeFaculty); //Add new repeatable
@@ -44,7 +44,7 @@ public class UpgradeAlumni : UpgradeBase {
 
 	public override void ApplyEffect() {
 		bought = true;
-		GameManagerScript.instance.eventController.DoEvent(new Event("College Diplomas For Everyone*!: *For the low low price of 4** years @ 70k a year **No guarantees or refunds", "Notification"));
+		GameManagerScript.instance.eventController.DoEvent(new Event("College Diplomas For Everyone*!: *For the low low price of 4** years @ 70k a year **No guarantees or refunds", Event.Type.Notification));
 		GameManagerScript.instance.resources.alumni++;
 	}
 }
@@ -59,7 +59,7 @@ public class UpgradeAdministrator : UpgradeBase {
 		bought = true;
 		GameManagerScript.instance.enableStatistics = true;
 		GameManagerScript.instance.resources.faculty += 5;
-		GameManagerScript.instance.eventController.DoEvent(new Event("Hired Administrators: hiding the paper trail has never been easier", "Notification"));
+		GameManagerScript.instance.eventController.DoEvent(new Event("Hired Administrators: hiding the paper trail has never been easier", Event.Type.Notification));
 	}
 }
 
@@ -72,7 +72,7 @@ public class UpgradeCampus : UpgradeBase {
 	public override void ApplyEffect() {
 		bought = true;
 		GameManagerScript.instance.earlyGameRequirements++;
-		GameManagerScript.instance.eventController.DoEvent(new Event("Bought A Campus: sometimes you gotta fly before you can walk", "Notification"));
+		GameManagerScript.instance.eventController.DoEvent(new Event("Bought A Campus: sometimes you gotta fly before you can walk", Event.Type.Notification));
 	}
 }
 
@@ -85,6 +85,6 @@ public class UpgradeLicense : UpgradeBase {
 	public override void ApplyEffect() {
 		bought = true;
 		GameManagerScript.instance.earlyGameRequirements++;
-		GameManagerScript.instance.eventController.DoEvent(new Event("Education License Approved: a recognized degree for me", "Notification"));
+		GameManagerScript.instance.eventController.DoEvent(new Event("Education License Approved: a recognized degree for me", Event.Type.Notification));
 	}
 }

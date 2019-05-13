@@ -9,7 +9,7 @@ public class StatController : MonoBehaviour {
         Wealth, Alumni, Students, Faculty, Capacity
     }
     public StatType type;
-    public int value {
+    public long value {
         get {
             Resources res = GameManagerScript.instance.resources;
             switch (this.type) {
@@ -28,7 +28,7 @@ public class StatController : MonoBehaviour {
         }
     }
 
-    public int rate {
+    public long rate {
         get {
             Resources delta = GameManagerScript.instance.resourcesDelta;
             switch (this.type) {

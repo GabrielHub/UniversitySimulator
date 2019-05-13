@@ -17,7 +17,7 @@ public class ClickableTile: MonoBehaviour, MessageHandler {
 	public Tilemap map;
 
     public void Awake() {
-        MessageBus.instance.register<GameStateChangeMessage>(this);
+        MessageBus.instance.register<GameState.DidChange>(this);
         this.gameObject.SetActive(false);
     }
 
@@ -35,7 +35,7 @@ public class ClickableTile: MonoBehaviour, MessageHandler {
     }
 
     public void handleMessage<T>(T m) where T: Message.IMessage {
-        if (m is GameStateChangeMessage) {
+        if (m is GameState.DidChange) {
             this.gameObject.SetActive(true);
         }
     }

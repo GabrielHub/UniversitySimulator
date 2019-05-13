@@ -39,12 +39,12 @@ public class BuyAgreementScript : MonoBehaviour {
 			if (res.wealth >= this.agreement.cost) {
 				res.agreements.Add(this.agreement);
 				res.wealth -= this.agreement.cost;
-				GameManagerScript.instance.eventController.DoEvent(new Event("Purchased HS Agreement: " + nameText.text, "Notification"));
+				GameManagerScript.instance.eventController.DoEvent(new Event("Purchased HS Agreement: " + nameText.text, Event.Type.Notification));
 
 				this.gameObject.SetActive(false);
 			} else {
 				// todo: this shouldn't be an event
-				GameManagerScript.instance.eventController.DoEvent(new Event("Not Enough $$$ To Make This Purchase!", "Notification"));
+				GameManagerScript.instance.eventController.DoEvent(new Event("Not Enough $$$ To Make This Purchase!", Event.Type.Notification));
 			}
     }
 }

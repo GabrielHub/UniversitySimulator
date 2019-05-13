@@ -11,7 +11,7 @@ public class Resources {
     public int faculty;
     public int alumni;
     public int students;
-    public int wealth;
+    public long wealth;
 
     //Hidden Resources
     public float r; //student growth rate r
@@ -37,7 +37,7 @@ public class Resources {
     [SerializeField]
     public List<HighSchoolAgreement> agreements = new List<HighSchoolAgreement> ();
 
-    public Resources(int faculty = 0, int alumni = 0, int students = 0, int wealth = 0) {
+    public Resources(int faculty = 0, int alumni = 0, int students = 0, long wealth = 0) {
         this.faculty = faculty;
         this.alumni = alumni;
         this.students = students;
@@ -88,22 +88,22 @@ public class Resources {
     }
 
     //wealth. donation and tuition are sliders that change variables in gamemanagerscript, good luck balancing this pos
-    public virtual int calcWealth(float donation, float tuition) {
-        int students_penalty = 1;
-        int faculty_penalty = 2 + (faculty / (faculty * 3));
-        int temp = 0;
+    public virtual long calcWealth(float donation, float tuition) {
+        long students_penalty = 1;
+        long faculty_penalty = 2 + (faculty / (faculty * 3));
+        long temp = 0;
 
-        if (GameManagerScript.instance.state == GameManagerScript.GameState.EarlyGame1) {
-            temp = (int) (students * 0.5);
+        if (GameManagerScript.instance.state == GameState.State.EarlyGame1) {
+            temp = (long) (students * 0.5);
         }
-        else if (GameManagerScript.instance.state == GameManagerScript.GameState.EarlyGame2) {
+        else if (GameManagerScript.instance.state == GameState.State.EarlyGame2) {
             temp = students;
         }
-        else if (GameManagerScript.instance.state == GameManagerScript.GameState.EarlyGame3) {
-            temp = (int) (students + alumni);
+        else if (GameManagerScript.instance.state == GameState.State.EarlyGame3) {
+            temp = (long) (students + alumni);
         }
-        else if (GameManagerScript.instance.state == GameManagerScript.GameState.EarlyGame4) {
-            temp = (int) ((((alumni * donation) + (students * tuition)) / 5) - ((faculty * faculty_penalty) + (students * students_penalty) / 3));
+        else if (GameManagerScript.instance.state == GameState.State.EarlyGame4) {
+            temp = (long) ((((alumni * donation) + (students * tuition)) / 5) - ((faculty * faculty_penalty) + (students * students_penalty) / 3));
         }
         else {
             Debug.Log("OOPSIE WOOPSIE WE MADE A FUCKYWUCKY: calcwealth in earlygame is out of valid gamestate");
@@ -134,12 +134,12 @@ public class Resources {
         // R - Growth Rate
         int temp = 0;
 
-        if (GameManagerScript.instance.state == GameManagerScript.GameState.EarlyGame1) {
+        if (GameManagerScript.instance.state == GameState.State.EarlyGame1) {
             if (students < K) {
                 temp = 1;
             }
         }
-        else if (GameManagerScript.instance.state == GameManagerScript.GameState.EarlyGame2) {
+        else if (GameManagerScript.instance.state == GameState.State.EarlyGame2) {
             if (students < K) {
                 Debug.Log("EarlyGame2 r: " + r);
                 temp = (int) (r * 2);
@@ -148,10 +148,10 @@ public class Resources {
                 temp = -1;
             }
         }
-        else if (GameManagerScript.instance.state == GameManagerScript.GameState.EarlyGame3) {
+        else if (GameManagerScript.instance.state == GameState.State.EarlyGame3) {
             temp = (int) (0.5 * students * ((K - students) / K));
         }
-        else if (GameManagerScript.instance.state == GameManagerScript.GameState.EarlyGame4) {
+        else if (GameManagerScript.instance.state == GameState.State.EarlyGame4) {
             temp = (int) (r * students * ((K - students) / K));
         }
         else {
