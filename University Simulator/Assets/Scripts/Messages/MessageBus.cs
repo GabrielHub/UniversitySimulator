@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 public enum UpdateStage {
 	Immediate,
@@ -13,6 +14,14 @@ public interface MessageHandler {
 }
 
 public abstract class MessageHandler<T>: MessageHandler where T: Message.IMessage {
+	public MessageHandler() {
+		MessageBus.instance.register<T>(this);
+	}
+
+	~MessageHandler() {
+		MessageBus.instance.deregister<T>(this);
+	}
+
 	public abstract void handleTypedMessage(T m);
 	public virtual void handleMessage<X>(X m) where X: Message.IMessage {
 		if (m is T) {
@@ -81,14 +90,19 @@ public class MessageBus {
 		lock (this) {
 			var stage = m.getUpdateStage();
 			if (stage == UpdateStage.Immediate) {
-				this.sendMessageToHandlers(m);
+				this._sendMessageToHandlers(m);
 			} else {
 				MessageBusUpdater.AddMessage(m);
 			}
 		}
 	}
 
-    public void sendMessageToHandlers(Message.IMessage m) {
+    public void _sendMessageToHandlers(Message.IMessage m, [CallerLineNumber] int line = 0, [CallerFilePath] string file = "", [CallerMemberName] string funcName = "") {
+		m.callerInfo = new Message.CallerInfo {
+			line = line,
+			file = file,
+			funcName = funcName
+		};
 		System.Action<MessageHandler> runHandler = (handler) => {
 			try {
 				handler.handleMessage(m);

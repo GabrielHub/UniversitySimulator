@@ -29,14 +29,14 @@ public class BuyMenuScript : MonoBehaviour
         DropdownCheck();
 
         //Changes the text of other options, idk how to do this outside of selecting a specific dropdown
-        if (GameManagerScript.instance.state == GameManagerScript.GameState.EarlyGame1) {
+        if (GameManagerScript.instance.state == GameState.State.EarlyGame1) {
             dropdown.options[1].text = "Keep growing to unlock"; //lock HSA agreements
             dropdown.options[2].text = "Keep growing to unlock";//lock special students
         }
-        else if (GameManagerScript.instance.state == GameManagerScript.GameState.EarlyGame2) {
+        else if (GameManagerScript.instance.state == GameState.State.EarlyGame2) {
             dropdown.options[1].text = "High School Agreements"; //unlock HSA agreements
         }
-        else if (GameManagerScript.instance.state == GameManagerScript.GameState.MidGame) {
+        else if (GameManagerScript.instance.state == GameState.State.MidGame) {
             dropdown.options[2].text = "Special Students"; //unlock HSA agreements
             dropdown.options[1].text = "Locked"; //relock HSA agreements
         }
@@ -51,13 +51,13 @@ public class BuyMenuScript : MonoBehaviour
             buySS.SetActive(false); 
         }
         else if (dropdown.value == 1) {
-            if (GameManagerScript.instance.state == GameManagerScript.GameState.EarlyGame1) {
+            if (GameManagerScript.instance.state == GameState.State.EarlyGame1) {
                 buyHS.SetActive(false);
                 buyUpgrades.SetActive(false);
                 buySS.SetActive(false);
                 //hsaText.text = "Keep growing to unlock agreements";
             }
-            else if (GameManagerScript.instance.state == GameManagerScript.GameState.MidGame) {
+            else if (GameManagerScript.instance.state == GameState.State.MidGame) {
                 //hide this permanently once it's in the midgame
                 buyHS.SetActive(false);
                 buyUpgrades.SetActive(false);
@@ -75,7 +75,7 @@ public class BuyMenuScript : MonoBehaviour
             }
         }
         else if (dropdown.value == 2) {
-            if (GameManagerScript.instance.state == GameManagerScript.GameState.MidGame) {
+            if (GameManagerScript.instance.state == GameState.State.MidGame) {
                 buyHS.SetActive(false);
                 buyUpgrades.SetActive(false);
                 buySS.SetActive(true);

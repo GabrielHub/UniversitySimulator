@@ -10,7 +10,8 @@ public class EventTextScript: MonoBehaviour, EventController.Listener {
 	public float eventDisplayTime = 10f;
 	// the time the background flashes when there's a new event
 	public float flashTime = 1f;
-	public Color flashColor = Color.red;
+
+	public EventTypeColorDictionary colors;
 
 	private void Awake() {
 		this.text = GetComponent<TextMeshProUGUI>();
@@ -36,23 +37,11 @@ public class EventTextScript: MonoBehaviour, EventController.Listener {
 		this.text.text = e.text;
 		this.textTimer = 0f;
 
-		if (e.type == "GameState") {
-			this.background.color = Color.red;
+		Color c;
+		if (!this.colors.TryGetValue(e.type, out c)) {
+			Debug.Log("warning: event color defaulting to red");
+			c = Color.red;
 		}
-		else if (e.type == "Notification") {
-			this.background.color = Color.green;
-		}
-		else if (e.type == "Narrative") {
-			this.background.color = Color.blue;
-		}
-		else if (e.type == "Random") {
-			this.background.color = Color.yellow;
-		}
-		else if (e.type == "Feature") {
-			this.background.color = Color.magenta;
-		}
-		else {
-			Debug.Log("ERROR: mislabled event type, event type does not exist: " + e.text);
-		}
+		this.background.color = c;
 	}
 }

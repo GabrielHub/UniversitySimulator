@@ -1,9 +1,35 @@
+using System.Runtime.CompilerServices;
 
 namespace Message {
+    public static class MessageExtensionCaller {
+        public static T registerLine<T>(this T t, [CallerLineNumber] int line = 0, [CallerFilePath] string file = "", [CallerMemberName] string funcName = "") where T: IMessage {
+            t.callerInfo = new CallerInfo {
+                line = line,
+                file = file,
+                funcName = funcName
+            };
+            return t;
+        }
+    }
+
+    public class CallerInfo {
+        public int line;
+        public string file;
+        public string funcName;
+
+        public override string ToString() {
+            return $"<b>{System.IO.Path.GetFileName(file)}@{line} (in {funcName})</b>";
+        }
+    }
 	public abstract class IMessage {
+        public CallerInfo callerInfo;
         public virtual UpdateStage getUpdateStage() { return UpdateStage.Update; }
         override public string ToString() {
-            return $"[On {this.getUpdateStage()}] {this.GetType()}";
+            string str = $"[On <i>{this.getUpdateStage()}</i>] {this.GetType()}";
+            if (callerInfo != null) {
+                str = callerInfo.ToString() + ": " + str;
+            }
+            return str;
         }
     }
 	public class AllType: IMessage { }

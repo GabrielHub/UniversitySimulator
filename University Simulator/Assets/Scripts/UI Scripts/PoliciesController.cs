@@ -19,7 +19,7 @@ public class PoliciesController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GameManagerScript.instance.state == GameManagerScript.GameState.EarlyGame4) {
+        if (GameManagerScript.instance.state == GameState.State.EarlyGame4) {
         	descriptionText.text = "Each slider can increase a resource, at the expense of Happiness or Renown";
         	sliderContainer.SetActive(true);
         }
