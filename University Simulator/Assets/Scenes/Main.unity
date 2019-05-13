@@ -1390,6 +1390,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 40ffb7390963bd64aaa0b9b97c80ca58,
         type: 2}
+    - target: {fileID: 4958778189923290560, guid: 70409e992f183ff43b2536a4a629d25d,
+        type: 3}
+      propertyPath: building.rating
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4958778189923290560, guid: 70409e992f183ff43b2536a4a629d25d,
+        type: 3}
+      propertyPath: building.cost
+      value: 5000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4958778189923290560, guid: 70409e992f183ff43b2536a4a629d25d,
+        type: 3}
+      propertyPath: building.capacity
+      value: 360
+      objectReference: {fileID: 0}
     - target: {fileID: 5578508344716516532, guid: 70409e992f183ff43b2536a4a629d25d,
         type: 3}
       propertyPath: m_Sprite
@@ -13997,6 +14012,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: b0dd39354aedefe44bdf7a38b0242a87,
         type: 2}
+    - target: {fileID: 4958778189923290560, guid: 70409e992f183ff43b2536a4a629d25d,
+        type: 3}
+      propertyPath: building.type
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4958778189923290560, guid: 70409e992f183ff43b2536a4a629d25d,
+        type: 3}
+      propertyPath: building.rating
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4958778189923290560, guid: 70409e992f183ff43b2536a4a629d25d,
+        type: 3}
+      propertyPath: building.cost
+      value: 10000
+      objectReference: {fileID: 0}
     - target: {fileID: 5578508344716516532, guid: 70409e992f183ff43b2536a4a629d25d,
         type: 3}
       propertyPath: m_Sprite
