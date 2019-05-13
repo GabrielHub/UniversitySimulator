@@ -16,9 +16,9 @@ public class UpgradeBuyButton : MonoBehaviour {
 		buttonComponent.onClick.AddListener(HandleClick);
 	}
 
-	//Setup on instantiate
-	public void Setup(UpgradeBase item) {
-		buttonText.text = item.name + ": " + item.description + " | Cost: " + item.cost;
+    //Setup on instantiate
+    public void Setup(UpgradeBase item) {
+		buttonText.text = item.name + ": " + item.description + " | Cost: " + item.cost.ToAbbreviatedString();
 		upgradeItem = item;
 		Debug.Log(item.name + " is available to purchase!");
 	}

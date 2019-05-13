@@ -319,10 +319,12 @@ public class ResourcesMidGame : Resources {
 
     //Student growth shouldn't be using renown anymore, since renown is used in so many other calculations. Maybe use ranking instead
     public override float calcR() {
+        r = (1.0f - (ranking / 1000)) + 0.5f;
         return (1.0f - (ranking / 1000)) + 0.5f;
     }
 
     public override float calcK() {
+        K = studentPool;
         return studentPool;
     }
 
