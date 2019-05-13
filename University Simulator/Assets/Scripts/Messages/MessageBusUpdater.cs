@@ -40,7 +40,7 @@ public class MessageBusUpdater: MonoBehaviour {
 	void sendMessageForStage(UpdateStage stage) {
 		var queue = this.messageQueues[stage];
 		while (queue.Count > 0) {
-			MessageBus.instance.sendMessageToHandlers(queue.Dequeue());
+			MessageBus.instance._sendMessageToHandlers(queue.Dequeue());
 		}
 	}
 
