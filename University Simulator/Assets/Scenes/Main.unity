@@ -1388,8 +1388,19 @@ PrefabInstance:
         type: 3}
       propertyPath: item
       value: 
-      objectReference: {fileID: 11400000, guid: 2e029f11a3510e54fb1fe11f0806bdb0,
+      objectReference: {fileID: 11400000, guid: 40ffb7390963bd64aaa0b9b97c80ca58,
         type: 2}
+    - target: {fileID: 5578508344716516532, guid: 70409e992f183ff43b2536a4a629d25d,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 75166782de2277b4899b9fda011a6657,
+        type: 3}
+    - target: {fileID: 5578508344716516532, guid: 70409e992f183ff43b2536a4a629d25d,
+        type: 3}
+      propertyPath: m_Type
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 70409e992f183ff43b2536a4a629d25d, type: 3}
 --- !u!224 &252860926 stripped
@@ -10440,6 +10451,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bottom Left Item
       objectReference: {fileID: 0}
+    - target: {fileID: 5578508345023459307, guid: 70409e992f183ff43b2536a4a629d25d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5578508345023459308, guid: 70409e992f183ff43b2536a4a629d25d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -10905,6 +10921,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Bottom Right Item
+      objectReference: {fileID: 0}
+    - target: {fileID: 5578508345023459307, guid: 70409e992f183ff43b2536a4a629d25d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5578508345023459308, guid: 70409e992f183ff43b2536a4a629d25d,
         type: 3}
@@ -12064,6 +12085,7 @@ GameObject:
   - component: {fileID: 1932214984}
   - component: {fileID: 1932214983}
   - component: {fileID: 1932214982}
+  - component: {fileID: 1932214985}
   m_Layer: 5
   m_Name: Click Area
   m_TagString: Untagged
@@ -12151,6 +12173,21 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 5
   m_TargetDisplay: 0
+--- !u!114 &1932214985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1932214980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fb1b69e1dd13d34f9ed08da8fcdbd56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  states:
+    m_keys: 0400000005000000
+    m_values: 0101
 --- !u!1001 &1959016648
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13957,8 +13994,24 @@ PrefabInstance:
         type: 3}
       propertyPath: item
       value: 
-      objectReference: {fileID: 11400000, guid: 2e029f11a3510e54fb1fe11f0806bdb0,
+      objectReference: {fileID: 11400000, guid: b0dd39354aedefe44bdf7a38b0242a87,
         type: 2}
+    - target: {fileID: 5578508344716516532, guid: 70409e992f183ff43b2536a4a629d25d,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 020351e1f3757594c9678a4ab5b18af8,
+        type: 3}
+    - target: {fileID: 5578508344716516532, guid: 70409e992f183ff43b2536a4a629d25d,
+        type: 3}
+      propertyPath: m_Type
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5578508344716516532, guid: 70409e992f183ff43b2536a4a629d25d,
+        type: 3}
+      propertyPath: m_FillCenter
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 70409e992f183ff43b2536a4a629d25d, type: 3}
 --- !u!1001 &6196113992257166326

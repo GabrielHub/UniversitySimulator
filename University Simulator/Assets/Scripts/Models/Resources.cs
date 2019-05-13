@@ -248,26 +248,26 @@ public class ResourcesMidGame : Resources {
 
     //Buildings now affect multiple resources, calculate these here before any other calculation, run everytime a new building is added
     public override void ApplyBuildingCalculations(Building b) {
-        if (b.type == "Residential") {
+        if (b.type == Building.Type.Residential) {
             studentPool += b.capacity; //increase student pool
         }
-        else if (b.type == "Educational") {
+        else if (b.type == Building.Type.Educational) {
             maxFaculty += b.capacity; //increase max amount of students a faculty can teach
 
             if (minFaculty >= 10) {
                 minFaculty -= 5; //decrease the smallest amount of students a faculty can teach
             } 
         }
-        else if (b.type == "Institutional") {
+        else if (b.type == Building.Type.Instituional) {
             if (specialStudentThreshold > 1) {
                 specialStudentThreshold--;
             }
         }
-        else if (b.type == "Athletic") {
+        else if (b.type == Building.Type.Athletic) {
             ssProb += 0.1f; //increase student probability by 10%
         }
         else {
-            //Debug.Log("ERROR: Checking building types in building array failed to compare type");
+            throw new System.Exception($"precondition failure");
         }
     }
 

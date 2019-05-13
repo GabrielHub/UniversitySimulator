@@ -264,7 +264,7 @@ public class GameManagerScript : MonoBehaviour {
 
             //Building calculations, MAKE SURE THIS IS ALWAYS CALCULATED FIRST, only run every time a new building is added
             if (state == GameState.State.MidGame && this.resources.buildings.Count == 0) { //add the first building
-                this.resources.ApplyBuildingCalculations(new ResidentialBuilding(500, 3, 0));
+                this.resources.ApplyBuildingCalculations(new Building(Building.Type.Residential, capacity: 500, rating: 3, cost: 0));
             }
 
             //calculate HS Agreements, only done in early game
@@ -424,7 +424,7 @@ public class GameManagerScript : MonoBehaviour {
     }
 
     //Add Building
-    void AddBuilding(Building b) {
+    public void AddBuilding(Building b) {
         this.resources.buildings.Add(b);
         this.resources.ApplyBuildingCalculations(b);
     }
