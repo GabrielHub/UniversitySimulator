@@ -29,6 +29,7 @@ public class PopupMenu: MonoBehaviour, ClickableTileListener {
     public void OnClickMenuItem(MenuItem menuItem) {
         Vector3Int cellPosition = this.map.WorldToCell(this.transform.position);
         this.map.SetTile(cellPosition, menuItem.item);
+        GameManagerScript.instance.AddBuilding(menuItem.building);
         this.hideMenu();
     }
 }
