@@ -9010,6 +9010,7 @@ MonoBehaviour:
   BuyHSA3: {fileID: 356855504}
   enableStatistics: 0
   earlyGameRequirements: 0
+  upgradeAlumniBool: 0
 --- !u!4 &1434317447
 Transform:
   m_ObjectHideFlags: 0

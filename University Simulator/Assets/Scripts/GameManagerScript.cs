@@ -201,6 +201,7 @@ public class GameManagerScript : MonoBehaviour {
     public BuyAgreementScript BuyHSA3;
     public bool enableStatistics = false;
     public int earlyGameRequirements = 0;
+    public bool upgradeAlumniBool = false;
 
     private void Awake() {
         if (GameManagerScript.instance == null) {
@@ -383,14 +384,16 @@ public class GameManagerScript : MonoBehaviour {
         //move from earlygame stages. NEED TO ADD UPGRADES TO EACH STAGE AS A GATE TO PROGRESSION
         if (state == GameState.State.EarlyGame1 && this.resources.students >= 50) {
             state = GameState.State.EarlyGame2;
+            MessageBus.instance.emit(new GameState.ShouldChange(GameState.State.EarlyGame2));
             // MARK
         }
-        else if (state == GameState.State.EarlyGame2 && this.resources.students >= 100) {
+        else if (state == GameState.State.EarlyGame2 && this.resources.students >= 100 && upgradeAlumniBool == false) {
             //Don't change states immediately, instead add the upgrade which must be bought to move on
             UpgradeAlumni upgradeAlumni = new UpgradeAlumni();
             AddUpgradable(upgradeAlumni);
             this.eventController.DoEvent(new Event("With this many students maybe you can start giving out degrees", Event.Type.Narrative));
             this.playing = !this.playing;
+            upgradeAlumniBool = true;
         } else if (state == GameState.State.EarlyGame3 && this.resources.students >= 500) {
             MessageBus.instance.emit(new GameState.ShouldChange(GameState.State.EarlyGame4));
         }

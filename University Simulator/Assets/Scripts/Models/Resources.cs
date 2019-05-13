@@ -4,8 +4,8 @@ using UnityEngine;
 
 [System.Serializable]
 public class Resources {
-    public const float MAX_HAPPINESS = 7f;
-    public const float MAX_RENOWN = 5f;
+    public static float MAX_HAPPINESS = 7f;
+    public static float MAX_RENOWN = 5f;
 
     //5 Main Resources
     public int faculty;
@@ -142,7 +142,7 @@ public class Resources {
         else if (GameManagerScript.instance.state == GameState.State.EarlyGame2) {
             if (students < K) {
                 Debug.Log("EarlyGame2 r: " + r);
-                temp = (int) (r * 2);
+                temp = (int) (r * 1.5);
             }
             else {
                 temp = -1;
@@ -195,7 +195,13 @@ public class Resources {
             stuTemp += hs.students;
             reTemp += hs.value;
         }
-        calcRenown(reTemp / agreements.Count());
+        if (agreements.Count() != 0)
+        {
+            calcRenown(reTemp / agreements.Count());
+        }
+        else {
+            calcRenown(0);
+        }
         studentPool = stuTemp;
 
     }
@@ -281,6 +287,7 @@ public class ResourcesMidGame : Resources {
 
     //renown, override earlygme calculation. val is faculty pay value from the policy slider
     public override void calcRenown(float val) {
+        Debug.Log("What");
         renown = (renownBase * val) / 10; //r already takes into account happiness with renown, so no need to add happiness to this equation
     }
 
