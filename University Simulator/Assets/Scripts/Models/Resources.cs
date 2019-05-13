@@ -88,7 +88,7 @@ public class Resources {
     }
 
     //wealth. donation and tuition are sliders that change variables in gamemanagerscript, good luck balancing this pos
-    public virtual long calcWealth(float donation, float tuition) {
+    public virtual long calcWealth(float donation, float tuition, float unused = 0) {
         long students_penalty = 1;
         long faculty_penalty = 2 + (faculty / (faculty * 3));
         long temp = 0;
@@ -129,7 +129,7 @@ public class Resources {
     }
 
     //students
-    public int calcStudents(float maxHappiness) {
+    public virtual int calcStudents(float maxHappiness) {
         // K - Students accepted out of student pool
         // R - Growth Rate
         int temp = 0;
@@ -142,17 +142,17 @@ public class Resources {
         else if (GameManagerScript.instance.state == GameState.State.EarlyGame2) {
             if (students < K) {
                 Debug.Log("EarlyGame2 r: " + r);
-                temp = (int) (r * 1.5);
+                temp = (int) (r * 2.0);
             }
             else {
                 temp = -1;
             }
         }
         else if (GameManagerScript.instance.state == GameState.State.EarlyGame3) {
-            temp = (int) (0.5 * students * ((K - students) / K));
+            temp = (int) (0.25 * students * ((K - students) / K));
         }
         else if (GameManagerScript.instance.state == GameState.State.EarlyGame4) {
-            temp = (int) (r * students * ((K - students) / K));
+            temp = (int) (0.5*r * students * ((K - students) / K));
         }
         else {
             Debug.Log("WOOPS: calcstudents is working outside of a valid gamestate in EarlyGame");
@@ -254,35 +254,46 @@ public class ResourcesMidGame : Resources {
 
     //Buildings now affect multiple resources, calculate these here before any other calculation, run everytime a new building is added
     public override void ApplyBuildingCalculations(Building b) {
-        if (b.type == Building.Type.Residential) {
-            studentPool += b.capacity; //increase student pool
-        }
-        else if (b.type == Building.Type.Educational) {
-            maxFaculty += b.capacity; //increase max amount of students a faculty can teach
+        if (b.cost <= wealth) {
+            if (b.type == Building.Type.Residential) {
+                studentPool += b.capacity; //increase student pool
+            }
+            else if (b.type == Building.Type.Educational) {
+                maxFaculty += b.capacity; //increase max amount of students a faculty can teach
 
-            if (minFaculty >= 10) {
-                minFaculty -= 5; //decrease the smallest amount of students a faculty can teach
+                if (minFaculty >= 10) {
+                    minFaculty -= 5; //decrease the smallest amount of students a faculty can teach
+                }
             }
-        }
-        else if (b.type == Building.Type.Institutional) {
-            if (specialStudentThreshold > 1) {
-                specialStudentThreshold--;
+            else if (b.type == Building.Type.Institutional) {
+                if (specialStudentThreshold > 1) {
+                    specialStudentThreshold--;
+                }
             }
-        }
-        else if (b.type == Building.Type.Athletic) {
-            ssProb += 0.1f; //increase student probability by 10%
+            else if (b.type == Building.Type.Athletic) {
+                ssProb += 0.1f; //increase student probability by 10%
+            }
+            else {
+                throw new System.Exception($"precondition failure");
+            }
         }
         else {
-            throw new System.Exception($"precondition failure");
+            GameManagerScript.instance.eventController.DoEvent(new Event("Not enough Wealth to purchase Building", Event.Type.Notification));
         }
+        
     }
 
     //no need to override because it takes different parameters. Faculty_penalty is the value for student-faculty ratio
-    public int calcWealth(float donation, float tuition, float faculty_penalty) {
-        int ret = (int) ((((alumni * donation) + (students * tuition)) / 5) - (faculty * faculty_penalty / 5));
+    public override long calcWealth(float donation, float tuition, float faculty_penalty) {
+        long ret = (int) ((((alumni * donation) + (students * tuition)) / 5) - (faculty * faculty_penalty / 5));
         wealth += ret;
 
         return ret;
+    }
+
+    public override int calcStudents(float maxsomething) {
+        int temp = (int) (r * students * ((K - students) / K));
+        return temp;
     }
 
     //renown, override earlygme calculation. val is faculty pay value from the policy slider
