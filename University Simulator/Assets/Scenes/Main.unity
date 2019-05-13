@@ -13041,8 +13041,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   states:
-    m_keys: 0400000005000000
-    m_values: 0101
+    m_keys: 04000000050000000200000003000000
+    m_values: 01010101
 --- !u!1 &2082322432
 GameObject:
   m_ObjectHideFlags: 0
