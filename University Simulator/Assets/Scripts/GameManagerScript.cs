@@ -398,11 +398,6 @@ public class GameManagerScript : MonoBehaviour {
             MessageBus.instance.emit(new GameState.ShouldChange(GameState.State.EarlyGame4));
         }
 
-        //Check if alumni upgrade is bought to move on to EarlyGame3. Alumni will become 1 if upgrade is bought
-        if (state == GameState.State.EarlyGame2 && this.resources.alumni > 0) {
-            MessageBus.instance.emit(new GameState.ShouldChange(GameState.State.EarlyGame3));
-        }
-
         //check if early game is finished
         if (earlyGameRequirements == 2 && state == GameState.State.EarlyGame4) {
             MessageBus.instance.emit(new GameState.ShouldChange(GameState.State.MidGame));
