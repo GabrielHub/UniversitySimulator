@@ -2,7 +2,7 @@
 
 [System.Serializable]
 public class Building {
-	public enum Type { Residential, Educational, Athletic, Instituional }
+	public enum Type { Residential, Educational, Athletic, Institutional }
 	public Type type; //describes what kind of building it is (R]esidential, Educational, Athletic, Instituional (Hospital, administration, basically gives a boost))
 	public int rating; //rating of buildings will be used in ranking calculations
 	public int cost; //how much it costs to buy a building
