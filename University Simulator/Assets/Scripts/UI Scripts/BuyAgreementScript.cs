@@ -30,7 +30,7 @@ public class BuyAgreementScript : MonoBehaviour {
 			nameText.text = this.agreement.name;
 			poolText.text = this.agreement.students.ToString();
 			valueText.text = this.agreement.value.ToString();
-			buttonText.text = this.agreement.cost.ToString();
+			buttonText.text = this.agreement.cost.ToAbbreviatedString();
     }
 
     public void BuyOnClick() {
