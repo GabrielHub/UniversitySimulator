@@ -1,5 +1,6 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 /*
 	These are the objects for buying Special Students.

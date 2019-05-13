@@ -1,4 +1,4 @@
-﻿[System.Serializable]
+[System.Serializable]
 public struct HighSchoolAgreement {
 	public string name;
 	public int students;

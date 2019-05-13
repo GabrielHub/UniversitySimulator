@@ -1,13 +1,13 @@
-using UnityEngine;
 using System.Collections;
 
-// // TODO: clean this file up
+using UnityEngine;
 
+// // TODO: clean this file up
 
 public class ClickManager : MonoBehaviour {
 
 	/* http://www.NotQuiteBlackandWhite.com */
-	
+
 	/*
 	"FrontmostSpriteClicker" for Unity
 
@@ -27,74 +27,64 @@ public class ClickManager : MonoBehaviour {
 
 	Please get in touch with us if there's any issues with the script or if you have any questions.
 	*/
-		
 
-	public struct GetFrontmostRaycastHitResult
-	{
+	public struct GetFrontmostRaycastHitResult {
 		public RaycastHit2D rayCastHit2D;
 		public bool nothingClicked;
 	}
-	
+
 	private GameObject leftClickedObject;
 	private GameObject rightClickedObject;
 	private GetFrontmostRaycastHitResult frontmostRaycastHit;
-	
+
 	private bool showDebug = true;
-	
+
 	// It's necessary to access the SpriteRenderer of a game object to be able to access its sorting layer ID 
 	// and sorting order ("Order in Layer" in the inspector)
 	private SpriteRenderer spriteRenderer;
 
-
-	void Update () 
-	{
+	void Update() {
 		// If the left mouse button is clicked anywhere...
-		if (Input.GetKeyDown(KeyCode.Mouse0))
-		{
+		if (Input.GetKeyDown(KeyCode.Mouse0)) {
 			// frontmostRaycastHit stores information about the RaycastHit2D that is returned by GetFrontmostRaycastHit()
 			frontmostRaycastHit = GetFrontmostRaycastHit();
-			
+
 			// If frontmostRaycastHit is true, i,e the user hasn't clicked on nothing, i.e GetFrontmostRaycastHit() didn't return nothing...
-			if (frontmostRaycastHit.nothingClicked == false)
-			{
+			if (frontmostRaycastHit.nothingClicked == false) {
 				// Assigns the game object that the collider that has been clicked on to leftClickedObject.
 				leftClickedObject = frontmostRaycastHit.rayCastHit2D.collider.gameObject;
-				
+
 				// Sends the frontmostRaycast to a function called OnLeftClick in a script attached to whatever the leftClickedObject is.
 				leftClickedObject.SendMessage("OnLeftClick", frontmostRaycastHit, SendMessageOptions.DontRequireReceiver);
 			}
 		}
 		// If the right mouse button is clicked anywhere...
-		else if (Input.GetKeyDown(KeyCode.Mouse1))
-		{
+		else if (Input.GetKeyDown(KeyCode.Mouse1)) {
 			// frontmostRaycastHit stores information about the RaycastHit2D that is returned by GetFrontmostRaycastHit()
 			frontmostRaycastHit = GetFrontmostRaycastHit();
-			
+
 			// If frontmostRaycastHit is true, i,e the user hasn't clicked on nothing, i.e GetFrontmostRaycastHit() didn't return nothing...
-			if (frontmostRaycastHit.nothingClicked == false)
-			{
+			if (frontmostRaycastHit.nothingClicked == false) {
 				// Assigns the game object that the collider that has been clicked on to rightClickedObject.
 				rightClickedObject = frontmostRaycastHit.rayCastHit2D.collider.gameObject;
-				
+
 				// Sends the frontmostRaycast to a function called OnLeftClick in a script attached to whatever the rightClickedObject is.
 				rightClickedObject.SendMessage("OnRightClick", frontmostRaycastHit, SendMessageOptions.DontRequireReceiver);
 			}
 		}
 	}
-	
-	GetFrontmostRaycastHitResult GetFrontmostRaycastHit()
-	{
+
+	GetFrontmostRaycastHitResult GetFrontmostRaycastHit() {
 
 		GetFrontmostRaycastHitResult result = new GetFrontmostRaycastHitResult();
 
 		// Store the point where the user has clicked as a Vector3.
 		Vector3 clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 		// Retrieve all raycast hits from the click position and store them in an array called "hits".
-		RaycastHit2D[] hits = Physics2D.LinecastAll (clickPosition, clickPosition);
-		
+		RaycastHit2D[] hits = Physics2D.LinecastAll(clickPosition, clickPosition);
+
 		// If the raycast hits something...
-		if (hits.Length != 0)
-		{
+		if (hits.Length != 0) {
 			// A variable that will store the frontmost sorting layer that contains an object that has been clicked on as an int.
 			int topSortingLayer = 0;
 			// A variable that will store the index of the top sorting layer as an int.
@@ -107,46 +97,40 @@ public class ClickManager : MonoBehaviour {
 			int topSortingOrder = 0;
 			// A variable that will store the index in the sortingOrderArray where topSortingOrder is. This index used with the hits array will give us our frontmost clicked sprite.
 			int indexOfTopSortingOrder = 0;
-			
+
 			// Loop through the array of raycast hits...
-			for (var i = 0; i < hits.Length; i++)
-			{
+			for (var i = 0; i < hits.Length; i++) {
 				// Get the SpriteRenderer from each game object under the click.
 				spriteRenderer = hits[i].collider.gameObject.GetComponent<SpriteRenderer>();
-				
+
 				// Access the sortingLayerID through the SpriteRenderer and store it in the sortingLayerIDArray.
 				sortingLayerIDArray[i] = spriteRenderer.sortingLayerID;
-				
+
 				// Access the sortingOrder through the SpriteRenderer and store it in the sortingOrderArray.
 				sortingOrderArray[i] = spriteRenderer.sortingOrder;
 			}
-			
+
 			// Loop through the array of sprite sorting layer IDs...
-			for (int j = 0; j < sortingLayerIDArray.Length; j++)
-			{
+			for (int j = 0; j < sortingLayerIDArray.Length; j++) {
 				// If the sortingLayerID is higher that the topSortingLayer...
-				if (sortingLayerIDArray[j] >= topSortingLayer)
-				{
+				if (sortingLayerIDArray[j] >= topSortingLayer) {
 					topSortingLayer = sortingLayerIDArray[j];
 					indexOfTopSortingLayer = j;
 				}
 			}
-			
+
 			// Loop through the array of sprite sorting orders...
-			for (int k = 0; k < sortingOrderArray.Length; k++)
-			{
+			for (int k = 0; k < sortingOrderArray.Length; k++) {
 				// If the sorting order of the sprite is higher than topSortingOrder AND the sprite is on the top sorting layer...
-				if (sortingOrderArray[k] >= topSortingOrder && sortingLayerIDArray[k] == topSortingLayer)
-				{
+				if (sortingOrderArray[k] >= topSortingOrder && sortingLayerIDArray[k] == topSortingLayer) {
 					topSortingOrder = sortingOrderArray[k];
 					indexOfTopSortingOrder = k;
 				}
-				else
-				{
+				else {
 					// Do nothing and continue loop.
 				}
 			}
-			
+
 			// The indexOfTopSortingOrder will also be the index of the frontmost raycast hit in the array "hits". 
 			result.rayCastHit2D = hits[indexOfTopSortingOrder];
 			result.nothingClicked = false;

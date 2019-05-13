@@ -1,9 +1,10 @@
-using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
+using UnityEngine;
+using UnityEngine.UI;
+
 [RequireComponent(typeof(TextMeshProUGUI))]
-public class EventTextScript: MonoBehaviour, EventController.Listener {
+public class EventTextScript : MonoBehaviour, EventController.Listener {
 	private TextMeshProUGUI text;
 	private Image background;
 	// the time the event remains on screen for
@@ -24,6 +25,7 @@ public class EventTextScript: MonoBehaviour, EventController.Listener {
 	}
 
 	private void Update() {
+		if (!GameManagerScript.instance.playing) return;
 		this.textTimer += Time.deltaTime;
 		if (this.textTimer >= this.flashTime) {
 			this.background.color = Color.white;

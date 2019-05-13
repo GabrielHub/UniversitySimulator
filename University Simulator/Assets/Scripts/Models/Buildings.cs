@@ -1,4 +1,4 @@
-﻿//Building base class, inherited by different types of buildings
+//Building base class, inherited by different types of buildings
 
 [System.Serializable]
 public class Building {

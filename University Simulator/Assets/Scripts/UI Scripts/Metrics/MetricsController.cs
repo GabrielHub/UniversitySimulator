@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MetricsController: MonoBehaviour {
+public class MetricsController : MonoBehaviour {
 	public Slider renownSlider;
 	public Slider happinessSlider;
 
@@ -18,9 +18,10 @@ public class MetricsController: MonoBehaviour {
 		slider.value = value;
 		Color c;
 		if (value < 0.5) {
-			c = Color.Lerp(Color.red, Color.yellow, value*2);
-		} else {
-			c = Color.Lerp(Color.yellow, Color.green, value*2-1);
+			c = Color.Lerp(Color.red, Color.yellow, value * 2);
+		}
+		else {
+			c = Color.Lerp(Color.yellow, Color.green, value * 2 - 1);
 		}
 		slider.transform.Find("Fill Area").Find("Fill").GetComponent<Image>().color = c;
 	}
