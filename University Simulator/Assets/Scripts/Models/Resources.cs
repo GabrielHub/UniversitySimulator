@@ -258,7 +258,7 @@ public class ResourcesMidGame : Resources {
                 minFaculty -= 5; //decrease the smallest amount of students a faculty can teach
             } 
         }
-        else if (b.type == Building.Type.Instituional) {
+        else if (b.type == Building.Type.Institutional) {
             if (specialStudentThreshold > 1) {
                 specialStudentThreshold--;
             }
