@@ -43,17 +43,17 @@ public class MessageBus {
 
 	public List<System.Action<System.Exception, Message.IMessage>> errorHandlers;
 	
-	public System.Type[] messages;
+	// public System.Type[] messages;
 
 	MessageBus() {
 		this.errorHandlers = new List<System.Action<System.Exception, Message.IMessage>>();
-		this.messages = (from domainAssembly in System.AppDomain.CurrentDomain.GetAssemblies()
-					from assemblyType in domainAssembly.GetTypes()
-					where typeof(Message.IMessage).IsAssignableFrom(assemblyType)
-					&& !(assemblyType.ToString().Contains("IMessage") || 
-						assemblyType.ToString().Contains("Base") ||
-						assemblyType.ToString().Contains("AllType"))
-					select assemblyType).ToArray();
+		// this.messages = (from domainAssembly in System.AppDomain.CurrentDomain.GetAssemblies()
+		// 			from assemblyType in domainAssembly.GetTypes()
+		// 			where typeof(Message.IMessage).IsAssignableFrom(assemblyType)
+		// 			&& !(assemblyType.ToString().Contains("IMessage") || 
+		// 				assemblyType.ToString().Contains("Base") ||
+		// 				assemblyType.ToString().Contains("AllType"))
+		// 			select assemblyType).ToArray();
 	}
 
 	public Dictionary<System.Type, List<MessageHandler>> handlers = new Dictionary<System.Type, List<MessageHandler>>();
