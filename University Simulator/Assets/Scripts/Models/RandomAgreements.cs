@@ -189,23 +189,23 @@ public class RandomAgreements : MonoBehaviour
         //val is the 'star' of HS out of 5. Lower rated HS will provide more students tho
         if (val == 1) {
             pool = Random.Range(85, 100);
-            cost = 100;
+            cost = 300;
         }
         else if (val == 2) {
             pool = Random.Range(75, 85);
-            cost = Random.Range(200, 300);
+            cost = Random.Range(400, 500);
         }
         else if (val == 3) {
             pool = Random.Range(55, 75);
-            cost = Random.Range(300, 450);
+            cost = Random.Range(600, 750);
         }
         else if (val == 4) {
             pool = Random.Range(35, 55);
-            cost = Random.Range(450, 650);
+            cost = Random.Range(850, 950);
         }
         else {
             pool = Random.Range(10, 35);
-            cost = 750;
+            cost = 1100;
         }
         return (new HighSchoolAgreement(name, pool, val, cost));
     }

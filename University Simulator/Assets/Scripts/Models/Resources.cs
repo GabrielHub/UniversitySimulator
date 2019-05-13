@@ -176,7 +176,7 @@ public class Resources {
             temp = 0;
         }
         else {
-            int i = (int) (students / 20);
+            int i = (int) (students / 50);
             students -= i;
             alumni += i;
             temp = i;
