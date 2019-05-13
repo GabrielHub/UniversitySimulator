@@ -16,7 +16,7 @@ public class StatDeltaController : MonoBehaviour {
 	// Update is called once per frame
 	void Update() {
 		// if (!GameManagerScript.instance.enableStatistics) { this.gameObject.SetActive(false); return; }
-		string text = this.stat.rate.ToString();
+		string text = this.stat.rate.ToAbbreviatedString();
 		if (this.stat.rate > 0) {
 			text = "+" + text;
 		}
