@@ -12,7 +12,7 @@ public class GamePhaseChanger : MonoBehaviour, MessageHandler {
 	private int offset = 0;
 
 	private void Awake() {
-		MessageBus.instance.register<GameState.DidChange>(this);
+		MessageBus.main.register<GameState.DidChange>(this);
 		this.dropdown = GetComponent<TMP_Dropdown>();
 	}
 
@@ -35,6 +35,6 @@ public class GamePhaseChanger : MonoBehaviour, MessageHandler {
 
 	public void OnDidChange() {
 		GameState.State to = (GameState.State) this.dropdown.value + this.offset;
-		MessageBus.instance.emit(new GameState.ShouldChange(to));
+		MessageBus.main.emit(new GameState.ShouldChange(to));
 	}
 }

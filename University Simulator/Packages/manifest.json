@@ -1,5 +1,7 @@
 {
   "dependencies": {
+    "com.coffee.upm-git-extension": "https://github.com/mob-sakai/UpmGitExtension.git#0.8.3",
+    "com.maxainatchi.messagebus": "https://github.com/maxwellainatchi/Unity-MessageBus.git#0.1.2",
     "com.unity.2d.tilemap.extras": "https://github.com/Unity-Technologies/2d-extras.git#package",
     "com.unity.ads": "2.0.8",
     "com.unity.analytics": "3.3.2",
@@ -40,6 +42,14 @@
     "com.unity.modules.xr": "1.0.0"
   },
   "lock": {
+    "com.coffee.upm-git-extension": {
+      "hash": "de0f8f475f22915e011d16b2c04ebb4470ba4bb2",
+      "revision": "0.8.3"
+    },
+    "com.maxainatchi.messagebus": {
+      "hash": "329c83d92fedcd45f27ba1f331e7c3c8793cce16",
+      "revision": "0.1.2"
+    },
     "com.unity.2d.tilemap.extras": {
       "hash": "c5f7705062475f540f7ddf023575b50806f43107",
       "revision": "package"

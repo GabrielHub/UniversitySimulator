@@ -105,7 +105,7 @@ public class GameManagerScript : MonoBehaviour {
                 //Convert resources to MidGame Resources class
                 gm.resources = new ResourcesMidGame(gm.resources);
 
-                MessageBus.instance.emit(new GameState.DidChange(from: GameState.State.EarlyGame4, to: GameState.State.MidGame));
+                MessageBus.main.emit(new GameState.DidChange(from: GameState.State.EarlyGame4, to: GameState.State.MidGame));
             } break;
 			case GameState.State.EndGame: throw new System.Exception("Not yet implemented");
 			}
@@ -114,7 +114,7 @@ public class GameManagerScript : MonoBehaviour {
 			GameState.State old = gm.state;
 			gm.state = m.state;
 			// Emit a change message so other things can handle it
-			MessageBus.instance.emit(new GameState.DidChange(from: old, to: gm.state));
+			MessageBus.main.emit(new GameState.DidChange(from: old, to: gm.state));
 		}
 	}
 
@@ -189,7 +189,7 @@ public class GameManagerScript : MonoBehaviour {
 
 	// Start is called before the first frame update
 	void Start() {
-		MessageBus.instance.emit(new GameState.ShouldChange(GameState.State.EarlyGame1));
+		MessageBus.main.emit(new GameState.ShouldChange(GameState.State.EarlyGame1));
 	}
 
 	// Update is called once per frame
@@ -358,7 +358,7 @@ public class GameManagerScript : MonoBehaviour {
 		//move from earlygame stages. NEED TO ADD UPGRADES TO EACH STAGE AS A GATE TO PROGRESSION
 		if (state == GameState.State.EarlyGame1 && this.resources.students >= 50) {
 			state = GameState.State.EarlyGame2;
-			MessageBus.instance.emit(new GameState.ShouldChange(GameState.State.EarlyGame2));
+			MessageBus.main.emit(new GameState.ShouldChange(GameState.State.EarlyGame2));
 			// MARK
 		}
 		else if (state == GameState.State.EarlyGame2 && this.resources.students >= 100 && upgradeAlumniBool == false) {
@@ -370,12 +370,12 @@ public class GameManagerScript : MonoBehaviour {
 			upgradeAlumniBool = true;
 		}
 		else if (state == GameState.State.EarlyGame3 && this.resources.students >= 500) {
-			MessageBus.instance.emit(new GameState.ShouldChange(GameState.State.EarlyGame4));
+			MessageBus.main.emit(new GameState.ShouldChange(GameState.State.EarlyGame4));
 		}
 
 		//check if early game is finished
 		if (earlyGameRequirements == 2 && state == GameState.State.EarlyGame4) {
-			MessageBus.instance.emit(new GameState.ShouldChange(GameState.State.MidGame));
+			MessageBus.main.emit(new GameState.ShouldChange(GameState.State.MidGame));
 		}
 	}
 

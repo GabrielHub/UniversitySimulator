@@ -8,7 +8,7 @@ public class HUDVisibilityManager : MonoBehaviour, MessageHandler {
 
 	// Start is called before the first frame update
 	void Start() {
-		MessageBus.instance.register<GameState.DidChange>(this);
+		MessageBus.main.register<GameState.DidChange>(this);
 	}
 
 	public void handleMessage<T>(T m) where T : Message.IMessage {
