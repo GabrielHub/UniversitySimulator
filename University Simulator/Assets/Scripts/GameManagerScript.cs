@@ -175,6 +175,9 @@ public class GameManagerScript : MonoBehaviour {
 	public int earlyGameRequirements = 0;
 	public bool upgradeAlumniBool = false;
 
+	[HideInInspector]
+	public float turnTime = 1f;
+
 	private void Awake() {
 		if (GameManagerScript.instance == null) {
 			GameManagerScript.instance = this;
@@ -198,7 +201,7 @@ public class GameManagerScript : MonoBehaviour {
 		CheckPause();
 		pauseOverlay.SetActive(!this.playing);
 		turnTimer += Time.deltaTime;
-		if (turnTimer >= 1f) {
+		if (turnTimer >= this.turnTime) {
 			TakeTurn();
 			turnTimer = 0f;
 		}

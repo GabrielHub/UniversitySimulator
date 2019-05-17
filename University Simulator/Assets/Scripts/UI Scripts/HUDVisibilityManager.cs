@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class HUDVisibilityManager : MonoBehaviour, MessageHandler {
-	public GameStateDictionary states;
+	public GameStateBoolDictionary states;
 
 	// Start is called before the first frame update
 	void Start() {

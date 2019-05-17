@@ -16,7 +16,10 @@ public static class DictionaryExtensions {
 }
 
 [Serializable]
-public class GameStateDictionary : SerializableDictionary<GameState.State, bool> { }
+public class GameStateBoolDictionary : SerializableDictionary<GameState.State, bool> { }
+
+[Serializable]
+public class GameStateStringDictionary : SerializableDictionary<GameState.State, string> { }
 
 [Serializable]
 public class EventTypeColorDictionary : SerializableDictionary<Event.Type, Color> { }
