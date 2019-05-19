@@ -1077,7 +1077,7 @@ RectTransform:
   m_GameObject: {fileID: 175230063}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children:
   - {fileID: 1908015136}
   - {fileID: 964269204}
@@ -1477,7 +1477,7 @@ RectTransform:
   m_GameObject: {fileID: 212333667}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children:
   - {fileID: 1031040400}
   - {fileID: 962774923}
@@ -4315,7 +4315,7 @@ RectTransform:
   m_GameObject: {fileID: 472563711}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children:
   - {fileID: 274223472}
   - {fileID: 766344045}
@@ -10221,7 +10221,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -0.000030517578, y: -3.100006}
+  m_AnchoredPosition: {x: -0.000061035156, y: -3.100006}
   m_SizeDelta: {x: -54.1, y: 44}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1507985165
@@ -10254,8 +10254,8 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 6
-  m_Spacing: 2
+  m_ChildAlignment: 7
+  m_Spacing: 100
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
@@ -10359,7 +10359,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1554118793
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13671,7 +13671,7 @@ PrefabInstance:
     - target: {fileID: 3513404018216034906, guid: 7b37007abf376ea4a8cb2f75a7896e86,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7b37007abf376ea4a8cb2f75a7896e86, type: 3}
@@ -15181,7 +15181,7 @@ PrefabInstance:
     - target: {fileID: 3513404018216034906, guid: 7b37007abf376ea4a8cb2f75a7896e86,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3513404017842182310, guid: 7b37007abf376ea4a8cb2f75a7896e86,
         type: 3}
