@@ -164,22 +164,22 @@ public class Resources {
 
     //alumni
     public virtual int calcAlumni() {
-        int i = (int) (students / 50);
+        int graduates = (int) (students / 50);
 
-        if (students <= i) {
+        if (students <= graduates) {
             alumni += students;
             students = 0;
         }
         else if (happiness < 3) {
             //if happiness is too low, students won't graduate
-            i = 0;
+            graduates = 0;
         }
         else {
-            students -= i;
-            alumni += i;
+            students -= graduates;
+            alumni += graduates;
         }
 
-        return i;
+        return graduates;
     }
 
     //Function to calculate values based on high school agreements (For EARLYGAME)
@@ -300,22 +300,21 @@ public class ResourcesMidGame : Resources {
     }
 
     public override int calcAlumni() {
-        int i = (int) (students / 5) * graduationRate;
-        if (students <= i) {
+        int graduates = (int) ((students / 5) * graduationRate);
+        if (students <= graduates) {
             alumni += students;
             students = 0;
         }
         else if (happiness < 3) {
             //if happiness is too low, students won't graduate
-            i = 0;
+            graduates = 0;
         }
         else {
-            int i = (int) (students / 5) * graduationRate;
-            students -= i;
-            alumni += i;
+            students -= graduates;
+            alumni += graduates;
         }
 
-        return i;
+        return graduates;
     }
 
     //happiness. Based on faculty pay slider (higher is good) and student to faculty ratio (higher is bad)
