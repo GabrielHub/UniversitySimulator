@@ -48,7 +48,7 @@ A Simulation game built in Unity 2019.1.0f2
 	* Building Management - Introduces clickable tilemap mechanic, building management tab, and StudentPool and Faculty is now capped by the buildings you have
 		- Buildings have different types (Residential, Educational, Institutional, and Athletic)
 	* Faculty Pay Slider - Change how much faculty affects wealth per turn. A higher amount decreases wealth, but increases renown and happiness.
-	* Ranking - A new modifier out of 100 that updates every 5 turns. Based on renown, graduation rate. Also modified by Special Students and capped by avg rating of buildings.
+	* Ranking - A new modifier out of 1000. Based on renown, graduation rate. Also modified by Special Students and capped by avg rating of buildings.
 	* Student To Faculty Ratio Slider - The number of students each faculty will take care of. Higher ratio increases graduation rate but decreases happiness.
 	* Special Students - A chance of a special student occurs every x turns, depending on renown and happiness. Spend a certain amount of wealth to give scholarships to special students.
 

@@ -163,26 +163,23 @@ public class Resources {
     }
 
     //alumni
-    public int calcAlumni() {
-        int temp;
+    public virtual int calcAlumni() {
+        int i = (int) (students / 50);
 
-        if (students <= 9) {
+        if (students <= i) {
             alumni += students;
             students = 0;
-            temp = students;
         }
         else if (happiness < 3) {
             //if happiness is too low, students won't graduate
-            temp = 0;
+            i = 0;
         }
         else {
-            int i = (int) (students / 50);
             students -= i;
             alumni += i;
-            temp = i;
         }
 
-        return temp;
+        return i;
     }
 
     //Function to calculate values based on high school agreements (For EARLYGAME)
@@ -298,8 +295,27 @@ public class ResourcesMidGame : Resources {
 
     //renown, override earlygme calculation. val is faculty pay value from the policy slider
     public override void calcRenown(float val) {
-        Debug.Log("What");
+        //Debug.Log("What");
         renown = (renownBase * val) / 10; //r already takes into account happiness with renown, so no need to add happiness to this equation
+    }
+
+    public override int calcAlumni() {
+        int i = (int) (students / 5) * graduationRate;
+        if (students <= i) {
+            alumni += students;
+            students = 0;
+        }
+        else if (happiness < 3) {
+            //if happiness is too low, students won't graduate
+            i = 0;
+        }
+        else {
+            int i = (int) (students / 5) * graduationRate;
+            students -= i;
+            alumni += i;
+        }
+
+        return i;
     }
 
     //happiness. Based on faculty pay slider (higher is good) and student to faculty ratio (higher is bad)
@@ -350,11 +366,17 @@ public class ResourcesMidGame : Resources {
 
     //calculates ranking based on renown and graduation rate. If a threshold is reached, increased ranking
     public override int calcRanking() {
-        int ret = 1000;
+        if (ranking > 850) {
+            ranking -= (int) (renown - (renown * graduationRate));
+        }
+        else if (ranking > 500) {
+            ranking -= (int) (renown * graduationRate) / 10;
+        }
+        else if (ranking > 350) {
+            //;
+        }
 
-        //needs to be calculated
-
-        return ret;
+        return ranking;
     }
 
     public override void AddSpecialStudent(SpecialStudent obj) {
