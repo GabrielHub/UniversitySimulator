@@ -358,7 +358,7 @@ public class ResourcesMidGame : Resources {
     public float calcSSProb() {
         float ret = 0.1f; //base 10% chance of a Special Student
 
-        //use renown and happiness to affect this somehow, first need to see how big r gets
+        ret += happiness / renown; //needs some balancing
 
         return ret;
     }

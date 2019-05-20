@@ -19,7 +19,7 @@ public class GameManagerScript : MonoBehaviour {
 			// handle setup between the states
 			switch (m.state) {
 			case GameState.State.EarlyGame1: {
-                gm.resources = new Resources(faculty: 1, alumni: 0, students: 1, wealth: 10); //IMPORANT: ALUNI is 0 FOR A REASON DONT CHANGE IT DUMMY
+                gm.resources = new Resources(faculty: 2, alumni: 0, students: 1, wealth: 10); //IMPORANT: ALUNI is 0 FOR A REASON DONT CHANGE IT DUMMY
                 //set up  ranges (possibly based on difficulty later)
                 /*this.resources.students = 1;
                 this.resources.faculty = 1;
@@ -323,11 +323,11 @@ public class GameManagerScript : MonoBehaviour {
 		// ALL CODE BELOW IS OUTSIDE OF THE TICKER AND WILL BE RUN EVERY SECOND
 
 		//Events
-		if (eventTicker == eventThreshold) {
+		if (eventTicker == eventThreshold && state == GameState.State.MidGame) {
 			//regenerate event threshold, reset time ot next event, and then do an event
 			eventThreshold = Random.Range(5, 20); //use this to change time between events
 			eventTicker = 0;
-			//eventController.DoEvent();
+			eventController.DoEvent();
 		}
 
 		//Future Event Code Here: Checks for bad stats (if happiness is too low do an event letting you know that people are unhappy)
