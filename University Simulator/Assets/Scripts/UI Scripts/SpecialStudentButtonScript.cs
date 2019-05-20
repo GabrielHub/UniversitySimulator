@@ -18,7 +18,7 @@ public class SpecialStudentButtonScript : MonoBehaviour {
 
 	//Setup on instantiate
 	public void Setup(SpecialStudent item) {
-		buttonText.text = item.type + ": '" + item.name + "' | Scholarship Cost: " + item.cost;
+		buttonText.text = item.type + ": '" + item.name + "' | Scholarship Cost: " + item.cost.ToAbbreviatedString();
 		student = item;
 		Debug.Log(item.name + " is available to purchase!");
 	}
