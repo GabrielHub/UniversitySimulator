@@ -192,12 +192,13 @@ public class Resources {
             stuTemp += hs.students;
             reTemp += hs.value;
         }
+
         if (agreements.Count() != 0)
         {
             calcRenown(reTemp / agreements.Count());
         }
         else {
-            calcRenown(0);
+            calcRenown(1);
         }
         studentPool = stuTemp;
 
@@ -357,8 +358,12 @@ public class ResourcesMidGame : Resources {
     //Base value that increases based on a combination of happiness and renown that is less than 1.0f
     public float calcSSProb() {
         float ret = 0.1f; //base 10% chance of a Special Student
-
         ret += happiness / renown; //needs some balancing
+
+        if (ret > 0.99f) {
+            ret = 0.99f;
+        }
+        ssProb = ret;
 
         return ret;
     }
@@ -380,10 +385,6 @@ public class ResourcesMidGame : Resources {
 
     public override void AddSpecialStudent(SpecialStudent obj) {
         specialStudents.Add(obj);
-
-        //75% chance that adding a student increases ranking by one
-        if (Random.Range(0.0f, 1.0f) <= 0.75f) {
-            ranking++;
-        }
+        ranking++;
     }
 }

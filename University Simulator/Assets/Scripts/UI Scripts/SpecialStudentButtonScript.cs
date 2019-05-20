@@ -28,7 +28,14 @@ public class SpecialStudentButtonScript : MonoBehaviour {
 		if (GameManagerScript.instance.resources.wealth > student.cost) {
 			GameManagerScript.instance.resources.wealth -= student.cost;
 
-			GameManagerScript.instance.eventController.DoEvent(new Event("This isn't implemented yet", Event.Type.Notification));
+			//85% chance that adding a student increases ranking by one
+	        if (Random.Range(0.0f, 1.0f) <= 0.85f) {
+	            GameManagerScript.instance.resources.ranking++;
+	            GameManagerScript.instance.eventController.DoEvent(new Event(student.name + " accepted your offer!", Event.Type.Notification));
+	        }
+	        else {
+	        	GameManagerScript.instance.eventController.DoEvent(new Event(student.name + " was a bust, their name has been forgotten.", Event.Type.Notification));
+	        }
 
 			//destroy button
 			Destroy(gameObject);
