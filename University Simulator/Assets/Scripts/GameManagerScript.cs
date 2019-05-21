@@ -263,7 +263,7 @@ public class GameManagerScript : MonoBehaviour {
 				this.resources.calcRenown(salarySlider.value);
 				this.resources.calcSSProb();
 				this.resources.calcGradRate(facultyRatioSlider.value, facultyRatioSlider.maxValue, facultyRatioSlider.minValue);
-				this.resources.calcRanking();
+				this.resources.ranking = this.resources.calcRanking();
 			}
 
 			//Calculate R: The student growth rate

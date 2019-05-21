@@ -8466,7 +8466,7 @@ PrefabInstance:
     - target: {fileID: 763564701570085261, guid: 3651f24a7b2f444868bd76fae76b63e2,
         type: 3}
       propertyPath: m_textInfo.characterCount
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 763564701570085261, guid: 3651f24a7b2f444868bd76fae76b63e2,
         type: 3}
@@ -8486,7 +8486,7 @@ PrefabInstance:
     - target: {fileID: 763564701570085261, guid: 3651f24a7b2f444868bd76fae76b63e2,
         type: 3}
       propertyPath: m_text
-      value: Capacity
+      value: Ranking
       objectReference: {fileID: 0}
     - target: {fileID: 6909869099044708637, guid: 3651f24a7b2f444868bd76fae76b63e2,
         type: 3}

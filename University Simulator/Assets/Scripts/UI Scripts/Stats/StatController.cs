@@ -28,7 +28,7 @@ public class StatController : MonoBehaviour {
 			case StatType.Faculty:
 				return res.faculty;
 			case StatType.Capacity:
-				return res.studentPool;
+				return res.ranking;
 			}
 			return 0; // unreachable
 		}
@@ -47,7 +47,7 @@ public class StatController : MonoBehaviour {
 			case StatType.Faculty:
 				return delta.faculty;
 			case StatType.Capacity:
-				return delta.studentPool;
+				return delta.ranking;
 			}
 			return 0; // unreachable
 		}
