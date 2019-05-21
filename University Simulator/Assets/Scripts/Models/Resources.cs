@@ -89,8 +89,6 @@ public class Resources {
 
     //wealth. donation and tuition are sliders that change variables in gamemanagerscript, good luck balancing this pos
     public virtual long calcWealth(float donation, float tuition, float unused = 0) {
-        long students_penalty = 1;
-        long faculty_penalty = 2 + (faculty / (faculty * 3));
         long temp = 0;
 
         if (GameManagerScript.instance.state == GameState.State.EarlyGame1) {
@@ -103,6 +101,8 @@ public class Resources {
             temp = (long) (students + alumni);
         }
         else if (GameManagerScript.instance.state == GameState.State.EarlyGame4) {
+            long students_penalty = 1;
+            long faculty_penalty = 2 + (faculty / (faculty * 3));
             temp = (long) ((((alumni * donation) + (students * tuition)) / 5) - ((faculty * faculty_penalty) + (students * students_penalty) / 3));
         }
         else {
@@ -212,6 +212,10 @@ public class Resources {
     public virtual void AddSpecialStudent(SpecialStudent obj) { }
 
     public virtual int calcRanking() { return 1000; }
+
+    public virtual float calcSSProb() { return 0.1f; }
+
+    public virtual float calcGradRate(float studentFacultyRatio, float ratioMax, float ratioMin) { return 0.5f; }
 }
 
 [System.Serializable]
@@ -326,7 +330,7 @@ public class ResourcesMidGame : Resources {
     }
 
     //stuFacRatio is the number of students a faculty can teach. The higher it is, the worst it is for graduation.
-    public float calcGradRate(int studentFacultyRatio, int ratioMax, int ratioMin) {
+    public override float calcGradRate(float studentFacultyRatio, float ratioMax, float ratioMin) {
         //Might just need the first part, but the second added value helps reduce penalties for having higher ratio
         float ret = ((ratioMax - studentFacultyRatio) / ratioMax);
 
@@ -358,7 +362,7 @@ public class ResourcesMidGame : Resources {
     }
 
     //Base value that increases based on a combination of happiness and renown that is less than 1.0f
-    public float calcSSProb() {
+    public override float calcSSProb() {
         float ret = 0.1f; //base 10% chance of a Special Student
         ret += happiness / renown; //needs some balancing
 
@@ -372,16 +376,20 @@ public class ResourcesMidGame : Resources {
 
     //calculates ranking based on renown and graduation rate. If a threshold is reached, increased ranking
     public override int calcRanking() {
-        if (ranking > 850) {
-            ranking -= (int) (renown - (renown * graduationRate));
+        if (ranking > 500) {
+            ranking -= (int) (renown - (renown * (1 - graduationRate)));
         }
-        else if (ranking > 500) {
-            ranking -= (int) (renown * graduationRate) / 10;
+        else if (ranking > 100) {
+            ranking -= (int) (renown - (renown * (1 - graduationRate))) % 10;
         }
-        else if (ranking > 350) {
-            //;
+        else {
+            ranking -= (int) (renown - (renown * (1 - graduationRate))) % 5;
         }
 
+        if (ranking < 1) {
+            ranking = 1;
+        }
+        
         return ranking;
     }
 
