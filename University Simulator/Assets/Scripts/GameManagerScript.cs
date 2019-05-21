@@ -261,6 +261,9 @@ public class GameManagerScript : MonoBehaviour {
 			//renown, isn't calculated in Early Game because it's calculated by HSA in the earlygame
 			if (state == GameState.State.MidGame) {
 				this.resources.calcRenown(salarySlider.value);
+				this.resources.calcSSProb();
+				this.resources.calcGradRate(facultyRatioSlider.value, facultyRatioSlider.maxValue, facultyRatioSlider.minValue);
+				this.resources.calcRanking();
 			}
 
 			//Calculate R: The student growth rate
