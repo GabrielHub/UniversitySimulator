@@ -51,12 +51,11 @@ public class Resources {
     }
 
     public static Resources operator+(Resources left, Resources right) {
-        return new Resources(
-            wealth: left.wealth + right.wealth,
-            faculty: left.faculty + right.faculty,
-            alumni: left.alumni + right.alumni,
-            students: left.students + right.students
-        );
+        left.wealth += right.wealth;
+        left.alumni += right.alumni;
+        left.students += right.students;
+        left.faculty += right.faculty;
+        return left;
     }
 
     //happiness. Optimal value is currently set to half the max value
@@ -73,6 +72,7 @@ public class Resources {
     //Calculate K, the student capacity (student pool)
     public virtual float calcK() {
         K = (studentPool + faculty * 5) * acceptanceRate;
+        Debug.Log(K.ToString());
         return K;
     }
 
@@ -200,6 +200,8 @@ public class Resources {
         else {
             calcRenown(1);
         }
+        Debug.Log("agreement count:" + agreements.Count());
+        Debug.Log("reTemp:" + reTemp.ToString());
         studentPool = stuTemp;
 
     }
