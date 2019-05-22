@@ -4,8 +4,8 @@ using UnityEngine;
 
 [System.Serializable]
 public class Resources {
-    public static float MAX_HAPPINESS = 7f;
-    public static float MAX_RENOWN = 5f;
+    public static float MAX_HAPPINESS = 6.5f;
+    public static float MAX_RENOWN = 4.952f;
 
     //5 Main Resources
     public int faculty;
@@ -115,7 +115,7 @@ public class Resources {
     }
 
     //faculty.
-    public int calcFaculty() {
+    public virtual int calcFaculty() {
         int temp;
         if (faculty < wealth) {
             temp = (int) (3 * renown);
@@ -248,6 +248,10 @@ public class ResourcesMidGame : Resources {
         }
         renownBase = reTemp;
 
+        //new max values
+        MAX_RENOWN = renownBase;
+        MAX_HAPPINESS = 7.368f;
+
         //initial values that will be overwritten anyway
         graduationRate = 0.5f;
         studentPool = resc.studentPool + 500; //give a 500 student safety gap at the start, set studentPool to the studentPool from HSA which are irrelevant
@@ -307,6 +311,19 @@ public class ResourcesMidGame : Resources {
         renown = (renownBase * val) / 10; //r already takes into account happiness with renown, so no need to add happiness to this equation
     }
 
+    public override int calcFaculty() {
+        int temp;
+        if (faculty < wealth) {
+            temp = (int) renown;
+        }
+        else {
+            temp = -1;
+        }
+
+        faculty += temp;
+        return temp;
+    }
+
     public override int calcAlumni() {
         int graduates = (int) ((students / 5) * graduationRate);
         if (students <= graduates) {
@@ -327,7 +344,7 @@ public class ResourcesMidGame : Resources {
 
     //happiness. Based on faculty pay slider (higher is good) and student to faculty ratio (higher is bad)
     public override void calcHappiness(float tuition, float fpay, float donation, float ratio) {
-        happiness = (int) (fpay / ((tuition + donation) / 10 + ratio));
+        happiness = (int) (fpay / ((tuition + donation) / (10 + ratio)));
     }
 
     //stuFacRatio is the number of students a faculty can teach. The higher it is, the worst it is for graduation.
