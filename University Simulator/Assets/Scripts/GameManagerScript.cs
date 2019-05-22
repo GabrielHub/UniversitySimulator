@@ -1,8 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-
 using TMPro;
-
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,7 +17,7 @@ public class GameManagerScript : MonoBehaviour {
 			// handle setup between the states
 			switch (m.state) {
 			case GameState.State.EarlyGame1: {
-                gm.resources = new Resources(faculty: 2, alumni: 0, students: 1, wealth: 10); //IMPORANT: ALUNI is 0 FOR A REASON DONT CHANGE IT DUMMY
+                gm.resources = new Resources(faculty: 1, alumni: 0, students: 1, wealth: 10); //IMPORANT: ALUNI is 0 FOR A REASON DONT CHANGE IT DUMMY
 
                 gm.state = GameState.State.EarlyGame1; //Set early game state, now disable all features not available in the early game
 
@@ -177,7 +175,12 @@ public class GameManagerScript : MonoBehaviour {
 	public AudioClip m3;
 	public AudioClip m4;
 	public AudioClip m5;
-	AudioSource musicAudioSource;
+	public AudioSource musicAudioSource;
+	public AudioSource soundFXSource;
+	public AudioClip buttonSound;
+	public AudioClip notificationSound;
+	public AudioClip insufficientSound;
+	public enum soundType { NOTIFICATION, BUTTON, INSUFFICIENT };
 
 	[HideInInspector]
 	public float turnTime = 1f;
@@ -204,7 +207,6 @@ public class GameManagerScript : MonoBehaviour {
 		music[2] = m3;
 		music[3] = m4;
 		music[4] = m5;
-		musicAudioSource = GetComponent<AudioSource>();
 		PlayNextSong();
 	}
 
@@ -224,6 +226,7 @@ public class GameManagerScript : MonoBehaviour {
 		//pause control by pressing key
 		if (Input.GetKeyDown(KeyCode.P)) {
 			this.playing = !this.playing;
+			PlaySound(soundType.BUTTON);
 		}
 	}
 
@@ -321,6 +324,7 @@ public class GameManagerScript : MonoBehaviour {
 			if (resources.wealth < 0) {
 				negativeWealthTicker -= 1;
 				this.eventController.DoEvent(new Event("!!! You are currently in debt. Recover your debt before the collectors shutdown the University.", Event.Type.Notification));
+				PlaySound(soundType.NOTIFICATION);
 			}
 			if (negativeWealthTicker < 0) {
 				this.eventController.DoEvent(new Event("You have been in debt for more than 5 turns and the collectors are at your door.", Event.Type.GameState));
@@ -352,6 +356,7 @@ public class GameManagerScript : MonoBehaviour {
 		if (state >= GameState.State.EarlyGame2 && state <= GameState.State.EarlyGame4) {
 			if (agreementTicker == agreementThreshold) {
 				this.eventController.DoEvent(new Event("!!!: New HS Agreements are available!", Event.Type.Notification));
+				PlaySound(soundType.NOTIFICATION);
 
 				//run generation function
 				string[] name = RandomAgreements.instance.ChooseName(3);
@@ -425,5 +430,27 @@ public class GameManagerScript : MonoBehaviour {
 		musicAudioSource.clip = music[Random.Range(0, 5)];
 		musicAudioSource.Play();
 		Invoke("PlayNextSong", musicAudioSource.clip.length);
+	}
+
+	public void PlaySound(soundType type) {
+		//if already playing, skip 
+		if (soundFXSource.isPlaying) {
+			soundFXSource.Stop();
+		}
+
+		if (type == soundType.NOTIFICATION) {
+			soundFXSource.clip = notificationSound;
+		}
+		else if (type == soundType.BUTTON) {
+			soundFXSource.clip = buttonSound;
+		}
+		else if (type == soundType.INSUFFICIENT) {
+			soundFXSource.clip = insufficientSound;
+		}
+		else {
+			throw new System.Exception($"OOPSIE WOOPSIE WE MADE A FUCKY WUCKY: soundfx type not found");
+		}
+
+		soundFXSource.Play();
 	}
 }

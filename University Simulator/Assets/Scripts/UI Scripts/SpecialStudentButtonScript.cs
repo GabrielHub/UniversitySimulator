@@ -32,9 +32,10 @@ public class SpecialStudentButtonScript : MonoBehaviour {
 	        if (Random.Range(0.0f, 1.0f) <= 0.85f) {
 	            GameManagerScript.instance.resources.ranking++;
 	            GameManagerScript.instance.eventController.DoEvent(new Event(student.name + " accepted your offer!", Event.Type.Notification));
+	            GameManagerScript.instance.PlaySound(GameManagerScript.soundType.BUTTON);
 	        }
 	        else {
-	        	GameManagerScript.instance.eventController.DoEvent(new Event(student.name + " was a bust, their name has been forgotten.", Event.Type.Notification));
+	        	GameManagerScript.instance.eventController.DoEvent(new Event(student.name + " was a bust, their impact insignificant, your disappointment immeasurable and everyone's day ruined.", Event.Type.Notification));
 	        }
 
 			//destroy button
@@ -43,6 +44,7 @@ public class SpecialStudentButtonScript : MonoBehaviour {
 		}
 		else {
 			GameManagerScript.instance.eventController.DoEvent(new Event("Not enough wealth to give this scholarship", Event.Type.Notification));
+			GameManagerScript.instance.PlaySound(GameManagerScript.soundType.INSUFFICIENT);
 		}
 	}
 }

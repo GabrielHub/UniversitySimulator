@@ -121,7 +121,7 @@ public class Resources {
             temp = (int) (3 * renown);
         }
         else {
-            temp = 0;
+            temp = -1;
         }
 
         faculty += temp;
@@ -136,12 +136,12 @@ public class Resources {
 
         if (GameManagerScript.instance.state == GameState.State.EarlyGame1) {
             if (students < K) {
-                temp = 1;
+                temp = faculty;
             }
         }
         else if (GameManagerScript.instance.state == GameState.State.EarlyGame2) {
             if (students < K) {
-                Debug.Log("EarlyGame2 r: " + r);
+                //Debug.Log("EarlyGame2 r: " + r);
                 temp = (int) (r * 2.0);
             }
             else {
@@ -283,6 +283,7 @@ public class ResourcesMidGame : Resources {
         }
         else {
             GameManagerScript.instance.eventController.DoEvent(new Event("Not enough Wealth to purchase Building", Event.Type.Notification));
+
         }
         
     }

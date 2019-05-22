@@ -30,6 +30,7 @@ public class UpgradeBuyButton : MonoBehaviour {
 
 			//Apply unique upgrade effect
 			upgradeItem.ApplyEffect();
+			GameManagerScript.instance.PlaySound(GameManagerScript.soundType.BUTTON);
 
 			//destroy button
 			Destroy(gameObject);
@@ -37,6 +38,7 @@ public class UpgradeBuyButton : MonoBehaviour {
 		}
 		else {
 			GameManagerScript.instance.eventController.DoEvent(new Event("Not enough wealth to buy this upgrade", Event.Type.Notification));
+			GameManagerScript.instance.PlaySound(GameManagerScript.soundType.INSUFFICIENT);
 		}
 	}
 }
