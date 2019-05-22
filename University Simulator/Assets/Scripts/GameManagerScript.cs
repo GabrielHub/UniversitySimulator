@@ -170,6 +170,15 @@ public class GameManagerScript : MonoBehaviour {
 	public int earlyGameRequirements = 0;
 	public bool upgradeAlumniBool = false;
 
+	//Music and Sound Effects
+	private AudioClip[] music = new AudioClip[5];
+	public AudioClip m1; //Music sources
+	public AudioClip m2;
+	public AudioClip m3;
+	public AudioClip m4;
+	public AudioClip m5;
+	AudioSource musicAudioSource;
+
 	[HideInInspector]
 	public float turnTime = 1f;
 
@@ -188,6 +197,15 @@ public class GameManagerScript : MonoBehaviour {
 	// Start is called before the first frame update
 	void Start() {
 		MessageBus.main.emit(new GameState.ShouldChange(GameState.State.EarlyGame1));
+
+		//setup music
+		music[0] = m1;
+		music[1] = m2;
+		music[2] = m3;
+		music[3] = m4;
+		music[4] = m5;
+		musicAudioSource = GetComponent<AudioSource>();
+		PlayNextSong();
 	}
 
 	// Update is called once per frame
@@ -401,5 +419,11 @@ public class GameManagerScript : MonoBehaviour {
 	public void AddBuilding(Building b) {
 		this.resources.buildings.Add(b);
 		this.resources.ApplyBuildingCalculations(b);
+	}
+
+	void PlayNextSong() {
+		musicAudioSource.clip = music[Random.Range(0, 5)];
+		musicAudioSource.Play();
+		Invoke("PlayNextSong", musicAudioSource.clip.length);
 	}
 }
