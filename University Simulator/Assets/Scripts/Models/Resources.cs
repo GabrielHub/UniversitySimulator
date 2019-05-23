@@ -74,7 +74,7 @@ public class Resources {
     //Calculate K, the student capacity (student pool)
     public virtual float calcK() {
         K = (studentPool + faculty * 5) * acceptanceRate;
-        Debug.Log(K.ToString());
+        //Debug.Log(K.ToString());
         return K;
     }
 
@@ -307,7 +307,7 @@ public class ResourcesMidGame : Resources {
     public override int calcStudents() {
         int temp = (int) (r * students * ((K - students) / K));
         students += temp;
-        Debug.Log("Student's midgame being changed:" + temp);
+        //Debug.Log("Student's midgame being changed:" + temp);
         return temp;
     }
 
@@ -335,7 +335,7 @@ public class ResourcesMidGame : Resources {
             graduationRate = 0.5f;
         }
         int graduates = (int) ((students / 5) * graduationRate);
-        Debug.Log("Graduation Rate: " + graduationRate);
+        //Debug.Log("Graduation Rate: " + graduationRate);
         if (students <= graduates) {
             alumni += students;
             students = 0;
@@ -408,17 +408,23 @@ public class ResourcesMidGame : Resources {
 
     //calculates ranking based on renown and graduation rate. If a threshold is reached, increased ranking
     public override int calcRanking() {
-        if (ranking > 500) {
+        if (ranking > 850) {
             ranking -= (int) (renown - (renown * (1 - graduationRate)));
         }
         else if (ranking > 100) {
             ranking -= (int) (renown - (renown * (1 - graduationRate))) % 10;
         }
-        else {
+        else if (ranking > 50) {
             ranking -= (int) (renown - (renown * (1 - graduationRate))) % 5;
         }
+        else if (ranking > 1) {
+            ranking -= 1;
+        }
+        else {
+            ranking = 1;
+        }
 
-        if (ranking < 1) {
+        if (ranking <= 1) {
             ranking = 1;
         }
         
