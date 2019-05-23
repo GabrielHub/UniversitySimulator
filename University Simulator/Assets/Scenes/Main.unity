@@ -1701,7 +1701,7 @@ PrefabInstance:
     - target: {fileID: 4958778189923290560, guid: 70409e992f183ff43b2536a4a629d25d,
         type: 3}
       propertyPath: building.cost
-      value: 15000
+      value: 35000
       objectReference: {fileID: 0}
     - target: {fileID: 4958778189923290560, guid: 70409e992f183ff43b2536a4a629d25d,
         type: 3}
@@ -12142,7 +12142,7 @@ PrefabInstance:
     - target: {fileID: 4958778189923290560, guid: 70409e992f183ff43b2536a4a629d25d,
         type: 3}
       propertyPath: building.cost
-      value: 18000
+      value: 485000
       objectReference: {fileID: 0}
     - target: {fileID: 4958778189923290560, guid: 70409e992f183ff43b2536a4a629d25d,
         type: 3}
@@ -12924,7 +12924,7 @@ PrefabInstance:
     - target: {fileID: 4958778189923290560, guid: 70409e992f183ff43b2536a4a629d25d,
         type: 3}
       propertyPath: building.cost
-      value: 18000
+      value: 100000
       objectReference: {fileID: 0}
     - target: {fileID: 4958778189923290560, guid: 70409e992f183ff43b2536a4a629d25d,
         type: 3}
@@ -15246,6 +15246,7 @@ MonoBehaviour:
   buyUpgrades: {fileID: 617720934}
   buySS: {fileID: 840923898}
   hsaText: {fileID: 1678428560}
+  ssText: {fileID: 3023823}
 --- !u!1 &2141674950
 GameObject:
   m_ObjectHideFlags: 0
@@ -15892,7 +15893,7 @@ PrefabInstance:
     - target: {fileID: 4958778189923290560, guid: 70409e992f183ff43b2536a4a629d25d,
         type: 3}
       propertyPath: building.cost
-      value: 35000
+      value: 750000
       objectReference: {fileID: 0}
     - target: {fileID: 5578508344716516532, guid: 70409e992f183ff43b2536a4a629d25d,
         type: 3}

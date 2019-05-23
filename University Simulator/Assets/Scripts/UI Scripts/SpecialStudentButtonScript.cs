@@ -30,13 +30,15 @@ public class SpecialStudentButtonScript : MonoBehaviour {
 
 			//85% chance that adding a student increases ranking by one
 	        if (Random.Range(0.0f, 1.0f) <= 0.85f) {
-	            GameManagerScript.instance.resources.ranking++;
+	            //GameManagerScript.instance.resources.ranking++;
+	            GameManagerScript.instance.resources.AddSpecialStudent(student);
 	            GameManagerScript.instance.eventController.DoEvent(new Event(student.name + " accepted your offer!", Event.Type.Notification));
-	            GameManagerScript.instance.PlaySound(GameManagerScript.soundType.BUTTON);
 	        }
 	        else {
 	        	GameManagerScript.instance.eventController.DoEvent(new Event(student.name + " was a bust, their impact insignificant, your disappointment immeasurable and everyone's day ruined.", Event.Type.Notification));
 	        }
+
+	        GameManagerScript.instance.PlaySound(GameManagerScript.soundType.BUTTON);
 
 			//destroy button
 			Destroy(gameObject);

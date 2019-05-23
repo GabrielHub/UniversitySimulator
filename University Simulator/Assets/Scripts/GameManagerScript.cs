@@ -431,8 +431,12 @@ public class GameManagerScript : MonoBehaviour {
 	//Add A Special Student
 	void AddSpecialStudent() {
 		SpecialStudent newStudent = specialStudentRNG.GenerateStudent();
+		
+		GameObject buttonCreation = Instantiate(specialStudentButton, specialStudentContentPanel);
+		SpecialStudentButtonScript SSScript = buttonCreation.GetComponent<SpecialStudentButtonScript>();
+		SSScript.Setup(newStudent);
+
 		this.specialStudentList.Add(newStudent);
-		this.resources.AddSpecialStudent(newStudent);
 	}
 
 	//Add Building

@@ -16,6 +16,7 @@ public class BuyMenuScript : MonoBehaviour {
 
 	//Text that says whether this is enabled or disabled or whatever
 	public TMP_Text hsaText;
+	public TMP_Text ssText;
 
 	// Start is called before the first frame update
 	void Start() {
@@ -78,6 +79,8 @@ public class BuyMenuScript : MonoBehaviour {
 				buyHS.SetActive(false);
 				buyUpgrades.SetActive(false);
 				buySS.SetActive(true);
+
+				ssText.text = "Special Students appear randomly and can increase your ranking";
 			}
 			else {
 				buyHS.SetActive(false);
