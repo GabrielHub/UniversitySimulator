@@ -291,7 +291,7 @@ public class ResourcesMidGame : Resources {
         }
         else {
             GameManagerScript.instance.eventController.DoEvent(new Event("Not enough Wealth to purchase Building", Event.Type.Notification));
-
+            GameManagerScript.instance.PlaySound(GameManagerScript.soundType.INSUFFICIENT);
         }
         
     }

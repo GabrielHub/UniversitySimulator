@@ -248,7 +248,9 @@ public class GameManagerScript : MonoBehaviour {
 			ticker++;
 			eventTicker++;
 			agreementTicker++;
-			specialStudentTicker++;
+			if (state == GameState.State.MidGame) {
+				specialStudentTicker++;
+			}
 
             yearText.text = (1831 + ticker).ToString();
 
@@ -346,6 +348,9 @@ public class GameManagerScript : MonoBehaviour {
 				specialStudentTicker = 0;
 
 				if (Random.Range(0.0f, 1.0f) <= this.resources.ssProb) {
+					this.eventController.DoEvent(new Event("!!!: New Special Students have been scouted!", Event.Type.Notification));
+					PlaySound(soundType.NOTIFICATION);
+
 					AddSpecialStudent();
 				}
 			}

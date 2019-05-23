@@ -22,6 +22,7 @@ public class PlayPauseController : MonoBehaviour {
 	}
 
 	public void OnButtonClick() {
+		GameManagerScript.instance.PlaySound(GameManagerScript.soundType.BUTTON);
 		GameManagerScript.instance.playing = !GameManagerScript.instance.playing;
 	}
 }

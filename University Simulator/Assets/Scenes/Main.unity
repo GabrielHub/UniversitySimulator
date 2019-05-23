@@ -1706,7 +1706,7 @@ PrefabInstance:
     - target: {fileID: 4958778189923290560, guid: 70409e992f183ff43b2536a4a629d25d,
         type: 3}
       propertyPath: building.capacity
-      value: 360
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 5578508344716516532, guid: 70409e992f183ff43b2536a4a629d25d,
         type: 3}
@@ -12011,7 +12011,7 @@ PrefabInstance:
     - target: {fileID: 5578508345023459307, guid: 70409e992f183ff43b2536a4a629d25d,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5578508345023459308, guid: 70409e992f183ff43b2536a4a629d25d,
         type: 3}
@@ -12132,7 +12132,7 @@ PrefabInstance:
         type: 3}
       propertyPath: item
       value: 
-      objectReference: {fileID: 11400000, guid: 2e029f11a3510e54fb1fe11f0806bdb0,
+      objectReference: {fileID: 11400000, guid: 0929de422c3129e4db9caa25d1ff5eb9,
         type: 2}
     - target: {fileID: 4958778189923290560, guid: 70409e992f183ff43b2536a4a629d25d,
         type: 3}
@@ -12143,6 +12143,16 @@ PrefabInstance:
         type: 3}
       propertyPath: building.cost
       value: 18000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4958778189923290560, guid: 70409e992f183ff43b2536a4a629d25d,
+        type: 3}
+      propertyPath: building.capacity
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4958778189923290560, guid: 70409e992f183ff43b2536a4a629d25d,
+        type: 3}
+      propertyPath: building.rating
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 70409e992f183ff43b2536a4a629d25d, type: 3}
@@ -12783,7 +12793,7 @@ PrefabInstance:
     - target: {fileID: 5578508345023459307, guid: 70409e992f183ff43b2536a4a629d25d,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5578508345023459308, guid: 70409e992f183ff43b2536a4a629d25d,
         type: 3}
@@ -12915,6 +12925,11 @@ PrefabInstance:
         type: 3}
       propertyPath: building.cost
       value: 18000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4958778189923290560, guid: 70409e992f183ff43b2536a4a629d25d,
+        type: 3}
+      propertyPath: building.rating
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 70409e992f183ff43b2536a4a629d25d, type: 3}
