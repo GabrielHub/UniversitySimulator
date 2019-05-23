@@ -12,7 +12,7 @@ public class StatController : MonoBehaviour {
 		Alumni,
 		Students,
 		Faculty,
-		Capacity
+		Ranking
 	}
 	public StatType type;
 	public long value {
@@ -27,7 +27,7 @@ public class StatController : MonoBehaviour {
 				return res.students;
 			case StatType.Faculty:
 				return res.faculty;
-			case StatType.Capacity:
+			case StatType.Ranking:
 				return res.ranking;
 			}
 			return 0; // unreachable
@@ -46,7 +46,7 @@ public class StatController : MonoBehaviour {
 				return delta.students;
 			case StatType.Faculty:
 				return delta.faculty;
-			case StatType.Capacity:
+			case StatType.Ranking:
 				return delta.ranking;
 			}
 			return 0; // unreachable

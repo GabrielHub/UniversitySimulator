@@ -70,7 +70,7 @@ A Simulation game built in Unity 2019.1.0f2
 **Win Condition:**
 - Become number 1 ranked national university, certain amount of buildings
 
-## End Game:
+## End Game: NOT IMPLEMENTED
 
 **Premise:**
 	

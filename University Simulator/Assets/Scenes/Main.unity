@@ -9866,7 +9866,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1434317443}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4665c4764d0f09c4c8e4eb89b1ae36db, type: 3}
   m_Name: 
@@ -9962,6 +9962,7 @@ MonoBehaviour:
   buttonSound: {fileID: 8300000, guid: eb9ec30d930641e4abaa7fae9e0dd2f6, type: 3}
   notificationSound: {fileID: 8300000, guid: e23a6a052c2bf7f43ba6c1edcce0b98a, type: 3}
   insufficientSound: {fileID: 8300000, guid: 294f91576d5ac264ab7e33760e61a1f3, type: 3}
+  stateWinSound: {fileID: 8300000, guid: 47e0988e5a0185b47af4f111124fd468, type: 3}
   turnTime: 1
 --- !u!4 &1434317447
 Transform:
@@ -11355,10 +11356,10 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 18.2
-  m_fontSizeBase: 24
+  m_fontSize: 15
+  m_fontSizeBase: 15
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -12692,7 +12693,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_NormalColor: {r: 0.5754717, g: 0.5754717, b: 0.5754717, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}

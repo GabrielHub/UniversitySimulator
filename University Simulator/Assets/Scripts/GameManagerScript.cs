@@ -41,7 +41,7 @@ public class GameManagerScript : MonoBehaviour {
                 gm.agreementThreshold = Random.Range(15, 30);
 
                 //starting dialogue
-                gm.eventController.DoEvent(new Event("'YoU cOuLd ToTaLlY mAkE a BeTtEr UnIvErSiTy ThE sYsTeM iS bRoKeN', maybe you shouldn't have listened to that guy", Event.Type.Narrative));
+                gm.eventController.DoEvent(new Event("Think you have what it takes to make the greatest University?", Event.Type.Narrative));
             } break;
 			case GameState.State.EarlyGame2: {
                 gm.eventController.DoEvent(new Event("You've heard a rumor that some High Schools will take a bribe to push students to your school...", Event.Type.Narrative));
@@ -63,6 +63,9 @@ public class GameManagerScript : MonoBehaviour {
                 gm.BuyHSA1.gameObject.SetActive(true);
                 gm.BuyHSA2.gameObject.SetActive(true);
                 gm.BuyHSA3.gameObject.SetActive(true);
+
+                //play sound to notify
+                gm.PlaySound(soundType.STATECHANGE);
             } break;
 			case GameState.State.EarlyGame3: break; // no-op
 			case GameState.State.EarlyGame4: {
@@ -78,6 +81,9 @@ public class GameManagerScript : MonoBehaviour {
 
                 UpgradeAdministrator upgradeAdmin = new UpgradeAdministrator();
                 gm.AddUpgradable(upgradeAdmin); //Add Hire Administrators upgrade
+
+                //play sound to notify
+                gm.PlaySound(soundType.STATECHANGE);
             } break;
 			case GameState.State.MidGame: {
                 gm.eventController.DoEvent(new Event("A University is a business, and business is good...", Event.Type.Narrative));
@@ -99,6 +105,9 @@ public class GameManagerScript : MonoBehaviour {
                 gm.resources = new ResourcesMidGame(gm.resources);
 
                 MessageBus.main.emit(new GameState.DidChange(from: GameState.State.EarlyGame4, to: GameState.State.MidGame));
+
+                //play sound to notify
+                gm.PlaySound(soundType.STATECHANGE);
             } break;
 			case GameState.State.EndGame: throw new System.Exception("Not yet implemented");
 			}
@@ -180,7 +189,8 @@ public class GameManagerScript : MonoBehaviour {
 	public AudioClip buttonSound;
 	public AudioClip notificationSound;
 	public AudioClip insufficientSound;
-	public enum soundType { NOTIFICATION, BUTTON, INSUFFICIENT };
+	public AudioClip stateWinSound;
+	public enum soundType { NOTIFICATION, BUTTON, INSUFFICIENT, STATECHANGE };
 
 	[HideInInspector]
 	public float turnTime = 1f;
@@ -303,7 +313,7 @@ public class GameManagerScript : MonoBehaviour {
 			}
 
 			//Calculate Students
-			this.resourcesDelta.students = this.resources.calcStudents(tuitionSlider.maxValue + donationSlider.maxValue);
+			this.resourcesDelta.students = this.resources.calcStudents();
 
 			//Calculate Alumni, only unlocked by earlygame 3
 			if (state == GameState.State.EarlyGame3 || state == GameState.State.EarlyGame4 || state == GameState.State.MidGame) {
@@ -446,6 +456,9 @@ public class GameManagerScript : MonoBehaviour {
 		}
 		else if (type == soundType.INSUFFICIENT) {
 			soundFXSource.clip = insufficientSound;
+		}
+		else if (type == soundType.STATECHANGE) {
+			soundFXSource.clip = stateWinSound;
 		}
 		else {
 			throw new System.Exception($"OOPSIE WOOPSIE WE MADE A FUCKY WUCKY: soundfx type not found");

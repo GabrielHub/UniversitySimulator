@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -118,7 +120,7 @@ public class Resources {
     public virtual int calcFaculty() {
         int temp;
         if (faculty < wealth) {
-            temp = (int) (3 * renown);
+            temp = (int) (renown / 2);
         }
         else {
             temp = -1;
@@ -129,7 +131,7 @@ public class Resources {
     }
 
     //students
-    public virtual int calcStudents(float maxHappiness) {
+    public virtual int calcStudents() {
         // K - Students accepted out of student pool
         // R - Growth Rate
         int temp = 0;
@@ -170,7 +172,7 @@ public class Resources {
             alumni += students;
             students = 0;
         }
-        else if (happiness < 3) {
+        else if (happiness < 2) {
             //if happiness is too low, students won't graduate
             graduates = 0;
         }
@@ -249,8 +251,8 @@ public class ResourcesMidGame : Resources {
         renownBase = reTemp;
 
         //new max values
-        MAX_RENOWN = renownBase;
-        MAX_HAPPINESS = 7.368f;
+        //MAX_RENOWN = renownBase;
+        //MAX_HAPPINESS = 7.368f;
 
         //initial values that will be overwritten anyway
         graduationRate = 0.5f;
@@ -258,6 +260,8 @@ public class ResourcesMidGame : Resources {
         ssProb = 0.1f;
         maxFaculty = resc.students; // Max nunber of students each faculty can be set to teach
         minFaculty = (int) Mathf.Round(resc.students / resc.faculty); //min number of students each faculty can be set to teach
+        calcK();
+        calcR();
     }
 
     //Buildings now affect multiple resources, calculate these here before any other calculation, run everytime a new building is added
@@ -294,14 +298,16 @@ public class ResourcesMidGame : Resources {
 
     //no need to override because it takes different parameters. Faculty_penalty is the value for student-faculty ratio
     public override long calcWealth(float donation, float tuition, float faculty_penalty) {
-        long ret = (int) ((((alumni * donation) + (students * tuition)) / 5) - (faculty * faculty_penalty / 5));
+        long ret = Convert.ToInt64(((((alumni * donation) + (students * tuition)) / 5) - (faculty_penalty / 5)));
         wealth += ret;
 
         return ret;
     }
 
-    public override int calcStudents(float maxsomething) {
+    public override int calcStudents() {
         int temp = (int) (r * students * ((K - students) / K));
+        students += temp;
+        Debug.Log("Student's midgame being changed:" + temp);
         return temp;
     }
 
@@ -314,7 +320,7 @@ public class ResourcesMidGame : Resources {
     public override int calcFaculty() {
         int temp;
         if (faculty < wealth) {
-            temp = (int) renown;
+            temp = (int) (renown / 1.5 + 0.75);
         }
         else {
             temp = -1;
@@ -325,12 +331,16 @@ public class ResourcesMidGame : Resources {
     }
 
     public override int calcAlumni() {
+        if (float.IsNaN(graduationRate)) {
+            graduationRate = 0.5f;
+        }
         int graduates = (int) ((students / 5) * graduationRate);
+        Debug.Log("Graduation Rate: " + graduationRate);
         if (students <= graduates) {
             alumni += students;
             students = 0;
         }
-        else if (happiness < 3) {
+        else if (happiness < 2) {
             //if happiness is too low, students won't graduate
             graduates = 0;
         }
@@ -344,7 +354,7 @@ public class ResourcesMidGame : Resources {
 
     //happiness. Based on faculty pay slider (higher is good) and student to faculty ratio (higher is bad)
     public override void calcHappiness(float tuition, float fpay, float donation, float ratio) {
-        happiness = (int) (fpay / ((tuition + donation) / (10 + ratio)));
+        happiness = (int) (fpay / ((tuition + donation) / 10 + ratio));
     }
 
     //stuFacRatio is the number of students a faculty can teach. The higher it is, the worst it is for graduation.
@@ -361,7 +371,11 @@ public class ResourcesMidGame : Resources {
             ret = 0.99f;
         }
         else if (ret <= 0.0f) {
-            ret = 0.01f;
+            ret = 0.05f;
+        }
+
+        if (float.IsNaN(graduationRate)) {
+            graduationRate = 0.5f;
         }
 
         graduationRate = ret;
@@ -375,13 +389,13 @@ public class ResourcesMidGame : Resources {
     }
 
     public override float calcK() {
-        K = studentPool;
+        K = studentPool + faculty;
         return studentPool;
     }
 
     //Base value that increases based on a combination of happiness and renown that is less than 1.0f
     public override float calcSSProb() {
-        float ret = 0.1f; //base 10% chance of a Special Student
+        float ret = 0.5f; //base 10% chance of a Special Student
         ret += happiness / renown; //needs some balancing
 
         if (ret > 0.99f) {

@@ -47,6 +47,8 @@ public class UpgradeAlumni : UpgradeBase {
 		GameManagerScript.instance.eventController.DoEvent(new Event("College Diplomas For Everyone*!: *For the low low price of 4** years @ 70k a year **No guarantees or refunds", Event.Type.Notification));
 		GameManagerScript.instance.resources.alumni++;
 		MessageBus.main.emit(new GameState.ShouldChange(GameState.State.EarlyGame3));
+		//play sound to notify
+        GameManagerScript.instance.PlaySound(GameManagerScript.soundType.STATECHANGE);
 	}
 }
 
